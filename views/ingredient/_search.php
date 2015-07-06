@@ -33,11 +33,11 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'water') ?>
 
-    <?php // echo $form->field($model, 'energy_kcal') ?>
+    <?php  echo $form->field($model, 'energy_kcal') ?>
 
     <?php // echo $form->field($model, 'energy_kj') ?>
 
-    <?php // echo $form->field($model, 'protein') ?>
+    <?php  echo $form->field($model, 'protein') ?>
 
     <?php // echo $form->field($model, 'lipid') ?>
 

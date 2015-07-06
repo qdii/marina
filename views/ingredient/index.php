@@ -34,9 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'glucose',
             // 'fructose',
             // 'water',
-            // 'energy_kcal',
+            'energy_kcal',
             // 'energy_kj',
-            // 'protein',
+            'protein',
             // 'lipid',
 
             ['class' => 'yii\grid\ActionColumn'],

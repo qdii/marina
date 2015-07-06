@@ -36,3 +36,4 @@ phpunit.phar
 /extensions
 runtime/
 config/db.php
+web/assets/

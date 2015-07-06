@@ -35,3 +35,4 @@ phpunit.phar
 /apps
 /extensions
 runtime/
+config/db.php

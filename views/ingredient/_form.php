@@ -12,13 +12,29 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 128]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'price')->textInput(['maxlength' => 20]) ?>
+    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'duration')->textInput() ?>
 
     <?= $form->field($model, 'unit')->textInput() ?>
+
+    <?= $form->field($model, 'sucrose')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'glucose')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'fructose')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'water')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'energy_kcal')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'energy_kj')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'protein')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'lipid')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

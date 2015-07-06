@@ -20,7 +20,7 @@ class IngredientSearch extends Ingredient
         return [
             [['id', 'duration', 'unit'], 'integer'],
             [['name'], 'safe'],
-            [['price'], 'number'],
+            [['price', 'sucrose', 'glucose', 'fructose', 'water', 'energy_kcal', 'energy_kj', 'protein', 'lipid'], 'number'],
         ];
     }
 
@@ -51,7 +51,7 @@ class IngredientSearch extends Ingredient
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
+            // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
@@ -61,6 +61,14 @@ class IngredientSearch extends Ingredient
             'price' => $this->price,
             'duration' => $this->duration,
             'unit' => $this->unit,
+            'sucrose' => $this->sucrose,
+            'glucose' => $this->glucose,
+            'fructose' => $this->fructose,
+            'water' => $this->water,
+            'energy_kcal' => $this->energy_kcal,
+            'energy_kj' => $this->energy_kj,
+            'protein' => $this->protein,
+            'lipid' => $this->lipid,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

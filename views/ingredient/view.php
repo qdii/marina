@@ -33,6 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'price',
             'duration',
             'unit',
+            'sucrose',
+            'glucose',
+            'fructose',
+            'water',
+            'energy_kcal',
+            'energy_kj',
+            'protein',
+            'lipid',
         ],
     ]) ?>
 

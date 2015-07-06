@@ -16,9 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Ingredient',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Ingredient'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -32,6 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'price',
             'duration',
             'unit',
+            // 'sucrose',
+            // 'glucose',
+            // 'fructose',
+            // 'water',
+            // 'energy_kcal',
+            // 'energy_kj',
+            // 'protein',
+            // 'lipid',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

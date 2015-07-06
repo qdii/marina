@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Dish;
+use app\models\Cruise;
 
 /**
- * DishSearch represents the model behind the search form about `app\models\Dish`.
+ * CruiseSearch represents the model behind the search form about `app\models\Cruise`.
  */
-class DishSearch extends Dish
+class CruiseSearch extends Cruise
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class DishSearch extends Dish
     {
         return [
             [['id'], 'integer'],
-            [['name', 'type'], 'safe'],
+            [['dateStart', 'dateFinish'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class DishSearch extends Dish
      */
     public function search($params)
     {
-        $query = Dish::find();
+        $query = Cruise::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,10 +57,9 @@ class DishSearch extends Dish
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'dateStart' => $this->dateStart,
+            'dateFinish' => $this->dateFinish,
         ]);
-
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'type', $this->type]);
 
         return $dataProvider;
     }

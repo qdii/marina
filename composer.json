@@ -18,9 +18,9 @@
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "kartik-v/yii2-builder": "dev-master",
+        "kartik-v/yii2-builder": "*",
         "philippfrenzel/yii2fullcalendar": "~2.2",
-        "yiisoft/yii2-jui": "~2.0"
+        "yiisoft/yii2-jui": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

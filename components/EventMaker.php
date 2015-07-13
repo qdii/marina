@@ -84,8 +84,8 @@ class EventMaker
             $drink->name
         ];
 
-        return 'Cuisinier : ' . $user->username . '<br/>'
-               . $meal->nbGuests . ' personne(s)' .  Html::ul($list);
+        return '&#x1f52a; ' . $user->username . '<br/>&#x1f60b; '
+               . $meal->nbGuests . Html::ul($list);
     }
 
     /**

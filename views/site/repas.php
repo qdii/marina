@@ -133,7 +133,7 @@ $calendarOptions =
 
 ?>
 
-<h2><?php echo $boat->name ?> <small>Frégate</small></h2>
+<h2><?php echo $boat->name ?> <small>Clipper 70</small></h2>
 <?php
 echo \yii2fullcalendar\yii2fullcalendar::widget($calendarOptions);
 

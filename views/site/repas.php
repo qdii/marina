@@ -40,7 +40,7 @@ $newMealId = 'new-meal';
 $form = ActiveForm::begin([ 'id' => $newMealId, 'method' => 'POST', 'action' => ['site/new-meal'] ]);
 
 // footer of the modal dialog
-$placerRepasDlg->footer = Html::submitButton('OK', ['class' => 'btn btn-primary']);
+$placerRepasDlg->footer = Html::submitButton('Delete', ['class' => 'btn btn-danger']) . Html::submitButton('OK', ['class' => 'btn btn-primary']);
 
 // main part of the modal dialog
 $model       = new app\models\Meal;

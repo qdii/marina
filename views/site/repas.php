@@ -18,49 +18,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
 app\assets\RepasAsset::register($this);
 
-global $all_dessert ;  global $dessert_by_id ;
-global $all_first   ;  global $first_by_id   ;
-global $all_second  ;  global $second_by_id  ;
-global $all_drink   ;  global $drink_by_id   ;
-global $all_users   ;  global $user_by_id    ;
+global $all_dessert;
+global $all_first;
+global $all_second;
+global $all_drink;
+global $all_users;
 
-// retrieve all the desserts
-$all_dessert = Dish::find()->where('Type = \'dessert\'')->all();       $dessert_by_id = ArrayHelper::index($all_dessert, "id" );
-$all_first   = Dish::find()->where('Type = \'firstCourse\'')->all();   $first_by_id   = ArrayHelper::index($all_first  , "id" );
-$all_second  = Dish::find()->where('Type = \'secondCourse\'')->all();  $second_by_id  = ArrayHelper::index($all_second , "id" );
-$all_drink   = Dish::find()->where('Type = \'drink\'')->all();         $drink_by_id   = ArrayHelper::index($all_drink  , "id" );
-$all_users   = User::find()->all();                                    $user_by_id    = ArrayHelper::index($all_users  , "id" );
+$all_dessert = Dish::find()->where('Type = \'dessert\'')->all();
+$all_first   = Dish::find()->where('Type = \'firstCourse\'')->all();
+$all_second  = Dish::find()->where('Type = \'secondCourse\'')->all();
+$all_drink   = Dish::find()->where('Type = \'drink\'')->all();
+$all_users   = User::find()->all();
 $all_types   = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
-
-function buildEventTitleFromMeal( app\models\Meal $meal )
-{
-    global $dessert_by_id;
-    global $first_by_id  ;
-    global $second_by_id ;
-    global $drink_by_id  ;
-    global $user_by_id   ;
-
-    $user         = $user_by_id   [ $meal->cook ];
-    $firstCourse  = $first_by_id  [ $meal->firstCourse ];
-    $secondCourse = $second_by_id [ $meal->secondCourse ];
-    $dessert      = $dessert_by_id[ $meal->dessert ];
-    $drink        = $drink_by_id  [ $meal->drink ];
-
-    return $menu = 'Cuisinier : ' . $user->username . '<br/>' . $meal->nbGuests . ' personne(s)' .
-        Html::ul( [ $firstCourse->name, $secondCourse->name, $dessert->name, $drink->name ] );
-}
-
-function buildEventFromMeal( app\models\Meal $meal )
-{
-    $isLunch = $meal->type == 'lunch';
-
-    return [
-        'id'    => $meal->id,
-        'title' => buildEventTitleFromMeal( $meal ),
-        'start' => $meal->date . "T" . ( $isLunch ? "13:00:00Z" : "19:00:00Z" ),
-        'end'   => $meal->date . "T" . ( $isLunch ? "16:00:00Z" : "22:00:00Z" ),
-    ];
-}
 
 // boat information
 $boat = app\models\Boat::find()->one();
@@ -88,9 +57,18 @@ echo $placerRepasDlg->run();
 ActiveForm::end();
 $meals = Meal::find()->all();
 
+$eventMaker = new app\components\EventMaker(
+    ArrayHelper::index($all_dessert, "id"),
+    ArrayHelper::index($all_first,   "id"),
+    ArrayHelper::index($all_second,  "id"),
+    ArrayHelper::index($all_drink,   "id"),
+    ArrayHelper::index($all_users,   "id")
+);
+$events = $eventMaker->getEventsAndBilanFromMeals($meals);
+
 $calendarOptions =
 [
-    'events' => array_map( "buildEventFromMeal", $meals ),
+    'events' => $events,
     'header' =>
     [
         'center' => 'title',

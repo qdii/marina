@@ -30,6 +30,7 @@ $all_first   = Dish::find()->where('Type = \'firstCourse\'')->all();   $first_by
 $all_second  = Dish::find()->where('Type = \'secondCourse\'')->all();  $second_by_id  = ArrayHelper::index($all_second , "id" );
 $all_drink   = Dish::find()->where('Type = \'drink\'')->all();         $drink_by_id   = ArrayHelper::index($all_drink  , "id" );
 $all_users   = User::find()->all();                                    $user_by_id    = ArrayHelper::index($all_users  , "id" );
+$all_types   = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
 
 function buildEventTitleFromMeal( app\models\Meal $meal )
 {
@@ -81,7 +82,7 @@ echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $all_
 echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $all_second,  'id', 'name' ) );
 echo $form->field($model, 'dessert')     ->dropDownList( ArrayHelper::map( $all_dessert, 'id', 'name' ) );
 echo $form->field($model, 'drink')       ->dropDownList( ArrayHelper::map( $all_drink,   'id', 'name' ) );
-echo $form->field($model, 'type')        ->dropDownList( [ 'lunch' => 'lunch', 'dinner' => 'dinner' ] );
+echo $form->field($model, 'type')        ->dropDownList( array_combine( $all_types, $all_types ) );
 
 echo $placerRepasDlg->run();
 ActiveForm::end();

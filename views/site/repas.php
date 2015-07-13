@@ -36,7 +36,8 @@ $boat = app\models\Boat::find()->one();
 
 $placerRepasDlg = Modal::begin(['header' => '<h4 class="modal-title">Placer un repas</h4>'] );
 Html::addCssClass($placerRepasDlg->headerOptions, 'modal-title');
-$form = ActiveForm::begin([ 'id' => 'new-meal', 'method' => 'POST', 'action' => ['site/new-meal'] ]);
+$newMealId = 'new-meal';
+$form = ActiveForm::begin([ 'id' => $newMealId, 'method' => 'POST', 'action' => ['site/new-meal'] ]);
 
 // footer of the modal dialog
 $placerRepasDlg->footer = Html::submitButton('OK', ['class' => 'btn btn-primary']);
@@ -99,12 +100,30 @@ $calendarOptions =
         'eventClick'        => new JsExpression( "
             function(event,jsEvent,view)
             {
+                if (!('id' in event)) {
+                    return;
+                }
+
+                var data = { id: event.id };
+                $.getJSON( '" . Url::toRoute( 'ajax-get-meal' ) . "', data, function(event) {
+                    $( '#meal-type' ).val( event.type );
+                    $( '#meal-date' ).attr( 'value', event.date );
+                    $( '#meal-nbguests' ).attr( 'value', event.nbGuests );
+                    $( '#meal-cook' ).val( event.cook );
+                    $( '#meal-firstcourse' ).val( event.firstCourse );
+                    $( '#meal-secondcourse' ).val( event.secondCourse );
+                    $( '#meal-dessert' ).val( event.dessert );
+                    $( '#meal-drink' ).val( event.drink );
+                    $( '#" . $newMealId . "').attr('action', '" . Url::toRoute("update-meal") . "&id=' + event.id);
+                    $( '#" . $placerRepasDlg->getID() . "').modal();
+                } )
             }" ),
         'dayClick'          => new JsExpression( "
             function(date,jsEvent,view)
             {
                 $( '#meal-type' ).val( ( parseInt( date.format('HH')) < 13 ) ? 'lunch' : 'dinner');
                 $( '#meal-date' ).attr('value', date.format('YYYY-MM-DD'));
+                $( '#" . $newMealId . "').attr('action', '" . Url::toRoute("new-meal") . "');
                 $( '#" . $placerRepasDlg->getID() . "').modal();
             }" ),
     ],

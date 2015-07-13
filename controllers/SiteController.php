@@ -141,6 +141,23 @@ class SiteController extends Controller
         $this->redirect(['site/repas']);
     }
 
+    /**
+     * Updates an existing Meal
+     *
+     * @param integer $id The id of the meal to update
+     *
+     * @return void
+     */
+    public function actionUpdateMeal($id)
+    {
+        if (($model = \app\models\Meal::findOne($id)) !== null) {
+            $model->load(Yii::$app->request->post());
+            $model->save();
+        }
+
+        $this->redirect(['site/repas']);
+    }
+
     public function actionAjaxDeleteMeal($id)
     {
         $meal = \app\models\Meal::find()->where( [ "id" => $id ] )->one();
@@ -151,6 +168,9 @@ class SiteController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $meal = \app\models\Meal::find()->where( ["id" => $id] )->one();
+        if ($meal == null)
+            return;
+
         return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date", "type" ] );
     }
 

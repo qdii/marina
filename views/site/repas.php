@@ -142,6 +142,9 @@ $priceComputer->nbGuests = 1;
 $priceComputer->addMeals( $meals );
 $price = $priceComputer->price();
 
+// sort the list of ingredients by alphabetic order
+ArrayHelper::multisort($priceComputer->ingredients, 'name');
+
 echo app\components\ListIngredients::widget(["items" => $priceComputer->ingredients]);
 
 ?>

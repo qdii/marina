@@ -40,7 +40,15 @@ $newMealId = 'new-meal';
 $form = ActiveForm::begin([ 'id' => $newMealId, 'method' => 'POST', 'action' => ['site/new-meal'] ]);
 
 // footer of the modal dialog
-$placerRepasDlg->footer = Html::submitButton('Delete', ['class' => 'btn btn-danger']) . Html::submitButton('OK', ['class' => 'btn btn-primary']);
+$placerRepasDlg->footer =
+    Html::submitButton('Delete', ['class' => 'btn btn-danger',  'id' => 'delete-meal-btn']) .
+    Html::submitButton('OK',     ['class' => 'btn btn-primary', 'id' => 'ok-meal-btn']);
+
+$this->registerJs( "function onDeleteNewMeal() {
+    $('#" . $newMealId ."').attr('action', '" .  Url::toRoute("delete-meal") . "&id=' + $('#meal-id').val());
+}
+$('#delete-meal-btn').click(function(){ onDeleteNewMeal(); });", \yii\web\View::POS_LOAD );
+
 
 // main part of the modal dialog
 $model       = new app\models\Meal;
@@ -53,6 +61,7 @@ echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $all_
 echo $form->field($model, 'dessert')     ->dropDownList( ArrayHelper::map( $all_dessert, 'id', 'name' ) );
 echo $form->field($model, 'drink')       ->dropDownList( ArrayHelper::map( $all_drink,   'id', 'name' ) );
 echo $form->field($model, 'type')        ->dropDownList( array_combine( $all_types, $all_types ) );
+echo '<input name="meal-id" id="meal-id" type="hidden" value="0"/>';
 
 echo $placerRepasDlg->run();
 ActiveForm::end();
@@ -114,6 +123,7 @@ $calendarOptions =
                     $( '#meal-secondcourse' ).val( event.secondCourse );
                     $( '#meal-dessert' ).val( event.dessert );
                     $( '#meal-drink' ).val( event.drink );
+                    $( '#meal-id' ).val( event.id );
                     $( '#" . $newMealId . "').attr('action', '" . Url::toRoute("update-meal") . "&id=' + event.id);
                     $( '#" . $placerRepasDlg->getID() . "').modal();
                 } )

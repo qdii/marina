@@ -142,6 +142,22 @@ class SiteController extends Controller
     }
 
     /**
+     * Deletes an existing Meal
+     *
+     * @param integer $id The id of the meal to delete
+     *
+     * @return void
+     */
+    public function actionDeleteMeal($id)
+    {
+        if (($model = \app\models\Meal::findOne($id)) !== null) {
+            $model->delete();
+        }
+
+        $this->redirect(['site/repas']);
+    }
+
+    /**
      * Updates an existing Meal
      *
      * @param integer $id The id of the meal to update

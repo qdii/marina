@@ -153,6 +153,19 @@ $price = $priceComputer->price();
 // sort the list of ingredients by alphabetic order
 ArrayHelper::multisort($priceComputer->ingredients, 'name');
 
-echo app\components\ListIngredients::widget(["items" => $priceComputer->ingredients]);
+$ingredients = $priceComputer->ingredients;
+$total = 0;
+foreach ( $ingredients as $ingredient ) {
+    $total += $ingredient['price'];
+}
+echo app\components\ThreeColumnList::widget(
+    [
+        "items"        => $ingredients,
+        "headers"      => [ "Name", "Quantity (in g)", "Price (in €)" ],
+        "attributes"   => [ 'name', 'quantity', 'price' ],
+        "showTotalRow" => true,
+        "total"        => $total
+    ]
+);
 
 ?>

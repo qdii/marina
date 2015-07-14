@@ -5,10 +5,13 @@ namespace app\components;
 use yii\helpers\Html;
 use yii\i18n\Formatter;
 
-class ListIngredients extends \yii\bootstrap\Widget
+class ThreeColumnList extends \yii\bootstrap\Widget
 {
-    public $items   = [];
-    public $headers = [ "Nom", "Quantité", "Prix" ];
+    public $items        = [];
+    public $headers      = [];
+    public $showTotalRow = true;
+    public $total        = 0;
+    public $attributes   = [];
 
     public function init()
     {
@@ -40,30 +43,28 @@ class ListIngredients extends \yii\bootstrap\Widget
         // ingredient rows
         foreach( $this->items as $ingredient )
         {
+            $value0 = $ingredient[$this->attributes[0]];
+            $value1 = $ingredient[$this->attributes[1]];
+            $value2 = $ingredient[$this->attributes[2]];
+
             $html .= Html::beginTag( "tr" );
-            $html .= Html::tag( "td", $ingredient['name']     );
-            $html .= Html::tag( "td", $ingredient['quantity'] . ' ' . $ingredient['unitName'] );
-            $html .= Html::tag( "td", $ingredient['price']    );
+            $html .= Html::tag( "td", $value0 );
+            $html .= Html::tag( "td", $value1 );
+            $html .= Html::tag( "td", $value2 );
             $html .= Html::endTag( "tr" );
         }
 
         // TOTAL row
-        $html .= Html::beginTag( "tr", [ "class" => "success" ] );
-        $html .= Html::tag( "td", Html::tag( "strong", "Total" ) );
-        $html .= Html::tag( "td", Html::tag( "strong", "" ) );
-        $html .= Html::tag( "td", Html::tag( "strong", $this->total() . "€" ) );
-        $html .= Html::endTag( "tr" );
-        $html .= Html::endTag( "tbody" );
+        if ($this->showTotalRow) {
+            $html .= Html::beginTag( "tr", [ "class" => "success" ] );
+            $html .= Html::tag( "td", Html::tag( "strong", "Total" ) );
+            $html .= Html::tag( "td", Html::tag( "strong", "" ) );
+            $html .= Html::tag( "td", Html::tag( "strong", $this->total ) );
+            $html .= Html::endTag( "tr" );
+            $html .= Html::endTag( "tbody" );
+        }
 
         return $html;
-    }
-
-    private function total()
-    {
-        $total = 0;
-        foreach( $this->items as $ingredient )
-            $total += $ingredient['price'];
-        return $total;
     }
 
     public function run()

@@ -70,14 +70,12 @@ class ThreeColumnList extends \yii\bootstrap\Widget
     public function run()
     {
         $html = "";
-        $html .= Html::beginTag( "div", [ "class" => "container" ] );
         $html .= Html::beginTag( "table", [ "class" => "table table-hover" ] );
 
         $html .= $this->renderHead();
         $html .= $this->renderRows();
 
         $html .= Html::endTag( "table" );
-        $html .= Html::endTag( "div" );
 
         return $html;
     }

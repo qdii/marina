@@ -38,7 +38,7 @@ AppAsset::register($this);
                     ['label' => 'Home', 'url' => ['/site/index']],
                     ['label' => 'Admin', 'url' => ['/site/admin']],
                     ['label' => 'Repas', 'url' => ['/site/repas']],
-                    ['label' => 'About', 'url' => ['/site/about']],
+                    ['label' => 'Intake', 'url' => ['/site/intake']],
                     ['label' => 'Contact', 'url' => ['/site/contact']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2b5a0d8f411ea27ac061635dc4378e6b",
+    "hash": "2cefa3fca149bce99278a661ed62731f",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -664,6 +664,46 @@
                 "yii2"
             ],
             "time": "2015-06-16 09:15:47"
+        },
+        {
+            "name": "skeeks/yii2-widget-chosen",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "http://git.skeeks.com/skeeks/yii2-widget-chosen.git",
+                "reference": "3d280dd2b5a7d3fa966e82f30c0b6455b8a84b57"
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "skeeks\\widget\\chosen\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Semenov Alexander",
+                    "email": "semenov@skeeks.com"
+                }
+            ],
+            "description": "Bootstrap Chosen widget for Yii2",
+            "homepage": "http://www.skeeks.com/",
+            "keywords": [
+                "bootstrap",
+                "bootstrap 3",
+                "chosen",
+                "extension",
+                "skeeks",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-06-16 14:30:28"
         },
         {
             "name": "swiftmailer/swiftmailer",

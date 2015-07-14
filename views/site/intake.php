@@ -12,6 +12,7 @@
  *
  */
 use \yii\helpers\ArrayHelper;
+use \yii\web\JsExpression;
 
 $this->title = 'Intake';
 $this->params['breadcrumbs'][] = $this->title;
@@ -24,5 +25,10 @@ echo \skeeks\widget\chosen\Chosen::widget(
         'attribute'   => 'name',
         'placeholder' => 'Choose a dish',
         'items'       => ArrayHelper::map($meals, 'id', 'name'),
+        'clientEvents' =>
+        [
+            'change' => "function(event, params) { console.log(params); }"
+        ]
     ]
 );
+

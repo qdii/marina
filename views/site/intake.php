@@ -1,6 +1,6 @@
 <?php
 /**
- * This page lets the user look up how many calories/protein/etc. a meal has
+ * This page lets the user look up how many calories/protein/etc. a dish has
  *
  * PHP version 5.4
  *
@@ -11,7 +11,18 @@
  * @link     http://marina.dodges.it
  *
  */
+use \yii\helpers\ArrayHelper;
 
 $this->title = 'Intake';
 $this->params['breadcrumbs'][] = $this->title;
 
+$meals = \app\models\Dish::find()->all();
+$model = new \app\models\Dish;
+echo \skeeks\widget\chosen\Chosen::widget(
+    [
+        'model'       => $model,
+        'attribute'   => 'name',
+        'placeholder' => 'Choose a dish',
+        'items'       => ArrayHelper::map($meals, 'id', 'name'),
+    ]
+);

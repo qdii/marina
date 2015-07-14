@@ -201,4 +201,42 @@ class SiteController extends Controller
     {
         return $this->render('list-ingredients');
     }
+
+    public function actionThreeColumnListDish($id)
+    {
+        if (($dish = \app\models\Dish::findOne($id)) !== null)
+        {
+            $components = $dish->getCompositions()->all();
+            $items      = [];
+
+            $total_proteins = 0;
+            $total_energy = 0;
+            foreach ( $components as $component ) {
+                $ingredient = $component->getIngredient0()->one();
+                $quantity   = $component->quantity;
+                $proteins   = $quantity * $ingredient['protein'] / 100;
+                $energy     = $quantity * $ingredient['energy_kcal'] / 100;
+                $items[] =
+                    [
+                        'name'        => $ingredient['name'],
+                        'proteins'    => round($proteins, 1) . " g",
+                        'energy_kcal' => round($energy, 1) . " kcal",
+                    ];
+                $total_proteins += $proteins;
+                $total_energy += $energy;
+            }
+
+            return \app\components\ThreeColumnList::widget(
+                [
+                    'items'      => $items,
+                    'headers'    => [ 'Name', 'Proteins', 'Energy' ],
+                    'attributes' => [ 'name', 'proteins', 'energy_kcal' ],
+                    'showTotal0' => true,
+                    'showTotal1' => true,
+                    'total0'     => round($total_proteins, 1) . " g",
+                    'total1'     => round($total_energy, 1) . " kcal",
+                ]
+            );
+        }
+    }
 }

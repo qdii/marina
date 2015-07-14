@@ -9,8 +9,10 @@ class ThreeColumnList extends \yii\bootstrap\Widget
 {
     public $items        = [];
     public $headers      = [];
-    public $showTotalRow = true;
-    public $total        = 0;
+    public $showTotal0   = true;
+    public $showTotal1   = true;
+    public $total0       = 0;
+    public $total1       = 0;
     public $attributes   = [];
 
     public function init()
@@ -55,11 +57,11 @@ class ThreeColumnList extends \yii\bootstrap\Widget
         }
 
         // TOTAL row
-        if ($this->showTotalRow) {
+        if ($this->showTotal0 || $this->showTotal1) {
             $html .= Html::beginTag( "tr", [ "class" => "success" ] );
             $html .= Html::tag( "td", Html::tag( "strong", "Total" ) );
-            $html .= Html::tag( "td", Html::tag( "strong", "" ) );
-            $html .= Html::tag( "td", Html::tag( "strong", $this->total ) );
+            $html .= Html::tag( "td", Html::tag( "strong", $this->showTotal0 ? $this->total0 : "" ) );
+            $html .= Html::tag( "td", Html::tag( "strong", $this->showTotal1 ? $this->total1 : "" ) );
             $html .= Html::endTag( "tr" );
             $html .= Html::endTag( "tbody" );
         }

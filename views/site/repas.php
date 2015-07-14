@@ -160,11 +160,12 @@ foreach ( $ingredients as $ingredient ) {
 }
 echo app\components\ThreeColumnList::widget(
     [
-        "items"        => $ingredients,
-        "headers"      => [ "Name", "Quantity (in g)", "Price (in €)" ],
-        "attributes"   => [ 'name', 'quantity', 'price' ],
-        "showTotalRow" => true,
-        "total"        => $total
+        "items"      => $ingredients,
+        "headers"    => [ "Name", "Quantity (in g)", "Price (in €)" ],
+        "attributes" => [ 'name', 'quantity', 'price' ],
+        "showTotal0" => false,
+        "showTotal1" => true,
+        "total0"     => $total
     ]
 );
 

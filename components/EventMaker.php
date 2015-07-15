@@ -123,10 +123,39 @@ class EventMaker
         $list = [];
         foreach ( $properties as $prop ) {
             $val = round($computer->getIntakeOfMeals($meals, $prop), 1);
-            $list[]  = $prop . ': ' . $val . 'g';
+            $list[]  = $prop . ': ' . $val . " "
+                . $this->_getUnityOfProperty($prop);
         }
 
         return 'Daily intake per person:<br/>' . Html::ul($list);
+    }
+
+    /**
+     * Proteins are expressed in grams, but energy_kcal is in kcal.
+     *
+     * @param string $property The property to get the unity of
+     *
+     * @return string The name of the unity
+     */
+    private function _getUnityOfProperty($property)
+    {
+        $unity = "g";
+        switch($property)
+        {
+        case "energy_kcal":
+            $unity = "kcal";
+            break;
+
+        case "energy_kj":
+            $unity = "kj";
+            break;
+
+        default:
+            $unity = "g";
+            break;
+        }
+
+        return $unity;
     }
 
     /**

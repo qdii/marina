@@ -14,8 +14,33 @@
 namespace app\components;
 
 use \app\models\Meal;
+use \app\models\Dish;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+
+/**
+ * Checks if the dish is valid
+ *
+ * @param \app\models\Dish $dish The dish to check the validity of
+ *
+ * @return true if the dish is valid
+ */
+function isDishValid(Dish $dish)
+{
+    return $dish->name !== "nothing";
+}
+
+/**
+ * Returns the name of a dish
+ *
+ * @param \app\models\Dish $dish The dish we want to extract the name of
+ *
+ * @return string The name of the dish
+ */
+function getDishName(Dish $dish)
+{
+    return $dish->name;
+}
 
 /**
  * Creates a fullcalendar 2 event from input data
@@ -77,12 +102,9 @@ class EventMaker
         $dessert      = $this->_dessertById[ $meal->dessert ];
         $drink        = $this->_drinkById  [ $meal->drink ];
 
-        $list = [
-            $firstCourse->name,
-            $secondCourse->name,
-            $dessert->name,
-            $drink->name
-        ];
+        $dishes = [ $firstCourse, $secondCourse, $dessert, $drink ];
+        $validDishes = array_filter($dishes, '\app\components\isDishValid');
+        $list = array_map('\app\components\getDishName', $validDishes);
 
         return '&#x1f52a; ' . $user->username . '<br/>&#x1f60b; '
                . $meal->nbGuests . Html::ul($list);

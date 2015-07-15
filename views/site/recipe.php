@@ -24,7 +24,7 @@ $this->registerJsFile('js/bilan.js');
 $bilanId = "bilan";
 
 // the URL that permits loading the list
-$loadUrl = Url::toRoute("site/three-column-list-dish");
+$loadUrl = Url::toRoute("site/many-column-list-dish");
 
 $meals = \app\models\Dish::find()->all();
 $model = new \app\models\Dish;

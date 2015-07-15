@@ -5,7 +5,7 @@ namespace app\components;
 use yii\helpers\Html;
 use yii\i18n\Formatter;
 
-class ThreeColumnList extends \yii\bootstrap\Widget
+class ManyColumnList extends \yii\bootstrap\Widget
 {
     public $items        = [];
     public $headers      = [];

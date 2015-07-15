@@ -202,7 +202,7 @@ class SiteController extends Controller
         return $this->render('list-ingredients');
     }
 
-    public function actionThreeColumnListDish($id)
+    public function actionManyColumnListDish($id)
     {
         if (($dish = \app\models\Dish::findOne($id)) !== null)
         {
@@ -226,7 +226,7 @@ class SiteController extends Controller
                 $total_energy += $energy;
             }
 
-            return \app\components\ThreeColumnList::widget(
+            return \app\components\ManyColumnList::widget(
                 [
                     'items'      => $items,
                     'headers'    => [ 'Name', 'Proteins', 'Energy' ],

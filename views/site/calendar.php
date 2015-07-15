@@ -165,7 +165,7 @@ foreach ( $ingredients as $ingredient ) {
             $ingredient['price'] . ' €',
         ];
 }
-echo app\components\ThreeColumnList::widget(
+echo app\components\ManyColumnList::widget(
     [
         "items"      => $items,
         "headers"    => [ "Name", "Quantity", "Price" ],

@@ -155,17 +155,23 @@ ArrayHelper::multisort($priceComputer->ingredients, 'name');
 
 $ingredients = $priceComputer->ingredients;
 $total = 0;
+$items = [];
 foreach ( $ingredients as $ingredient ) {
     $total += $ingredient['price'];
+    $items[]
+        = [
+            $ingredient['name'],
+            $ingredient['quantity'] . ' g',
+            $ingredient['price'] . ' €',
+        ];
 }
 echo app\components\ThreeColumnList::widget(
     [
-        "items"      => $ingredients,
-        "headers"    => [ "Name", "Quantity (in g)", "Price (in €)" ],
+        "items"      => $items,
+        "headers"    => [ "Name", "Quantity", "Price" ],
         "attributes" => [ 'name', 'quantity', 'price' ],
-        "showTotal0" => false,
-        "showTotal1" => true,
-        "total0"     => $total
+        "showTotal"  => true,
+        "totals"     => [ "", $total . ' €' ]
     ]
 );
 

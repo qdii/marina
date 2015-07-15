@@ -9,10 +9,8 @@ class ThreeColumnList extends \yii\bootstrap\Widget
 {
     public $items        = [];
     public $headers      = [];
-    public $showTotal0   = true;
-    public $showTotal1   = true;
-    public $total0       = 0;
-    public $total1       = 0;
+    public $totals       = [];
+    public $showTotal    = true;
     public $attributes   = [];
 
     public function init()
@@ -40,31 +38,28 @@ class ThreeColumnList extends \yii\bootstrap\Widget
     {
         $html = "";
 
-        $html .= Html::beginTag( "tbody" );
+        $html .= Html::beginTag("tbody");
 
-        // ingredient rows
-        foreach( $this->items as $ingredient )
-        {
-            $value0 = $ingredient[$this->attributes[0]];
-            $value1 = $ingredient[$this->attributes[1]];
-            $value2 = $ingredient[$this->attributes[2]];
-
-            $html .= Html::beginTag( "tr" );
-            $html .= Html::tag( "td", $value0 );
-            $html .= Html::tag( "td", $value1 );
-            $html .= Html::tag( "td", $value2 );
-            $html .= Html::endTag( "tr" );
+        // item rows
+        foreach ( $this->items as $item ) {
+            $html .= Html::beginTag("tr");
+            foreach ( $item as $value ) {
+                $html .= Html::tag("td", $value);
+            }
+            $html .= Html::endTag("tr");
         }
 
         // TOTAL row
-        if ($this->showTotal0 || $this->showTotal1) {
-            $html .= Html::beginTag( "tr", [ "class" => "success" ] );
-            $html .= Html::tag( "td", Html::tag( "strong", "Total" ) );
-            $html .= Html::tag( "td", Html::tag( "strong", $this->showTotal0 ? $this->total0 : "" ) );
-            $html .= Html::tag( "td", Html::tag( "strong", $this->showTotal1 ? $this->total1 : "" ) );
-            $html .= Html::endTag( "tr" );
-            $html .= Html::endTag( "tbody" );
+        if ($this->showTotal) {
+            $html .= Html::beginTag("tr", [ "class" => "success" ]);
+            $html .= Html::tag("td", Html::tag("strong", "Total"));
+            foreach ( $this->totals as $total ) {
+                $html .= Html::tag("td", Html::tag("strong", $total));
+            }
+            $html .= Html::endTag("tr");
         }
+
+        $html .= Html::endTag("tbody");
 
         return $html;
     }

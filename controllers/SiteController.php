@@ -216,11 +216,11 @@ class SiteController extends Controller
                 $quantity   = $component->quantity;
                 $proteins   = $quantity * $ingredient['protein'] / 100;
                 $energy     = $quantity * $ingredient['energy_kcal'] / 100;
-                $items[] =
-                    [
-                        'name'        => $ingredient['name'],
-                        'proteins'    => round($proteins, 1) . " g",
-                        'energy_kcal' => round($energy, 1) . " kcal",
+                $items[]
+                    = [
+                        $ingredient['name'],
+                        round($proteins, 1) . " g",
+                        round($energy, 1) . " kcal",
                     ];
                 $total_proteins += $proteins;
                 $total_energy += $energy;
@@ -231,10 +231,12 @@ class SiteController extends Controller
                     'items'      => $items,
                     'headers'    => [ 'Name', 'Proteins', 'Energy' ],
                     'attributes' => [ 'name', 'proteins', 'energy_kcal' ],
-                    'showTotal0' => true,
-                    'showTotal1' => true,
-                    'total0'     => round($total_proteins, 1) . " g",
-                    'total1'     => round($total_energy, 1) . " kcal",
+                    'showTotal'  => true,
+                    'totals'     =>
+                    [
+                        round($total_proteins, 1) . " g",
+                        round($total_energy, 1) . " kcal",
+                    ]
                 ]
             );
         }

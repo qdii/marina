@@ -16,7 +16,7 @@ use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\web\JsExpression;
 
-$this->title = 'Intake';
+$this->title = 'Recipe';
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerJsFile('js/bilan.js');
 

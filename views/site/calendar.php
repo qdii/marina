@@ -13,7 +13,7 @@ use app\models\Meal;
 use app\models\Composition;
 
 /* @var $this yii\web\View */
-$this->title = 'Repas';
+$this->title = 'Calendar';
 $this->params['breadcrumbs'][] = $this->title;
 
 app\assets\RepasAsset::register($this);

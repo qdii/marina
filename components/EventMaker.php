@@ -145,11 +145,41 @@ class EventMaker
         $list = [];
         foreach ( $properties as $prop ) {
             $val = round($computer->getIntakeOfMeals($meals, $prop), 1);
-            $list[]  = $prop . ': ' . $val . " "
-                . $this->_getUnityOfProperty($prop);
+            $list[]
+                = $this->_getNameOfProperty($prop) . ': ' . $val . " " .
+                  $this->_getUnityOfProperty($prop);
         }
 
         return 'Daily intake per person:<br/>' . Html::ul($list);
+    }
+
+    /**
+     * Sometimes it is more user-friendly to display another
+     * name of a property.
+     *
+     * @param string $property The property to get the name of
+     *
+     * @return string The name of the property
+     */
+    private function _getNameOfProperty($property)
+    {
+        $name = $property;
+
+        switch($property)
+        {
+        case "energy_kcal":
+            $name = "energy";
+            break;
+
+        case "energy_kj":
+            $name = "energy";
+            break;
+
+        default:
+            break;
+        }
+
+        return $name;
     }
 
     /**

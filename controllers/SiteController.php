@@ -202,41 +202,47 @@ class SiteController extends Controller
         return $this->render('list-ingredients');
     }
 
-    public function actionThreeColumnListDish($id)
+    public function actionManyColumnListDish($id)
     {
-        if (($dish = \app\models\Dish::findOne($id)) !== null)
-        {
-            $components = $dish->getCompositions()->all();
-            $items      = [];
-
-            $total_proteins = 0;
-            $total_energy = 0;
-            foreach ( $components as $component ) {
-                $ingredient = $component->getIngredient0()->one();
-                $quantity   = $component->quantity;
-                $proteins   = $quantity * $ingredient['protein'] / 100;
-                $energy     = $quantity * $ingredient['energy_kcal'] / 100;
-                $items[] =
-                    [
-                        'name'        => $ingredient['name'],
-                        'proteins'    => round($proteins, 1) . " g",
-                        'energy_kcal' => round($energy, 1) . " kcal",
-                    ];
-                $total_proteins += $proteins;
-                $total_energy += $energy;
-            }
-
-            return \app\components\ThreeColumnList::widget(
-                [
-                    'items'      => $items,
-                    'headers'    => [ 'Name', 'Proteins', 'Energy' ],
-                    'attributes' => [ 'name', 'proteins', 'energy_kcal' ],
-                    'showTotal0' => true,
-                    'showTotal1' => true,
-                    'total0'     => round($total_proteins, 1) . " g",
-                    'total1'     => round($total_energy, 1) . " kcal",
-                ]
-            );
+        if (($dish = \app\models\Dish::findOne($id)) === null) {
+            return;
         }
+
+        $components = $dish->getCompositions()->all();
+        $items      = [];
+
+        $total_proteins = 0;
+        $total_energy = 0;
+        $total_weight = 0;
+        foreach ( $components as $component ) {
+            $ingredient = $component->getIngredient0()->one();
+            $quantity   = $component->quantity;
+            $proteins   = $quantity * $ingredient['protein'] / 100;
+            $energy     = $quantity * $ingredient['energy_kcal'] / 100;
+            $items[]
+                = [
+                    $ingredient['name'],
+                    $quantity,
+                    round($proteins, 1) . " g",
+                    round($energy, 1) . " kcal",
+                ];
+            $total_weight += $quantity;
+            $total_proteins += $proteins;
+            $total_energy += $energy;
+        }
+
+        return \app\components\ManyColumnList::widget(
+            [
+                'items'      => $items,
+                'headers'    => [ 'Name', 'Weight', 'Proteins', 'Energy' ],
+                'showTotal'  => true,
+                'totals'     =>
+                [
+                    round($total_weight, 1) . " g",
+                    round($total_proteins, 1) . " g",
+                    round($total_energy, 1) .  " kcal",
+                ]
+            ]
+        );
     }
 }

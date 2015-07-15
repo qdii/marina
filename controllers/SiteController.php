@@ -211,6 +211,7 @@ class SiteController extends Controller
 
             $total_proteins = 0;
             $total_energy = 0;
+            $total_weight = 0;
             foreach ( $components as $component ) {
                 $ingredient = $component->getIngredient0()->one();
                 $quantity   = $component->quantity;
@@ -219,9 +220,11 @@ class SiteController extends Controller
                 $items[]
                     = [
                         $ingredient['name'],
+                        $quantity,
                         round($proteins, 1) . " g",
                         round($energy, 1) . " kcal",
                     ];
+                $total_weight += $quantity;
                 $total_proteins += $proteins;
                 $total_energy += $energy;
             }
@@ -229,11 +232,11 @@ class SiteController extends Controller
             return \app\components\ManyColumnList::widget(
                 [
                     'items'      => $items,
-                    'headers'    => [ 'Name', 'Proteins', 'Energy' ],
-                    'attributes' => [ 'name', 'proteins', 'energy_kcal' ],
+                    'headers'    => [ 'Name', 'Weight', 'Proteins', 'Energy' ],
                     'showTotal'  => true,
                     'totals'     =>
                     [
+                        round($total_weight, 1) . " g",
                         round($total_proteins, 1) . " g",
                         round($total_energy, 1) . " kcal",
                     ]

@@ -138,7 +138,7 @@ class SiteController extends Controller
             $model->save();
         }
 
-        $this->redirect(['site/repas']);
+        $this->redirect(['site/calendar']);
     }
 
     /**
@@ -154,7 +154,7 @@ class SiteController extends Controller
             $model->delete();
         }
 
-        $this->redirect(['site/repas']);
+        $this->redirect(['site/calendar']);
     }
 
     /**
@@ -171,7 +171,7 @@ class SiteController extends Controller
             $model->save();
         }
 
-        $this->redirect(['site/repas']);
+        $this->redirect(['site/calendar']);
     }
 
     public function actionAjaxDeleteMeal($id)

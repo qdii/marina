@@ -119,15 +119,43 @@ class EventMaker
      */
     public function getEventFromMeal(\app\models\Meal $meal)
     {
-        $isLunch = $meal->type == 'lunch';
+        $start = $this->_getTimeOfMeal($meal->type);
 
         return [
             'id'    => $meal->id,
             'title' => $this->getTitleFromMeal($meal),
-            'start' => $meal->date . "T" . ( $isLunch ? "13:00:00Z" : "19:00:00Z" ),
-            'end'   => $meal->date . "T" . ( $isLunch ? "16:00:00Z" : "22:00:00Z" ),
+            'start' => $meal->date . "T" . $start,
+            'end'   => $meal->date . "T" . $start,
             'backgroundColor'   => '#2a4f6e'
         ];
+    }
+
+    /**
+     * Returns the time at which a meal is usually taken
+     *
+     * @param string $type The type of meal (lunch, breakfast, snack, dinner)
+     *
+     * @return string A string in format HH:MM:SS followed by the character Z
+     */
+    private function _getTimeOfMeal($type)
+    {
+        $time = "00:00:00";
+
+        switch ($type) {
+        case 'lunch':
+            $time = "13:00:00";
+            break;
+
+        case 'dinner':
+            $time = "21:00:00";
+            break;
+
+        case 'breakfast':
+            $time = "09:00:00";
+            break;
+        }
+
+        return $time . "Z";
     }
 
     /**

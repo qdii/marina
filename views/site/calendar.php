@@ -3,14 +3,16 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
-use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
 use yii\bootstrap\Modal;
+use yii\bootstrap\ActiveForm;
+use yii\bootstrap\ActiveField;
 use yii\jui\Dialog;
 use app\models\Dish;
 use app\models\User;
 use app\models\Meal;
 use app\models\Composition;
+use dosamigos\datetimepicker\DateTimePicker;
 
 /* @var $this yii\web\View */
 $this->title = 'Calendar';
@@ -53,14 +55,13 @@ $('#delete-meal-btn').click(function(){ onDeleteNewMeal(); });", \yii\web\View::
 // main part of the modal dialog
 $model       = new app\models\Meal;
 
-echo $form->field($model, 'date');
+echo $form->field($model, 'date')        ->widget(DateTimePicker::classname(), []);
 echo $form->field($model, 'nbGuests');
 echo $form->field($model, 'cook')        ->dropDownList( ArrayHelper::map( $all_users,   'id', 'username' ) );
 echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $all_first,   'id', 'name' ) );
 echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $all_second,  'id', 'name' ) );
 echo $form->field($model, 'dessert')     ->dropDownList( ArrayHelper::map( $all_dessert, 'id', 'name' ) );
 echo $form->field($model, 'drink')       ->dropDownList( ArrayHelper::map( $all_drink,   'id', 'name' ) );
-echo $form->field($model, 'type')        ->dropDownList( array_combine( $all_types, $all_types ) );
 
 echo $placerRepasDlg->run();
 ActiveForm::end();
@@ -114,8 +115,9 @@ $calendarOptions =
 
                 var data = { id: event.id };
                 $.getJSON( '" . Url::toRoute( 'ajax-get-meal' ) . "', data, function(event) {
-                    $( '#meal-type' ).val( event.type );
-                    $( '#meal-date' ).attr( 'value', event.date );
+                    var date=moment(event.date,'YYYY-MM-DD HH-mm');
+                    var day=date.format('YYYY-MM-DD HH:mm');
+                    $( '#meal-date' ).val(day);
                     $( '#meal-nbguests' ).attr( 'value', event.nbGuests );
                     $( '#meal-cook' ).val( event.cook );
                     $( '#meal-firstcourse' ).val( event.firstCourse );
@@ -130,8 +132,6 @@ $calendarOptions =
         'dayClick'          => new JsExpression( "
             function(date,jsEvent,view)
             {
-                $( '#meal-type' ).val( ( parseInt( date.format('HH')) < 13 ) ? 'lunch' : 'dinner');
-                $( '#meal-date' ).attr('value', date.format('YYYY-MM-DD'));
                 $( '#" . $newMealId . "').attr('action', '" . Url::toRoute("new-meal") . "');
                 $( '#" . $placerRepasDlg->getID() . "').modal();
             }" ),

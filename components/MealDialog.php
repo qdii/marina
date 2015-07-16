@@ -32,7 +32,6 @@ class MealDialog extends \yii\base\Widget
         $this->getView()->registerJs(
             "function updateMealDialog( type, date, nbGuests, cook, firstCourse, secondCourse, dessert, drink )
              {
-                    $( '#meal-type' )         .val ( type );
                     $( '#meal-date' )         .attr( 'value',date );
                     $( '#meal-nbguests' )     .attr( 'value',nbGuests );
                     $( '#meal-cook' )         .val ( cook );
@@ -94,7 +93,6 @@ class MealDialog extends \yii\base\Widget
         $output .= $this->form->field($this->model, 'secondCourse'  )->dropDownList( ArrayHelper::map( $this->secondCourses,  'id', 'name' ) );
         $output .= $this->form->field($this->model, 'dessert'       )->dropDownList( ArrayHelper::map( $this->desserts,       'id', 'name' ) );
         $output .= $this->form->field($this->model, 'drink'         )->dropDownList( ArrayHelper::map( $this->drinks,         'id', 'name' ) );
-        $output .= $this->form->field($this->model, 'type'          )->dropDownList( [ 'lunch' => 'lunch', 'dinner' => 'dinner' ] );
 
         echo $output;
 

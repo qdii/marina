@@ -36,7 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'drink',
             'cook',
             'date',
-            'type',
         ],
     ]) ?>
 

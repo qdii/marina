@@ -187,7 +187,7 @@ class SiteController extends Controller
         if ($meal == null)
             return;
 
-        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date", "type" ] );
+        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date" ] );
     }
 
     public function actionAjaxUser($id)

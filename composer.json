@@ -21,7 +21,8 @@
         "kartik-v/yii2-builder": "*",
         "philippfrenzel/yii2fullcalendar": "~2.2",
         "yiisoft/yii2-jui": "*",
-        "skeeks/yii2-widget-chosen": "^1.0"
+        "skeeks/yii2-widget-chosen": "^1.0",
+        "2amigos/yii2-date-time-picker-widget": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

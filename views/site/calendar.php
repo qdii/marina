@@ -62,6 +62,7 @@ echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $all_
 echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $all_second,  'id', 'name' ) );
 echo $form->field($model, 'dessert')     ->dropDownList( ArrayHelper::map( $all_dessert, 'id', 'name' ) );
 echo $form->field($model, 'drink')       ->dropDownList( ArrayHelper::map( $all_drink,   'id', 'name' ) );
+echo '<input name="meal-id" id="meal-id" type="hidden" value="0"/>';
 
 echo $placerRepasDlg->run();
 ActiveForm::end();

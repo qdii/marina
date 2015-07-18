@@ -49,7 +49,7 @@ class PriceComputer
         $this->ingredients[$ingredient->id]['unitName']   = $ingredient->getUnit0()->one()->shortName;
     }
 
-    public function addDish(\app\models\Dish $dish, $nbGuests)
+    private function _addDish(\app\models\Dish $dish, $nbGuests)
     {
         foreach ( $dish->getCompositions()->all() as $item ) {
             $this->addCompositionItem($item, $nbGuests);
@@ -100,7 +100,7 @@ class PriceComputer
     {
         $nbGuests = $meal->nbGuests;
         foreach ( $this->_getDishesFromMeal($meal) as $dish ) {
-            $this->addDish($dish, $nbGuests);
+            $this->_addDish($dish, $nbGuests);
         }
     }
 

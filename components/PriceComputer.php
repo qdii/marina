@@ -153,8 +153,8 @@ class PriceComputer
     private function _getIntakeOfDishes($dishes, $property)
     {
         $intakes = [];
-        $dishIds = ArrayHelper::getColumn($dishes, 'id');
-        $compositions = \app\models\Composition::findAll(['id' => $dishIds]);
+        $dishIds = \yii\helpers\ArrayHelper::getColumn($dishes, 'id');
+        $compositions = \app\models\Composition::findAll(['dish' => $dishIds]);
         foreach ( $compositions as $item ) {
             $intakes[] = $this->_getIntake($item, $property);
         }
@@ -179,23 +179,6 @@ class PriceComputer
     }
 
     /**
-     * Returns the number of calories, sucrose, etc. for a given meal
-     *
-     * @param array  $meal     The meal to consider
-     * @param string $property 'protein', 'energy_kcal', etc.
-     *
-     * @return The number of that property in grams (like, 10g of proteins)
-     */
-    public function getIntakeOfMeal($meal, $property)
-    {
-        $intakes = [];
-        foreach ( $this->_getDishesFromMeal($meal) as $dish ) {
-            $intakes[] = $this->_getIntakeOfDish($dish, $property);
-        }
-        return array_sum($intakes);
-    }
-
-    /**
      * Returns the number of calories, sucrose, etc. for a set of meals
      *
      * @param array  $meals    The set of meals to consider
@@ -205,11 +188,8 @@ class PriceComputer
      */
     public function getIntakeOfMeals($meals, $property)
     {
-        $intakes = [];
-        foreach ( $this->_getDishesFromMeals($meals) as $dish ) {
-            $intakes[] = $this->_getIntakeOfDish($dish, $property);
-        }
-        return array_sum($intakes);
+        $dishes = $this->_getDishesFromMeals($meals);
+        return $this->_getIntakeOfDishes($dishes, $property);
     }
 
 }

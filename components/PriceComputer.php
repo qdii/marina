@@ -62,20 +62,24 @@ class PriceComputer
      *
      * @return array The dishes associated to this meal
      */
-    public function getDishesFromMeal(\app\models\Meal $meal)
+    private function _getDishesFromMeal(\app\models\Meal $meal)
     {
-        return [
-            $meal->getFirstCourse0()->one(),
-            $meal->getSecondCourse0()->one(),
-            $meal->getDessert0()->one(),
-            $meal->getDrink0()->one(),
-        ];
+        return \app\models\Dish::findAll(
+            [
+                'id' => [
+                    $meal->firstCourse,
+                    $meal->secondCourse,
+                    $meal->dessert,
+                    $meal->drink
+                ]
+            ]
+        );
     }
 
     public function addMeal(\app\models\Meal $meal)
     {
         $nbGuests = $meal->nbGuests;
-        foreach ( $this->getDishesFromMeal($meal) as $dish ) {
+        foreach ( $this->_getDishesFromMeal($meal) as $dish ) {
             $this->addDish($dish, $nbGuests);
         }
     }
@@ -106,7 +110,7 @@ class PriceComputer
      *
      * @return The number of that property in grams (like, 10g of proteins)
      */
-    public function getIntake(\app\models\Composition $item, $property)
+    private function _getIntake(\app\models\Composition $item, $property)
     {
         assert(count($property) != 0);
 
@@ -127,11 +131,11 @@ class PriceComputer
      *
      * @return The number of that property in grams (like, 10g of proteins)
      */
-    public function getIntakeOfDishes($dishes, $property)
+    private function _getIntakeOfDishes($dishes, $property)
     {
         $intakes = [];
         foreach ( $dishes as $dish ) {
-            $intakes[] = $this->getIntakeOfDish($dish, $property);
+            $intakes[] = $this->_getIntakeOfDish($dish, $property);
         }
         return array_sum($intakes);
     }
@@ -144,11 +148,11 @@ class PriceComputer
      *
      * @return The number of that property in grams (like, 10g of proteins)
      */
-    public function getIntakeOfDish($dish, $property)
+    private function _getIntakeOfDish($dish, $property)
     {
         $intakes = [];
         foreach ( $dish->getCompositions()->all() as $item ) {
-            $intakes[] = $this->getIntake($item, $property);
+            $intakes[] = $this->_getIntake($item, $property);
         }
         return array_sum($intakes);
     }
@@ -164,8 +168,8 @@ class PriceComputer
     public function getIntakeOfMeal($meal, $property)
     {
         $intakes = [];
-        foreach ( $this->getDishesFromMeal($meal) as $dish ) {
-            $intakes[] = $this->getIntakeOfDish($dish, $property);
+        foreach ( $this->_getDishesFromMeal($meal) as $dish ) {
+            $intakes[] = $this->_getIntakeOfDish($dish, $property);
         }
         return array_sum($intakes);
     }

@@ -13,6 +13,8 @@
  */
 namespace app\components;
 use \yii\helpers\ArrayHelper;
+use \app\models\Composition;
+use \app\models\Ingredient;
 
 /**
  * Computes the price of a full meal
@@ -99,8 +101,44 @@ class PriceComputer
     public function addMeal(\app\models\Meal $meal)
     {
         $nbGuests = $meal->nbGuests;
-        foreach ( $this->_getDishesFromMeal($meal) as $dish ) {
-            $this->_addDish($dish, $nbGuests);
+
+        $this->_addDishes($this->_getDishesFromMeal($meal), $nbGuests);
+    }
+
+    /**
+     * Increases the local ingredient variable from a set of dishes
+     *
+     * @param array   $dishes   The set of dishes to include
+     * @param integer $nbGuests How many people will be eating those dishes
+     *
+     * @return void
+     */
+    private function _addDishes($dishes, $nbGuests)
+    {
+        $compositions = Composition::findAll(
+            [ 'dish' => ArrayHelper::getColumn($dishes, 'id') ]
+        );
+        $ingredients = Ingredient::findAll(
+            [ 'id' => ArrayHelper::getColumn($compositions, 'ingredient') ]
+        );
+        $ingredientById = ArrayHelper::index($ingredients, 'id');
+
+        foreach ( $compositions as $item ) {
+            $ingredientId = $item->ingredient;
+            $ingredient   = $ingredientById[$ingredientId];
+            $quantity     = $item->quantity * $nbGuests;
+
+            if ( !isset( $this->ingredients[$ingredient->id]['quantity'] ) ) {
+                $this->ingredients[$ingredient->id]['quantity'] = 0;
+            } else {
+                $quantity += $this->ingredients[$ingredient->id]['quantity'];
+            }
+
+            $this->ingredients[$ingredientId]['name']      = $ingredient->name;
+            $this->ingredients[$ingredientId]['quantity']  = $quantity;
+            $this->ingredients[$ingredientId]['price']     = $ingredient->price * $quantity;
+            $this->ingredients[$ingredientId]['unitPrice'] = $ingredient->price;
+            $this->ingredients[$ingredientId]['unitName']  = $ingredient->getUnit0()->one()->shortName;
         }
     }
 

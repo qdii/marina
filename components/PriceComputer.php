@@ -76,6 +76,25 @@ class PriceComputer
         );
     }
 
+    /**
+     * Return the dishes contained in these meals
+     *
+     * @param array $meals The meals to consider
+     *
+     * @return array The dishes associated to these meals
+     */
+    private function _getDishesFromMeals($meals)
+    {
+        $dishIds = [];
+        foreach ( $meals as $meal ) {
+            $dishIds[] = $meal->firstCourse;
+            $dishIds[] = $meal->secondCourse;
+            $dishIds[] = $meal->dessert;
+            $dishIds[] = $meal->drink;
+        }
+
+        return \app\models\Dish::findAll([ 'id' => $dishIds ]);
+    }
     public function addMeal(\app\models\Meal $meal)
     {
         $nbGuests = $meal->nbGuests;
@@ -134,8 +153,10 @@ class PriceComputer
     private function _getIntakeOfDishes($dishes, $property)
     {
         $intakes = [];
-        foreach ( $dishes as $dish ) {
-            $intakes[] = $this->_getIntakeOfDish($dish, $property);
+        $dishIds = ArrayHelper::getColumn($dishes, 'id');
+        $compositions = \app\models\Composition::findAll(['id' => $dishIds]);
+        foreach ( $compositions as $item ) {
+            $intakes[] = $this->_getIntake($item, $property);
         }
         return array_sum($intakes);
     }
@@ -185,8 +206,8 @@ class PriceComputer
     public function getIntakeOfMeals($meals, $property)
     {
         $intakes = [];
-        foreach ( $meals as $meal ) {
-            $intakes[] = $this->getIntakeOfMeal($meal, $property);
+        foreach ( $this->_getDishesFromMeals($meals) as $dish ) {
+            $intakes[] = $this->_getIntakeOfDish($dish, $property);
         }
         return array_sum($intakes);
     }

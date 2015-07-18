@@ -149,11 +149,12 @@ class EventMaker
             ];
 
         $list = [];
-        foreach ( $properties as $prop ) {
-            $val = round($computer->getIntakeOfMeals($meals, $prop), 1);
+
+        $values = $computer->getIntakesOfMeals($meals, $properties);
+        foreach ( $values as $name => $val ) {
             $list[]
-                = $this->_getNameOfProperty($prop) . ': ' . $val . " " .
-                  $this->_getUnityOfProperty($prop);
+                = $this->_getNameOfProperty($name) . ': ' . $val . " " .
+                  $this->_getUnityOfProperty($name);
         }
 
         return 'Daily intake per person:<br/>' . Html::ul($list);

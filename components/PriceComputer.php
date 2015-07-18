@@ -122,28 +122,6 @@ class PriceComputer
     }
 
     /**
-     * Returns the number of calories, sucrose, etc. for an
-     * ingredient in a dish
-     *
-     * @param \app\models\Composition $item     The component to consider
-     * @param string                  $property 'protein', 'energy_kcal', etc.
-     *
-     * @return The number of that property in grams (like, 10g of proteins)
-     */
-    private function _getIntake(\app\models\Composition $item, $property)
-    {
-        assert(count($property) != 0);
-
-        $quantity   = $item->quantity; // in grams
-        $ingredient = $item->getIngredient0()->one();
-
-        // number of calories (or whatever) per 100g
-        $nominalValue = $ingredient->$property;
-
-        return $quantity * $nominalValue / 100;
-    }
-
-    /**
      * Returns the number of calories, sucrose, etc. for a set of dish
      *
      * @param array  $dishes   The dishes to consider
@@ -177,6 +155,47 @@ class PriceComputer
     }
 
     /**
+     * Returns the numbers of calories, sucrose, etc. for a set of dish
+     *
+     * @param array $dishes The dishes to consider
+     * @param array $props  'protein', 'energy_kcal', etc.
+     *
+     * @return array An array of each property
+     */
+    private function _getIntakesOfDishes($dishes, $props)
+    {
+        $intakes       = [];
+        $dishIds       = ArrayHelper::getColumn($dishes, 'id');
+        $compositions  = \app\models\Composition::findAll(['dish' => $dishIds]);
+
+        $ingredientIds = ArrayHelper::getColumn($compositions, 'ingredient');
+
+        // retrieve all ingredients in one shot
+        $ingredients   = \app\models\Ingredient::findAll(['id' => $ingredientIds]);
+
+        $ingredientById = ArrayHelper::index($ingredients, 'id');
+
+        foreach ( $compositions as $item ) {
+            $quantity   = $item->quantity; // in grams
+            $ingredient = $ingredientById[$item->ingredient];
+
+            foreach ( $props as $property ) {
+                // number of calories (or whatever) per 100g
+                $nominalValue = $ingredient->$property;
+
+                $intakes[$property][] = $quantity * $nominalValue / 100;
+            }
+        }
+
+        $result = [];
+        foreach ( $props as $property ) {
+            $result[$property] = array_sum($intakes[$property]);
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the number of calories, sucrose, etc. for a set of meals
      *
      * @param array  $meals    The set of meals to consider
@@ -188,6 +207,20 @@ class PriceComputer
     {
         $dishes = $this->_getDishesFromMeals($meals);
         return $this->_getIntakeOfDishes($dishes, $property);
+    }
+
+    /**
+     * Return the numbers of each of calories, sucrose, etc. for a set of meals
+     *
+     * @param array $meals The set of meals to consider
+     * @param array $props The properties to consider
+     *
+     * @return array The property values
+     */
+    public function getIntakesOfMeals($meals, $props)
+    {
+        $dishes = $this->_getDishesFromMeals($meals);
+        return $this->_getIntakesOfDishes($dishes, $props);
     }
 
 }

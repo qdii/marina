@@ -162,23 +162,6 @@ class PriceComputer
     }
 
     /**
-     * Returns the number of calories, sucrose, etc. for a given dish
-     *
-     * @param array  $dish     The dish to consider
-     * @param string $property 'protein', 'energy_kcal', etc.
-     *
-     * @return The number of that property in grams (like, 10g of proteins)
-     */
-    private function _getIntakeOfDish($dish, $property)
-    {
-        $intakes = [];
-        foreach ( $dish->getCompositions()->all() as $item ) {
-            $intakes[] = $this->_getIntake($item, $property);
-        }
-        return array_sum($intakes);
-    }
-
-    /**
      * Returns the number of calories, sucrose, etc. for a set of meals
      *
      * @param array  $meals    The set of meals to consider

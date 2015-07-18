@@ -1,7 +1,30 @@
 <?php
+/**
+ * Computes information about meals
+ *
+ * PHP version 5.4
+ *
+ * @category Components
+ * @package  Components
+ * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+ * @link     https://github.com/marina
+ *
+ */
 namespace app\components;
 
-// computes the price of a full meal
+/**
+ * Computes the price of a full meal
+ *
+ * PHP version 5.4
+ *
+ * @category Components
+ * @package  Components
+ * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+ * @link     https://github.com/marina
+ *
+ */
 class PriceComputer
 {
     public $ingredients     = [];

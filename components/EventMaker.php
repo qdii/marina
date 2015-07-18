@@ -139,7 +139,14 @@ class EventMaker
     public function getIntakeBilan($meals)
     {
         $computer = new PriceComputer;
-        $properties = [ 'protein', 'energy_kcal' ];
+        $properties
+            = [
+                'protein',
+                'energy_kcal',
+                'carbohydrates',
+                'fat',
+                'ash',
+            ];
 
         $list = [];
         foreach ( $properties as $prop ) {

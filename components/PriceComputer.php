@@ -12,6 +12,7 @@
  *
  */
 namespace app\components;
+use \yii\helpers\ArrayHelper;
 
 /**
  * Computes the price of a full meal
@@ -152,11 +153,25 @@ class PriceComputer
      */
     private function _getIntakeOfDishes($dishes, $property)
     {
-        $intakes = [];
-        $dishIds = \yii\helpers\ArrayHelper::getColumn($dishes, 'id');
-        $compositions = \app\models\Composition::findAll(['dish' => $dishIds]);
+        $intakes       = [];
+        $dishIds       = ArrayHelper::getColumn($dishes, 'id');
+        $compositions  = \app\models\Composition::findAll(['dish' => $dishIds]);
+
+        $ingredientIds = ArrayHelper::getColumn($compositions, 'ingredient');
+
+        // retrieve all ingredients in one shot
+        $ingredients   = \app\models\Ingredient::findAll(['id' => $ingredientIds]);
+
+        $ingredientById = ArrayHelper::index($ingredients, 'id');
+
         foreach ( $compositions as $item ) {
-            $intakes[] = $this->_getIntake($item, $property);
+            $quantity   = $item->quantity; // in grams
+            $ingredient = $ingredientById[$item->ingredient];
+
+            // number of calories (or whatever) per 100g
+            $nominalValue = $ingredient->$property;
+
+            $intakes[] = $quantity * $nominalValue / 100;
         }
         return array_sum($intakes);
     }

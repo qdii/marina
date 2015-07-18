@@ -15,6 +15,7 @@ namespace app\components;
 use \yii\helpers\ArrayHelper;
 use \app\models\Composition;
 use \app\models\Ingredient;
+use \app\models\Unit;
 
 /**
  * Computes the price of a full meal
@@ -31,6 +32,13 @@ use \app\models\Ingredient;
 class PriceComputer
 {
     public $ingredients     = [];
+    private $_unitsNameById = [];
+
+    public function __construct()
+    {
+        $units = Unit::find()->all();
+        $this->_unitsNameById = ArrayHelper::map($units, 'id', 'shortName');
+    }
 
     /**
      * Return the dishes contained in this meal
@@ -112,7 +120,7 @@ class PriceComputer
             $this->ingredients[$ingredientId]['quantity']  = $quantity;
             $this->ingredients[$ingredientId]['price']     = $ingredient->price * $quantity;
             $this->ingredients[$ingredientId]['unitPrice'] = $ingredient->price;
-            $this->ingredients[$ingredientId]['unitName']  = $ingredient->getUnit0()->one()->shortName;
+            $this->ingredients[$ingredientId]['unitName']  = $this->_unitsNameById[$ingredient->unit];
         }
     }
 

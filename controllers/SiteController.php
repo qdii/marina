@@ -222,7 +222,7 @@ class SiteController extends Controller
             $items[]
                 = [
                     $ingredient['name'],
-                    $quantity,
+                    round($quantity, 1) . " g",
                     round($proteins, 1) . " g",
                     round($energy, 1) . " kcal",
                 ];

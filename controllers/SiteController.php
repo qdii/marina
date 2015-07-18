@@ -6,8 +6,10 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Ingredient;
 
 class SiteController extends Controller
 {
@@ -214,8 +216,16 @@ class SiteController extends Controller
         $total_proteins = 0;
         $total_energy = 0;
         $total_weight = 0;
+
+        $ingredients = Ingredient::findAll(
+            [
+                'id' => ArrayHelper::getColumn($components, 'ingredient')
+            ]
+        );
+        $ingredientsById = ArrayHelper::index($ingredients, 'id');
+
         foreach ( $components as $component ) {
-            $ingredient = $component->getIngredient0()->one();
+            $ingredient = $ingredientsById[ $component->ingredient ];
             $quantity   = $component->quantity;
             $proteins   = $quantity * $ingredient['protein'] / 100;
             $energy     = $quantity * $ingredient['energy_kcal'] / 100;

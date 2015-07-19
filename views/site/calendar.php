@@ -13,6 +13,7 @@ use app\models\User;
 use app\models\Meal;
 use app\models\Composition;
 use dosamigos\datetimepicker\DateTimePicker;
+use kartik\widgets\TouchSpin;
 
 /* @var $this yii\web\View */
 $this->title = 'Calendar';
@@ -57,7 +58,7 @@ $('#delete-meal-btn').click(function(){ onDeleteNewMeal(); });", \yii\web\View::
 $model       = new app\models\Meal;
 
 echo $form->field($model, 'date')        ->widget(DateTimePicker::classname(), []);
-echo $form->field($model, 'nbGuests');
+echo $form->field($model, 'nbGuests')    ->widget(TouchSpin::classname(),['pluginOptions'=>['initval'=>1,'min'=>1]]);
 echo $form->field($model, 'cook')        ->dropDownList( ArrayHelper::map( $all_users,   'id', 'username' ) );
 echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $all_first,   'id', 'name' ) );
 echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $all_second,  'id', 'name' ) );

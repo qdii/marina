@@ -211,48 +211,16 @@ class SiteController extends Controller
         }
 
         $components = $dish->getCompositions()->all();
-        $items      = [];
 
-        $total_proteins = 0;
-        $total_energy = 0;
-        $total_weight = 0;
+        $ingredientIds = ArrayHelper::getColumn($components, 'ingredient');
+        $ingredients   = Ingredient::findAll([ 'id' => $ingredientIds]);
 
-        $ingredients = Ingredient::findAll(
-            [
-                'id' => ArrayHelper::getColumn($components, 'ingredient')
-            ]
-        );
-        $ingredientsById = ArrayHelper::index($ingredients, 'id');
+        $params = [
+            'ingredients' => $ingredients,
+            'components'  => $components,
+            'dish'        => $dish,
+        ];
 
-        foreach ( $components as $component ) {
-            $ingredient = $ingredientsById[ $component->ingredient ];
-            $quantity   = $component->quantity;
-            $proteins   = $quantity * $ingredient['protein'] / 100;
-            $energy     = $quantity * $ingredient['energy_kcal'] / 100;
-            $items[]
-                = [
-                    $ingredient['name'],
-                    round($quantity, 1) . " g",
-                    round($proteins, 1) . " g",
-                    round($energy, 1) . " kcal",
-                ];
-            $total_weight += $quantity;
-            $total_proteins += $proteins;
-            $total_energy += $energy;
-        }
-
-        return \app\components\ManyColumnList::widget(
-            [
-                'items'      => $items,
-                'headers'    => [ 'Name', 'Weight', 'Proteins', 'Energy' ],
-                'showTotal'  => true,
-                'totals'     =>
-                [
-                    round($total_weight, 1) . " g",
-                    round($total_proteins, 1) . " g",
-                    round($total_energy, 1) .  " kcal",
-                ]
-            ]
-        );
+        return $this->renderPartial('new-meal', $params);
     }
 }

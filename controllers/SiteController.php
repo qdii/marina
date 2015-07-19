@@ -10,6 +10,9 @@ use yii\helpers\ArrayHelper;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Ingredient;
+use app\models\User;
+use app\models\Dish;
+use app\models\Boat;
 
 class SiteController extends Controller
 {
@@ -98,7 +101,18 @@ class SiteController extends Controller
 
     public function actionCalendar()
     {
-        return $this->render('calendar');
+        $users  = User::find()->all();
+        $dishes = Dish::find()->all();
+        $boat   = Boat::find()->one();
+        $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
+
+        $params = [
+            'users'  => $users,
+            'dishes' => $dishes,
+            'types'  => $types,
+            'boat'   => $boat,
+            ];
+        return $this->render('calendar', $params);
     }
 
     public function actionAdmin()

@@ -26,10 +26,11 @@ global $all_second;
 global $all_drink;
 global $all_users;
 
-$all_dessert = Dish::find()->where('Type = \'dessert\'')->all();
-$all_first   = Dish::find()->where('Type = \'firstCourse\'')->all();
-$all_second  = Dish::find()->where('Type = \'secondCourse\'')->all();
-$all_drink   = Dish::find()->where('Type = \'drink\'')->all();
+$all_dishes  = Dish::find()->all();
+$all_dessert = array_filter($all_dishes, function($dish) { return $dish->type === 'dessert'; });
+$all_first   = array_filter($all_dishes, function($dish) { return $dish->type === 'firstCourse'; });
+$all_second  = array_filter($all_dishes, function($dish) { return $dish->type === 'secondCourse'; });
+$all_drink   = array_filter($all_dishes, function($dish) { return $dish->type === 'drink'; });
 $all_users   = User::find()->all();
 $all_types   = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
 

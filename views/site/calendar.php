@@ -91,7 +91,7 @@ $calendarOptions =
     'clientOptions' =>
     [
         'weekends'          => true,
-        'defaultView'       => 'basicWeek',
+        'defaultView'       => 'agendaWeek',
         'editable'          => false,
         'dayNames'          => ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
         'dayNamesShort'     => ['Dim','Lun','Mar','Mer','Je','Ven','Sam'],
@@ -100,7 +100,7 @@ $calendarOptions =
         'firstDay'          => 1,
         'slotDuration'      => '00:30:00',
         'axisFormat'        => 'HH:mm',
-        'minTime'           => '12:00:00',
+        'minTime'           => '09:00:00',
         'maxTime'           => '23:00:00',
         'allDaySlot'        => false,
         'height'            => 'auto',

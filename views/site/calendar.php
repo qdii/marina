@@ -21,49 +21,103 @@ $this->params['breadcrumbs'][] = $this->title;
 
 app\assets\RepasAsset::register($this);
 
-global $all_dessert;
-global $all_first;
-global $all_second;
-global $all_drink;
-global $all_users;
+/**
+ * Check if a dish is a first course
+ *
+ * @param Dish $dish The dish to check
+ *
+ * @return true if the dish is a first course
+ */
+function isFirstCourse(Dish $dish)
+{
+    return $dish->type === 'firstCourse';
+}
 
-$all_dishes  = Dish::find()->all();
-$all_dessert = array_filter($all_dishes, function($dish) { return $dish->type === 'dessert'; });
-$all_first   = array_filter($all_dishes, function($dish) { return $dish->type === 'firstCourse'; });
-$all_second  = array_filter($all_dishes, function($dish) { return $dish->type === 'secondCourse'; });
-$all_drink   = array_filter($all_dishes, function($dish) { return $dish->type === 'drink'; });
-$all_users   = User::find()->all();
-$all_types   = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
+/**
+ * Check if a dish is a second course
+ *
+ * @param Dish $dish The dish to check
+ *
+ * @return true if the dish is a second course
+ */
+function isSecondCourse($dish)
+{
+    return $dish->type === 'secondCourse';
+}
 
-// boat information
-$boat = app\models\Boat::find()->one();
+/**
+ * Check if a dish is a drink
+ *
+ * @param Dish $dish The dish to check
+ *
+ * @return true if the dish is a drink
+ */
+function isDrink($dish)
+{
+    return $dish->type === 'drink';
+}
 
-$placerRepasDlg = Modal::begin(['header' => '<h4 class="modal-title">Placer un repas</h4>'] );
+/**
+ * Check if a dish is a dessert
+ *
+ * @param Dish $dish The dish to check
+ *
+ * @return true if the dish is a dessert
+ */
+function isDessert($dish)
+{
+    return $dish->type === 'dessert';
+}
+
+$firsts   = array_filter($dishes, 'isFirstCourse');
+$seconds  = array_filter($dishes, 'isSecondCourse');
+$drinks   = array_filter($dishes, 'isDrink');
+$desserts = array_filter($dishes, 'isDessert');
+
+$placerRepasTitle = Html::tag('h4', 'Placer un repas');
+$placerRepasDlg = Modal::begin(['header' => $placerRepasTitle]);
 Html::addCssClass($placerRepasDlg->headerOptions, 'modal-title');
 $newMealId = 'new-meal';
-$form = ActiveForm::begin([ 'id' => $newMealId, 'method' => 'POST', 'action' => ['site/new-meal'] ]);
+$form = ActiveForm::begin(
+    [
+        'id' => $newMealId,
+        'method' => 'POST',
+        'action' => ['site/new-meal']
+    ]
+);
 
 // footer of the modal dialog
-$placerRepasDlg->footer =
-    Html::submitButton('Delete', ['class' => 'btn btn-danger',  'id' => 'delete-meal-btn']) .
-    Html::submitButton('OK',     ['class' => 'btn btn-primary', 'id' => 'ok-meal-btn']);
+$deleteBtn = Html::submitButton(
+    'Delete',
+    ['class' => 'btn btn-danger', 'id' => 'delete-meal-btn']
+);
+$okBtn = Html::submitButton(
+    'Ok',
+    ['class' => 'btn btn-primary', 'id' => 'ok-meal-btn']
+);
+$placerRepasDlg->footer = $deleteBtn . $okBtn;
 
-$this->registerJs( "function onDeleteNewMeal() {
-    $('#" . $newMealId ."').attr('action', '" .  Url::toRoute("delete-meal") . "&id=' + $('#meal-id').val());
-}
-$('#delete-meal-btn').click(function(){ onDeleteNewMeal(); });", \yii\web\View::POS_LOAD );
+
+$this->registerJs(
+    "function onDeleteNewMeal() {
+        $('#" . $newMealId ."').attr('action', '" .  Url::toRoute("delete-meal") .
+        "&id=' + $('#meal-id').val());
+    }
+    $('#delete-meal-btn').click(function(){ onDeleteNewMeal(); });",
+    \yii\web\View::POS_LOAD
+);
 
 
 // main part of the modal dialog
-$model       = new app\models\Meal;
+$model = new app\models\Meal;
 
 echo $form->field($model, 'date')        ->widget(DateTimePicker::classname(), []);
 echo $form->field($model, 'nbGuests')    ->widget(TouchSpin::classname(),['pluginOptions'=>['initval'=>1,'min'=>1]]);
-echo $form->field($model, 'cook')        ->dropDownList( ArrayHelper::map( $all_users,   'id', 'username' ) );
-echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $all_first,   'id', 'name' ) );
-echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $all_second,  'id', 'name' ) );
-echo $form->field($model, 'dessert')     ->dropDownList( ArrayHelper::map( $all_dessert, 'id', 'name' ) );
-echo $form->field($model, 'drink')       ->dropDownList( ArrayHelper::map( $all_drink,   'id', 'name' ) );
+echo $form->field($model, 'cook')        ->dropDownList( ArrayHelper::map( $users,   'id', 'username' ) );
+echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $firsts,   'id', 'name' ) );
+echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $seconds,  'id', 'name' ) );
+echo $form->field($model, 'dessert')     ->dropDownList( ArrayHelper::map( $desserts, 'id', 'name' ) );
+echo $form->field($model, 'drink')       ->dropDownList( ArrayHelper::map( $drinks,   'id', 'name' ) );
 echo '<input name="meal-id" id="meal-id" type="hidden" value="0"/>';
 
 echo $placerRepasDlg->run();
@@ -71,11 +125,16 @@ ActiveForm::end();
 $meals = Meal::find()->all();
 
 $eventMaker = new app\components\EventMaker(
-    ArrayHelper::index($all_dessert, "id"),
-    ArrayHelper::index($all_first,   "id"),
-    ArrayHelper::index($all_second,  "id"),
-    ArrayHelper::index($all_drink,   "id"),
-    ArrayHelper::index($all_users,   "id")
+    ArrayHelper::index($desserts, "id"),
+    ArrayHelper::index($firsts,   "id"),
+    ArrayHelper::index($seconds,  "id"),
+    ArrayHelper::index($drinks,   "id"),
+    ArrayHelper::index($users,    "id"),
+    $ingredients,
+    $compositions,
+    $units,
+    $dishes,
+    $meals
 );
 $events = $eventMaker->getEventsAndBilanFromMeals($meals);
 
@@ -147,7 +206,13 @@ $calendarOptions =
 <?php
 echo \yii2fullcalendar\yii2fullcalendar::widget($calendarOptions);
 
-$priceComputer = new app\components\PriceComputer();
+$priceComputer = new app\components\PriceComputer(
+    $ingredients,
+    $compositions,
+    $units,
+    $dishes,
+    $meals
+);
 $priceComputer->nbGuests = 1;
 $priceComputer->addMeals( $meals );
 $price = $priceComputer->price();
@@ -155,7 +220,7 @@ $price = $priceComputer->price();
 // sort the list of ingredients by alphabetic order
 ArrayHelper::multisort($priceComputer->ingredients, 'name');
 
-$ingredients = $priceComputer->ingredients;
+$ingredients = $priceComputer->items;
 $total = 0;
 $items = [];
 foreach ( $ingredients as $ingredient ) {

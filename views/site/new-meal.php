@@ -1,33 +1,48 @@
 <?php
+use \app\components\ManyColumnList;
+use yii\helpers\ArrayHelper;
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+$ingredientsById = ArrayHelper::index($ingredients, 'id');
 
-$all_dessert = app\models\Dish::find()->where('Type = \'dessert\'')->all();
-$all_first   = app\models\Dish::find()->where('Type = \'firstCourse\'')->all();
-$all_second  = app\models\Dish::find()->where('Type = \'secondCourse\'')->all();
-$all_drink   = app\models\Dish::find()->where('Type = \'drink\'')->all();
+$total_proteins = 0;
+$total_energy   = 0;
+$total_weight   = 0;
 
-$model       = new app\models\Meal;
-$form = ActiveForm::begin([ 'id' => 'new-meal', ]);
+$items      = [];
 
-$firstCourseField = $form->field($model, 'firstCourse');
-$firstCourseField->dropDownList( yii\helpers\ArrayHelper::map( $all_first, 'id', 'name' ) );
-$secondCourseField = $form->field($model, 'secondCourse');
-$secondCourseField->dropDownList( yii\helpers\ArrayHelper::map( $all_second, 'id', 'name' ) );
-$dessertCourseField = $form->field($model, 'dessert');
-$dessertCourseField->dropDownList( yii\helpers\ArrayHelper::map( $all_dessert, 'id', 'name' ) );
-$drinkCourseField = $form->field($model, 'drink');
-$drinkCourseField->dropDownList( yii\helpers\ArrayHelper::map( $all_drink, 'id', 'name' ) );
-?>
+foreach ( $components as $component ) {
+    $ingredient = $ingredientsById[ $component->ingredient ];
+    $quantity   = $component->quantity;
+    $proteins   = $quantity * $ingredient['protein'] / 100;
+    $energy     = $quantity * $ingredient['energy_kcal'] / 100;
+    $items[]
+        = [
+            $ingredient['name'],
+            round($quantity, 1) . " g",
+            round($proteins, 1) . " g",
+            round($energy, 1) . " kcal",
+            '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'
+        ];
+    $total_weight += $quantity;
+    $total_proteins += $proteins;
+    $total_energy += $energy;
+}
 
-<?php echo $firstCourseField;    ?>
-<?php echo $secondCourseField;   ?>
-<?php echo $dessertCourseField;  ?>
-<?php echo $drinkCourseField;    ?>
+// line to add a new ingredient
+$items[] = [ '', '', '' ,'','<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>' ];
 
-<div class="form-group">
-    <?= Html::submitButton('OK', ['class' => 'btn btn-primary']) ?>
-</div>
+$options
+    = [
+        'items'      => $items,
+        'headers'    => [ 'Name', 'Weight', 'Proteins', 'Energy', '' ],
+        'showTotal'  => true,
+        'totals'     =>
+        [
+            round($total_weight, 1) . " g",
+            round($total_proteins, 1) . " g",
+            round($total_energy, 1) .  " kcal",
+            '',
+        ]
+    ];
 
-<?php ActiveForm::end() ?>
+echo ManyColumnList::widget($options);

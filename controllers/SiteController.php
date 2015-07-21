@@ -10,6 +10,12 @@ use yii\helpers\ArrayHelper;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Ingredient;
+use app\models\User;
+use app\models\Unit;
+use app\models\Dish;
+use app\models\Boat;
+use app\models\Meal;
+use app\models\Composition;
 
 class SiteController extends Controller
 {
@@ -98,7 +104,32 @@ class SiteController extends Controller
 
     public function actionCalendar()
     {
-        return $this->render('calendar');
+        $users        = User::find()->all();
+        $units        = Unit::find()->all();
+        $dishes       = Dish::find()->all();
+        $boat         = Boat::find()->one();
+        $meals        = Meal::find()->all();
+        $compositions = Composition::find()->all();
+
+        // fetch the ingredients which are part of a composition
+        $ingredients  = Ingredient::findAll(
+            [
+                'id' => ArrayHelper::getColumn($compositions, 'ingredient')
+            ]
+        );
+
+        $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
+
+        $params = [
+            'users'        => $users,
+            'units'        => $units,
+            'dishes'       => $dishes,
+            'types'        => $types,
+            'boat'         => $boat,
+            'compositions' => $compositions,
+            'ingredients'  => $ingredients,
+            ];
+        return $this->render('calendar', $params);
     }
 
     public function actionAdmin()
@@ -211,48 +242,16 @@ class SiteController extends Controller
         }
 
         $components = $dish->getCompositions()->all();
-        $items      = [];
 
-        $total_proteins = 0;
-        $total_energy = 0;
-        $total_weight = 0;
+        $ingredientIds = ArrayHelper::getColumn($components, 'ingredient');
+        $ingredients   = Ingredient::findAll([ 'id' => $ingredientIds]);
 
-        $ingredients = Ingredient::findAll(
-            [
-                'id' => ArrayHelper::getColumn($components, 'ingredient')
-            ]
-        );
-        $ingredientsById = ArrayHelper::index($ingredients, 'id');
+        $params = [
+            'ingredients' => $ingredients,
+            'components'  => $components,
+            'dish'        => $dish,
+        ];
 
-        foreach ( $components as $component ) {
-            $ingredient = $ingredientsById[ $component->ingredient ];
-            $quantity   = $component->quantity;
-            $proteins   = $quantity * $ingredient['protein'] / 100;
-            $energy     = $quantity * $ingredient['energy_kcal'] / 100;
-            $items[]
-                = [
-                    $ingredient['name'],
-                    round($quantity, 1) . " g",
-                    round($proteins, 1) . " g",
-                    round($energy, 1) . " kcal",
-                ];
-            $total_weight += $quantity;
-            $total_proteins += $proteins;
-            $total_energy += $energy;
-        }
-
-        return \app\components\ManyColumnList::widget(
-            [
-                'items'      => $items,
-                'headers'    => [ 'Name', 'Weight', 'Proteins', 'Energy' ],
-                'showTotal'  => true,
-                'totals'     =>
-                [
-                    round($total_weight, 1) . " g",
-                    round($total_proteins, 1) . " g",
-                    round($total_energy, 1) .  " kcal",
-                ]
-            ]
-        );
+        return $this->renderPartial('new-meal', $params);
     }
 }

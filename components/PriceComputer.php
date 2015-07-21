@@ -31,13 +31,37 @@ use \app\models\Unit;
  */
 class PriceComputer
 {
-    public $ingredients     = [];
+    public $items     = [];
+
     private $_unitsNameById = [];
 
-    public function __construct()
+    private $_ingredients;
+    private $_compositions;
+    private $_dishes;
+    private $_meals;
+
+    private $_dishesById;
+    private $_ingredientsById;
+
+    /**
+     * Constructs a PriceComputer
+     *
+     * @param array $ingredients  An array of \app\models\Ingredient to compute from
+     * @param array $compositions An array of \app\models\Composition to compute from
+     * @param array $units        An array of \app\models\Unit to compute from
+     * @param array $dishes       An array of \app\models\Dish to compute from
+     * @param array $meals        An array of \app\models\Meal to compute from
+     */
+    public function __construct($ingredients, $compositions, $units, $dishes, $meals)
     {
-        $units = Unit::find()->all();
         $this->_unitsNameById = ArrayHelper::map($units, 'id', 'shortName');
+        $this->_ingredients   = $ingredients;
+        $this->_compositions  = $compositions;
+        $this->_dishes        = $dishes;
+        $this->_meals         = $meals;
+
+        $this->_dishesById      = ArrayHelper::index($dishes, 'id');
+        $this->_ingredientsById = ArrayHelper::index($ingredients, 'id');
     }
 
     /**
@@ -49,16 +73,7 @@ class PriceComputer
      */
     private function _getDishesFromMeal(\app\models\Meal $meal)
     {
-        return \app\models\Dish::findAll(
-            [
-                'id' => [
-                    $meal->firstCourse,
-                    $meal->secondCourse,
-                    $meal->dessert,
-                    $meal->drink
-                ]
-            ]
-        );
+        return $this->_getDishesFromMeals([ $meal ]);
     }
 
     /**
@@ -70,16 +85,17 @@ class PriceComputer
      */
     private function _getDishesFromMeals($meals)
     {
-        $dishIds = [];
+        $dishes = [];
         foreach ( $meals as $meal ) {
-            $dishIds[] = $meal->firstCourse;
-            $dishIds[] = $meal->secondCourse;
-            $dishIds[] = $meal->dessert;
-            $dishIds[] = $meal->drink;
+            $dishes[] = $this->_dishesById[ $meal->firstCourse  ];
+            $dishes[] = $this->_dishesById[ $meal->secondCourse ];
+            $dishes[] = $this->_dishesById[ $meal->dessert      ];
+            $dishes[] = $this->_dishesById[ $meal->drink        ];
         }
 
-        return \app\models\Dish::findAll([ 'id' => $dishIds ]);
+        return $dishes;
     }
+
     public function addMeal(\app\models\Meal $meal)
     {
         $nbGuests = $meal->nbGuests;
@@ -97,30 +113,28 @@ class PriceComputer
      */
     private function _addDishes($dishes, $nbGuests)
     {
-        $compositions = Composition::findAll(
-            [ 'dish' => ArrayHelper::getColumn($dishes, 'id') ]
-        );
-        $ingredients = Ingredient::findAll(
-            [ 'id' => ArrayHelper::getColumn($compositions, 'ingredient') ]
-        );
-        $ingredientById = ArrayHelper::index($ingredients, 'id');
+        $dishIds = ArrayHelper::getColumn($dishes, 'id');
 
-        foreach ( $compositions as $item ) {
-            $ingredientId = $item->ingredient;
-            $ingredient   = $ingredientById[$ingredientId];
-            $quantity     = $item->quantity * $nbGuests;
-
-            if ( !isset( $this->ingredients[$ingredient->id]['quantity'] ) ) {
-                $this->ingredients[$ingredient->id]['quantity'] = 0;
-            } else {
-                $quantity += $this->ingredients[$ingredient->id]['quantity'];
+        foreach ( $this->_compositions as $item ) {
+            if (!array_key_exists($item->dish, $dishIds)) {
+                continue;
             }
 
-            $this->ingredients[$ingredientId]['name']      = $ingredient->name;
-            $this->ingredients[$ingredientId]['quantity']  = $quantity;
-            $this->ingredients[$ingredientId]['price']     = $ingredient->price * $quantity;
-            $this->ingredients[$ingredientId]['unitPrice'] = $ingredient->price;
-            $this->ingredients[$ingredientId]['unitName']  = $this->_unitsNameById[$ingredient->unit];
+            $ingredientId = $item->ingredient;
+            $ingredient   = $this->_ingredientsById[$ingredientId];
+            $quantity     = $item->quantity * $nbGuests;
+
+            if ( !isset( $this->items[$ingredient->id]['quantity'] ) ) {
+                $this->items[$ingredient->id]['quantity'] = 0;
+            } else {
+                $quantity += $this->items[$ingredient->id]['quantity'];
+            }
+
+            $this->items[$ingredientId]['name']      = $ingredient->name;
+            $this->items[$ingredientId]['quantity']  = $quantity;
+            $this->items[$ingredientId]['price']     = $ingredient->price * $quantity;
+            $this->items[$ingredientId]['unitPrice'] = $ingredient->price;
+            $this->items[$ingredientId]['unitName']  = $this->_unitsNameById[$ingredient->unit];
         }
     }
 
@@ -136,42 +150,9 @@ class PriceComputer
                 function ($ingredient) {
                     return $ingredient['price'];
                 },
-                $this->ingredients
+                $this->items
             )
         );
-    }
-
-    /**
-     * Returns the number of calories, sucrose, etc. for a set of dish
-     *
-     * @param array  $dishes   The dishes to consider
-     * @param string $property 'protein', 'energy_kcal', etc.
-     *
-     * @return The number of that property in grams (like, 10g of proteins)
-     */
-    private function _getIntakeOfDishes($dishes, $property)
-    {
-        $intakes       = [];
-        $dishIds       = ArrayHelper::getColumn($dishes, 'id');
-        $compositions  = \app\models\Composition::findAll(['dish' => $dishIds]);
-
-        $ingredientIds = ArrayHelper::getColumn($compositions, 'ingredient');
-
-        // retrieve all ingredients in one shot
-        $ingredients   = \app\models\Ingredient::findAll(['id' => $ingredientIds]);
-
-        $ingredientById = ArrayHelper::index($ingredients, 'id');
-
-        foreach ( $compositions as $item ) {
-            $quantity   = $item->quantity; // in grams
-            $ingredient = $ingredientById[$item->ingredient];
-
-            // number of calories (or whatever) per 100g
-            $nominalValue = $ingredient->$property;
-
-            $intakes[] = $quantity * $nominalValue / 100;
-        }
-        return array_sum($intakes);
     }
 
     /**
@@ -186,18 +167,14 @@ class PriceComputer
     {
         $intakes       = [];
         $dishIds       = ArrayHelper::getColumn($dishes, 'id');
-        $compositions  = \app\models\Composition::findAll(['dish' => $dishIds]);
 
-        $ingredientIds = ArrayHelper::getColumn($compositions, 'ingredient');
+        foreach ( $this->_compositions as $item ) {
+            if (!array_key_exists($item->dish, $dishIds)) {
+                continue;
+            }
 
-        // retrieve all ingredients in one shot
-        $ingredients   = \app\models\Ingredient::findAll(['id' => $ingredientIds]);
-
-        $ingredientById = ArrayHelper::index($ingredients, 'id');
-
-        foreach ( $compositions as $item ) {
             $quantity   = $item->quantity; // in grams
-            $ingredient = $ingredientById[$item->ingredient];
+            $ingredient = $this->_ingredientsById[$item->ingredient];
 
             foreach ( $props as $property ) {
                 // number of calories (or whatever) per 100g
@@ -213,20 +190,6 @@ class PriceComputer
         }
 
         return $result;
-    }
-
-    /**
-     * Returns the number of calories, sucrose, etc. for a set of meals
-     *
-     * @param array  $meals    The set of meals to consider
-     * @param string $property 'protein', 'energy_kcal', etc.
-     *
-     * @return The number of that property in grams (like, 10g of proteins)
-     */
-    public function getIntakeOfMeals($meals, $property)
-    {
-        $dishes = $this->_getDishesFromMeals($meals);
-        return $this->_getIntakeOfDishes($dishes, $property);
     }
 
     /**

@@ -122,11 +122,13 @@ class EventMaker
     public function getEventFromMeal(\app\models\Meal $meal)
     {
         $start = new \DateTime($meal->date);
+        $end   = clone $start;
+        $end->add(new \DateInterval("PT3H"));
         return [
             'id'    => $meal->id,
             'title' => $this->getTitleFromMeal($meal),
             'start' => $start->format('c'),
-            'end'   => $start->format('c'),
+            'end'   => $end->format('c'),
             'backgroundColor'   => '#2a4f6e'
         ];
     }
@@ -245,7 +247,7 @@ class EventMaker
         foreach ( $mealsPerDate as $date => $mealsOnThisDate ) {
             $bilans[] = [
                 'title' => $this->getIntakeBilan($mealsOnThisDate),
-                'start' => $date . "T" . "23:58:00Z",
+                'start' => $date . "T" . "21:40:00Z",
                 'end'   => $date . "T" . "23:59:00Z",
                 'backgroundColor'   => '#267257',
             ];

@@ -143,8 +143,8 @@ class EventMaker
         $computer = new PriceComputer;
         $properties
             = [
-                'protein',
                 'energy_kcal',
+                'protein',
                 'carbohydrates',
                 'fat',
                 'ash',

@@ -229,16 +229,15 @@ foreach ( $ingredients as $ingredient ) {
         = [
             $ingredient['name'],
             $ingredient['quantity'] . ' g',
-            $ingredient['price'] . ' €',
         ];
 }
 echo app\components\ManyColumnList::widget(
     [
         "items"      => $items,
-        "headers"    => [ "Name", "Quantity", "Price" ],
-        "attributes" => [ 'name', 'quantity', 'price' ],
-        "showTotal"  => true,
-        "totals"     => [ "", $total . ' €' ]
+        "headers"    => [ "Name", "Quantity" ],
+        "attributes" => [ 'name', 'quantity' ],
+        "showTotal"  => false,
+        "totals"     => [ "" ]
     ]
 );
 

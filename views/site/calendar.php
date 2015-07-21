@@ -129,7 +129,12 @@ $eventMaker = new app\components\EventMaker(
     ArrayHelper::index($firsts,   "id"),
     ArrayHelper::index($seconds,  "id"),
     ArrayHelper::index($drinks,   "id"),
-    ArrayHelper::index($users,    "id")
+    ArrayHelper::index($users,    "id"),
+    $ingredients,
+    $compositions,
+    $units,
+    $dishes,
+    $meals
 );
 $events = $eventMaker->getEventsAndBilanFromMeals($meals);
 
@@ -201,7 +206,13 @@ $calendarOptions =
 <?php
 echo \yii2fullcalendar\yii2fullcalendar::widget($calendarOptions);
 
-$priceComputer = new app\components\PriceComputer();
+$priceComputer = new app\components\PriceComputer(
+    $ingredients,
+    $compositions,
+    $units,
+    $dishes,
+    $meals
+);
 $priceComputer->nbGuests = 1;
 $priceComputer->addMeals( $meals );
 $price = $priceComputer->price();
@@ -209,7 +220,7 @@ $price = $priceComputer->price();
 // sort the list of ingredients by alphabetic order
 ArrayHelper::multisort($priceComputer->ingredients, 'name');
 
-$ingredients = $priceComputer->ingredients;
+$ingredients = $priceComputer->items;
 $total = 0;
 $items = [];
 foreach ( $ingredients as $ingredient ) {

@@ -62,14 +62,24 @@ class EventMaker
     private $_drinkById;
     private $_userById;
 
+    private $_ingredients;
+    private $_compositions;
+    private $_dishes;
+    private $_meals;
+
     /**
      * Constructs an EventMaker
      *
-     * @param array $dessertById An array of desserts indexed by their id
-     * @param array $firstById   An array of firsts indexed by their id
-     * @param array $secondById  An array of seconds indexed by their id
-     * @param array $drinkById   An array of drinks indexed by their id
-     * @param array $userById    An array of users indexed by their id
+     * @param array $dessertById  An array of desserts indexed by their id
+     * @param array $firstById    An array of firsts indexed by their id
+     * @param array $secondById   An array of seconds indexed by their id
+     * @param array $drinkById    An array of drinks indexed by their id
+     * @param array $userById     An array of users indexed by their id
+     * @param array $ingredients  An array of \app\models\Ingredient to compute from
+     * @param array $compositions An array of \app\models\Composition to compute from
+     * @param array $units        An array of \app\models\Unit to compute from
+     * @param array $dishes       An array of \app\models\Dish to compute from
+     * @param array $meals        An array of \app\models\Meal to compute from
      *
      * @return EventMaker A new EventMaker object
      */
@@ -78,13 +88,23 @@ class EventMaker
         $firstById,
         $secondById,
         $drinkById,
-        $userById
+        $userById,
+        $ingredients,
+        $compositions,
+        $units,
+        $dishes,
+        $meals
     ) {
-        $this->_dessertById = $dessertById;
-        $this->_firstById = $firstById;
-        $this->_secondById = $secondById;
-        $this->_drinkById = $drinkById;
-        $this->_userById = $userById;
+        $this->_dessertById  = $dessertById;
+        $this->_firstById    = $firstById;
+        $this->_secondById   = $secondById;
+        $this->_drinkById    = $drinkById;
+        $this->_userById     = $userById;
+        $this->_ingredients  = $ingredients;
+        $this->_compositions = $compositions;
+        $this->_units        = $units;
+        $this->_dishes       = $dishes;
+        $this->_meals        = $meals;
     }
 
     /**
@@ -142,7 +162,13 @@ class EventMaker
      */
     public function getIntakeBilan($meals)
     {
-        $computer = new PriceComputer;
+        $computer = new PriceComputer(
+            $this->_ingredients,
+            $this->_compositions,
+            $this->_units,
+            $this->_dishes,
+            $this->_meals
+        );
         $properties
             = [
                 'energy_kcal',

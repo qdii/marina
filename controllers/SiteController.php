@@ -11,8 +11,11 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Ingredient;
 use app\models\User;
+use app\models\Unit;
 use app\models\Dish;
 use app\models\Boat;
+use app\models\Meal;
+use app\models\Composition;
 
 class SiteController extends Controller
 {
@@ -101,16 +104,30 @@ class SiteController extends Controller
 
     public function actionCalendar()
     {
-        $users  = User::find()->all();
-        $dishes = Dish::find()->all();
-        $boat   = Boat::find()->one();
+        $users        = User::find()->all();
+        $units        = Unit::find()->all();
+        $dishes       = Dish::find()->all();
+        $boat         = Boat::find()->one();
+        $meals        = Meal::find()->all();
+        $compositions = Composition::find()->all();
+
+        // fetch the ingredients which are part of a composition
+        $ingredients  = Ingredient::findAll(
+            [
+                'id' => ArrayHelper::getColumn($compositions, 'ingredient')
+            ]
+        );
+
         $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
 
         $params = [
-            'users'  => $users,
-            'dishes' => $dishes,
-            'types'  => $types,
-            'boat'   => $boat,
+            'users'        => $users,
+            'units'        => $units,
+            'dishes'       => $dishes,
+            'types'        => $types,
+            'boat'         => $boat,
+            'compositions' => $compositions,
+            'ingredients'  => $ingredients,
             ];
         return $this->render('calendar', $params);
     }

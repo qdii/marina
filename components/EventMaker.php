@@ -104,10 +104,12 @@ class EventMaker
 
         $dishes = [ $firstCourse, $secondCourse, $dessert, $drink ];
         $validDishes = array_filter($dishes, '\app\components\isDishValid');
+        $options = [];
+        Html::addCssClass($options, 'h5');
         $list = array_map('\app\components\getDishName', $validDishes);
 
         return '&#x1f52a; ' . $user->username . '<br/>&#x1f60b; '
-               . $meal->nbGuests . Html::ul($list);
+               . $meal->nbGuests . Html::ul($list, $options);
     }
 
     /**

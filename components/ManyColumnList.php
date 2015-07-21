@@ -41,12 +41,18 @@ class ManyColumnList extends \yii\bootstrap\Widget
         $html .= Html::beginTag("tbody");
 
         // item rows
+        $i = 0;
         foreach ( $this->items as $item ) {
-            $html .= Html::beginTag("tr");
+            $options = [];
+            if (isset($this->attributes[$i]['id'])) {
+                $options['id'] = $this->attributes[$i]['id'];
+            }
+            $html .= Html::beginTag("tr", $options);
             foreach ( $item as $value ) {
                 $html .= Html::tag("td", $value);
             }
             $html .= Html::endTag("tr");
+            $i++;
         }
 
         // TOTAL row

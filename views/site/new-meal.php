@@ -9,7 +9,9 @@ $total_energy   = 0;
 $total_weight   = 0;
 
 $items      = [];
+$attributes = [];
 
+$i = 0;
 foreach ( $components as $component ) {
     $ingredient = $ingredientsById[ $component->ingredient ];
     $quantity   = $component->quantity;
@@ -23,13 +25,16 @@ foreach ( $components as $component ) {
             round($energy, 1) . " kcal",
             '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'
         ];
+    $attributes[$i++]['id'] = $component->ingredient;
     $total_weight += $quantity;
     $total_proteins += $proteins;
     $total_energy += $energy;
 }
 
 // line to add a new ingredient
-$items[] = [ '', '', '' ,'','<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>' ];
+$plusIcon = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
+$items[] = [ '', '', '' ,'', $plusIcon ];
+$attributes[$i++]['id'] = 'new-ingredient';
 
 $options
     = [
@@ -42,7 +47,8 @@ $options
             round($total_proteins, 1) . " g",
             round($total_energy, 1) .  " kcal",
             '',
-        ]
+        ],
+        'attributes' => $attributes
     ];
 
 echo ManyColumnList::widget($options);

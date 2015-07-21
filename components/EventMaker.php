@@ -153,7 +153,7 @@ class EventMaker
         $values = $computer->getIntakesOfMeals($meals, $properties);
         foreach ( $values as $name => $val ) {
             $list[]
-                = $this->_getNameOfProperty($name) . ': ' . $val . " " .
+                = $this->_getNameOfProperty($name) . ': ' . round($val, 0) . " " .
                   $this->_getUnityOfProperty($name);
         }
 

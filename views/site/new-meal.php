@@ -25,7 +25,7 @@ foreach ( $components as $component ) {
             round($energy, 1) . " kcal",
             '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'
         ];
-    $attributes[$i++]['id'] = $component->ingredient;
+    $attributes[$i++]['data-id'] = $component->ingredient;
     $total_weight += $quantity;
     $total_proteins += $proteins;
     $total_energy += $energy;
@@ -34,7 +34,7 @@ foreach ( $components as $component ) {
 // line to add a new ingredient
 $plusIcon = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
 $items[] = [ '', '', '' ,'', $plusIcon ];
-$attributes[$i++]['id'] = 'new-ingredient';
+$attributes[$i++]['data-id'] = 'new-ingredient';
 
 $options
     = [

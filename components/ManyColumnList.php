@@ -45,8 +45,8 @@ class ManyColumnList extends \yii\bootstrap\Widget
         $i = 0;
         foreach ( $this->items as $item ) {
             $options = [];
-            if (isset($this->attributes[$i]['id'])) {
-                $options['id'] = $this->attributes[$i]['id'];
+            if (isset($this->attributes[$i]['data-id'])) {
+                $options['data-id'] = $this->attributes[$i]['data-id'];
             }
             $html .= Html::beginTag("tr", $options);
             foreach ( $item as $value ) {

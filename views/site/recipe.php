@@ -15,6 +15,9 @@ use \yii\helpers\ArrayHelper;
 use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\web\JsExpression;
+use \skeeks\widget\chosen\ChosenAsset;
+
+ChosenAsset::register($this);
 
 $this->title = 'Recipe';
 $this->params['breadcrumbs'][] = $this->title;

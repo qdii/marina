@@ -241,10 +241,8 @@ class SiteController extends Controller
             return;
         }
 
-        $components = $dish->getCompositions()->all();
-
-        $ingredientIds = ArrayHelper::getColumn($components, 'ingredient');
-        $ingredients   = Ingredient::findAll([ 'id' => $ingredientIds]);
+        $components  = $dish->getCompositions()->all();
+        $ingredients = Ingredient::find()->all();
 
         $params = [
             'ingredients' => $ingredients,

@@ -1,6 +1,8 @@
 <?php
 use \app\components\ManyColumnList;
-use yii\helpers\ArrayHelper;
+use \app\models\Ingredient;
+use \yii\helpers\ArrayHelper;
+use \skeeks\widget\chosen\Chosen;
 
 $ingredientsById = ArrayHelper::index($ingredients, 'id');
 
@@ -10,6 +12,22 @@ $total_weight   = 0;
 
 $items      = [];
 $attributes = [];
+
+$ingredModel = new \app\models\Ingredient;
+$ingredientChoser = Chosen::widget(
+    [
+        'model'       => $ingredModel,
+        'attribute'   => 'name',
+        'placeholder' => 'Choose an ingredient',
+        'items'       => ArrayHelper::map($ingredients, 'id', 'name'),
+        'clientEvents' =>
+        [
+            'change' => "function(ev, params) {
+               console.log('clicked on' + params.selected);
+            }"
+        ]
+    ]
+);
 
 $i = 0;
 foreach ( $components as $component ) {
@@ -33,7 +51,7 @@ foreach ( $components as $component ) {
 
 // line to add a new ingredient
 $plusIcon = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
-$items[] = [ '', '', '' ,'', $plusIcon ];
+$items[] = [ $ingredientChoser, '', '' ,'', $plusIcon ];
 $attributes[$i++]['data-id'] = 'new-ingredient';
 
 $options
@@ -48,7 +66,8 @@ $options
             round($total_energy, 1) .  " kcal",
             '',
         ],
-        'attributes' => $attributes
+        'attributes' => $attributes,
+        'data_id'    => $dish->id
     ];
 
 echo ManyColumnList::widget($options);

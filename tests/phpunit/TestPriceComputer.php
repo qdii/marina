@@ -107,9 +107,4 @@ class PriceComputerTest extends PHPUnit_Extensions_Database_TestCase
             \PHPUnit_Extensions_Database_Operation_Factory::INSERT()
         ));
     }
-
-    protected function setUp() {
-        $config = require(__DIR__ . '/../../config/console.php');
-        (new yii\console\Application($config))->run();
-    }
 }

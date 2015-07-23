@@ -80,7 +80,6 @@ class PriceComputerTest extends PHPUnit_Extensions_Database_TestCase
     public function getConnection()
     {
         $db   = include __DIR__ . '/../../config/db.php';
-        //$db['dsn'] = 'mysql:host=localhost;dbname=marinatest';
         $pdo  = new PDO($db['dsn'], $db['username'], $db['password']);
         $conn = $this->createDefaultDBConnection($pdo, ':memory:');
 

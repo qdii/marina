@@ -73,6 +73,35 @@ class PriceComputerTest extends PHPUnit_Extensions_Database_TestCase
     }
 
     /**
+     * Test if ingredients are missing from the list
+     *
+     * @return void
+     */
+    public function testNoMissingIngredients()
+    {
+        // the object we want to test
+        $computer = new PriceComputer(
+            \app\models\Ingredient::find()->all(),
+            \app\models\Composition::find()->all(),
+            \app\models\Unit::find()->all(),
+            \app\models\Dish::find()->all(),
+            \app\models\Meal::find()->all()
+        );
+
+        // take a meal that has only ONE dish: tea and coffee
+        $meal = \app\models\Meal::findOne(['id' => 57]);
+
+        $this->assertNotNull($meal);
+
+        $computer->addMeal($meal);
+
+        $items = $computer->items;
+
+        // there should be two ingredients : tea and coffee
+        $this->assertEquals(2, count($items));
+    }
+
+    /**
      * Establishes a connection to the database
      *
      * @return mixed A mysql connection

@@ -73,7 +73,7 @@ class PriceComputer
      */
     private function _getDishesFromMeal(\app\models\Meal $meal)
     {
-        return $this->_getDishesFromMeals([ $meal ]);
+        return $this->getDishesFromMeals([ $meal ]);
     }
 
     /**
@@ -83,7 +83,7 @@ class PriceComputer
      *
      * @return array The dishes associated to these meals
      */
-    private function _getDishesFromMeals($meals)
+    public function getDishesFromMeals($meals)
     {
         $dishes = [];
         foreach ( $meals as $meal ) {
@@ -169,7 +169,7 @@ class PriceComputer
         $dishIds       = ArrayHelper::getColumn($dishes, 'id');
 
         foreach ( $this->_compositions as $item ) {
-            if (!array_key_exists($item->dish, $dishIds)) {
+            if (!in_array($item->dish, $dishIds)) {
                 continue;
             }
 
@@ -202,7 +202,7 @@ class PriceComputer
      */
     public function getIntakesOfMeals($meals, $props)
     {
-        $dishes = $this->_getDishesFromMeals($meals);
+        $dishes = $this->getDishesFromMeals($meals);
         return $this->_getIntakesOfDishes($dishes, $props);
     }
 

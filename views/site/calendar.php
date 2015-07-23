@@ -218,7 +218,7 @@ $priceComputer->addMeals( $meals );
 $price = $priceComputer->price();
 
 // sort the list of ingredients by alphabetic order
-ArrayHelper::multisort($priceComputer->ingredients, 'name');
+ArrayHelper::multisort($priceComputer->items, 'name');
 
 $ingredients = $priceComputer->items;
 $total = 0;

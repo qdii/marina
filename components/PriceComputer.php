@@ -169,7 +169,7 @@ class PriceComputer
         $dishIds       = ArrayHelper::getColumn($dishes, 'id');
 
         foreach ( $this->_compositions as $item ) {
-            if (!array_key_exists($item->dish, $dishIds)) {
+            if (!in_array($item->dish, $dishIds)) {
                 continue;
             }
 

@@ -58,15 +58,14 @@ class PriceComputerTest extends PHPUnit_Extensions_Database_TestCase
         );
 
         // the total energy is the sum of the energy in the coffee ...
-        $nbGuests = 2.0;
         $quantityCoffee = 5.0;
         $energyCoffee = 353.0; // per 100g
-        $expectedEnergyCoffee = $nbGuests * $quantityCoffee * $energyCoffee / 100.0;
+        $expectedEnergyCoffee = $quantityCoffee * $energyCoffee / 100.0;
 
         // .. and in the tea
         $quantityTea = 5.0;
         $energyTea = 1.0;
-        $expectedEnergyTea = $nbGuests * $quantityTea * $energyTea / 100.0;
+        $expectedEnergyTea = $quantityTea * $energyTea / 100.0;
 
         $totalEnergy = $expectedEnergyTea + $expectedEnergyCoffee;
 

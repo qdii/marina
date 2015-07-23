@@ -1,0 +1,3057 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="marina">
+	<table_data name="boat">
+	<row>
+		<field name="id">1</field>
+		<field name="name">CV24</field>
+	</row>
+	</table_data>
+	<table_data name="user">
+	<row>
+		<field name="id">1</field>
+		<field name="username">admin</field>
+		<field name="password">admin</field>
+		<field name="authKey">admin</field>
+		<field name="accessToken">admin</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="username">Ben</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="username">Vanessa</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="username">SteveMcDowall</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="username">Gabrielle</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">6</field>
+		<field name="username">Karen Weston</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">7</field>
+		<field name="username">Paul</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">8</field>
+		<field name="username">Mark Tunney</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">9</field>
+		<field name="username">Leo</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">10</field>
+		<field name="username">Anthony</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	<row>
+		<field name="id">11</field>
+		<field name="username">Steph</field>
+		<field name="password">cv24</field>
+		<field name="authKey">cv24</field>
+		<field name="accessToken">cv24</field>
+	</row>
+	</table_data>
+	<table_data name="unit">
+	<row>
+		<field name="id">1</field>
+		<field name="shortName"></field>
+		<field name="name">object</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="shortName">g</field>
+		<field name="name"> poids</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="shortName">ℓ</field>
+		<field name="name"> liquide</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="shortName">c. à c.</field>
+		<field name="name">petits trucs</field>
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="shortName">c. à s.</field>
+		<field name="name">petits trucs</field>
+	</row>
+	</table_data>
+	<table_data name="dish">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Pancakes</field>
+		<field name="type">firstCourse</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Bread</field>
+		<field name="type">firstCourse</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="name">Sandwiches</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="name">Chilli with Rice</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="name">Couscous Salad with Meatballs</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">6</field>
+		<field name="name">Chicken Curry</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">7</field>
+		<field name="name">Chicken with Potato, Beans &amp; Veg Salad</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">8</field>
+		<field name="name">Pasta Bolognese</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">9</field>
+		<field name="name">FishCakes</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">10</field>
+		<field name="name">Sheperd's Pie with VEG</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">11</field>
+		<field name="name">Fritata</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">12</field>
+		<field name="name">Chicken Casserole</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">13</field>
+		<field name="name">Chicken Quesadillas</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">14</field>
+		<field name="name">Carbonara</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">15</field>
+		<field name="name">Cereal</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">16</field>
+		<field name="name">Scrambled eggs with toast </field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">17</field>
+		<field name="name">Porridge with raisings &amp; almonds </field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">18</field>
+		<field name="name">Snack: Chocolates Various</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">19</field>
+		<field name="name">Tea and Coffee</field>
+		<field name="type">drink</field>
+	</row>
+	<row>
+		<field name="id">20</field>
+		<field name="name">Water</field>
+		<field name="type">drink</field>
+	</row>
+	<row>
+		<field name="id">21</field>
+		<field name="name">nothing</field>
+		<field name="type">firstCourse</field>
+	</row>
+	<row>
+		<field name="id">22</field>
+		<field name="name">nothing</field>
+		<field name="type">dessert</field>
+	</row>
+	<row>
+		<field name="id">23</field>
+		<field name="name">Baguettes/Ham/Cheese/Salad</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">24</field>
+		<field name="name">Chicken Stir-Fry</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">25</field>
+		<field name="name">Pasta Salad</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">26</field>
+		<field name="name">Chili Rice</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">27</field>
+		<field name="name">Sausage Smash</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">28</field>
+		<field name="name">Tuna Wrap</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">29</field>
+		<field name="name">Carbonara 2</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">30</field>
+		<field name="name">Thai Curry</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">31</field>
+		<field name="name">Cereal + Toast</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">32</field>
+		<field name="name">Porridge/Cereals/Toasts</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">33</field>
+		<field name="name">Bacon/Eggs/Rolls</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">34</field>
+		<field name="name">Hot Dog</field>
+		<field name="type">secondCourse</field>
+	</row>
+	<row>
+		<field name="id">35</field>
+		<field name="name">nothing</field>
+		<field name="type">secondCourse</field>
+	</row>
+</table_data>
+	<table_data name="ingredient">
+	<row>
+		<field name="id">1009</field>
+		<field name="name">Cheese, cheddar</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">37.100</field>
+		<field name="energy_kcal">406.000</field>
+		<field name="energy_kj">1698.000</field>
+		<field name="protein">24.040</field>
+		<field name="lipid">33.820</field>
+		<field name="fat">33.820</field>
+		<field name="ash">3.710</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">0.280</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">1023</field>
+		<field name="name">Cheese, gruyere</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">33.190</field>
+		<field name="energy_kcal">413.000</field>
+		<field name="energy_kj">1728.000</field>
+		<field name="protein">29.810</field>
+		<field name="lipid">32.340</field>
+		<field name="fat">32.340</field>
+		<field name="ash">4.300</field>
+		<field name="carbohydrates">6.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">1055</field>
+		<field name="name">Cream, sour, reduced fat, cultured</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">80.140</field>
+		<field name="energy_kcal">135.000</field>
+		<field name="energy_kj">563.000</field>
+		<field name="protein">2.940</field>
+		<field name="lipid">12.000</field>
+		<field name="fat">12.000</field>
+		<field name="ash">0.660</field>
+		<field name="carbohydrates">6.000</field>
+		<field name="sugars">0.160</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">1123</field>
+		<field name="name">Egg, whole, raw, fresh</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose">0.370</field>
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">76.150</field>
+		<field name="energy_kcal">143.000</field>
+		<field name="energy_kj">599.000</field>
+		<field name="protein">12.560</field>
+		<field name="lipid">9.510</field>
+		<field name="fat">9.510</field>
+		<field name="ash">1.060</field>
+		<field name="carbohydrates">2.000</field>
+		<field name="sugars">0.370</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">1174</field>
+		<field name="name">Milk, reduced fat, fluid, 2% milkfat, without added vitamin A and vitamin D</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.010</field>
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">89.210</field>
+		<field name="energy_kcal">50.000</field>
+		<field name="energy_kj">210.000</field>
+		<field name="protein">3.300</field>
+		<field name="lipid">1.980</field>
+		<field name="fat">1.980</field>
+		<field name="ash">0.710</field>
+		<field name="carbohydrates">8.000</field>
+		<field name="sugars">5.060</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">2003</field>
+		<field name="name">Spices, basil, dried</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.020</field>
+		<field name="glucose">0.750</field>
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">10.350</field>
+		<field name="energy_kcal">233.000</field>
+		<field name="energy_kj">976.000</field>
+		<field name="protein">22.980</field>
+		<field name="lipid">4.070</field>
+		<field name="fat">4.070</field>
+		<field name="ash">14.850</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars">1.710</field>
+		<field name="fiber">37.700</field>
+	</row>
+	<row>
+		<field name="id">2009</field>
+		<field name="name">Spices, chili powder</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.760</field>
+		<field name="glucose">2.140</field>
+		<field name="fructose">4.290</field>
+		<field name="water">10.750</field>
+		<field name="energy_kcal">282.000</field>
+		<field name="energy_kj">1179.000</field>
+		<field name="protein">13.460</field>
+		<field name="lipid">14.280</field>
+		<field name="fat">14.280</field>
+		<field name="ash">11.810</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">7.190</field>
+		<field name="fiber">34.800</field>
+	</row>
+	<row>
+		<field name="id">2030</field>
+		<field name="name">Spices, pepper, black</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.020</field>
+		<field name="glucose">0.240</field>
+		<field name="fructose">0.230</field>
+		<field name="water">12.460</field>
+		<field name="energy_kcal">251.000</field>
+		<field name="energy_kj">1050.000</field>
+		<field name="protein">10.390</field>
+		<field name="lipid">3.260</field>
+		<field name="fat">3.260</field>
+		<field name="ash">4.490</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars">0.640</field>
+		<field name="fiber">25.300</field>
+	</row>
+	<row>
+		<field name="id">2047</field>
+		<field name="name">Salt, table</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">0.200</field>
+		<field name="energy_kcal">0.000</field>
+		<field name="energy_kj" xsi:nil="true" />
+		<field name="protein">0.000</field>
+		<field name="lipid" xsi:nil="true" />
+		<field name="fat" xsi:nil="true" />
+		<field name="ash">99.800</field>
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">2069</field>
+		<field name="name">Vinegar, balsamic</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose">7.570</field>
+		<field name="fructose">7.380</field>
+		<field name="water">76.450</field>
+		<field name="energy_kcal">88.000</field>
+		<field name="energy_kj">369.000</field>
+		<field name="protein">0.490</field>
+		<field name="lipid">0.000</field>
+		<field name="fat">0.000</field>
+		<field name="ash">0.370</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">14.950</field>
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">4025</field>
+		<field name="name">Salad dressing, mayonnaise, regular</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.480</field>
+		<field name="glucose">0.040</field>
+		<field name="fructose">0.050</field>
+		<field name="water">21.650</field>
+		<field name="energy_kcal">680.000</field>
+		<field name="energy_kj">2844.000</field>
+		<field name="protein">0.960</field>
+		<field name="lipid">74.850</field>
+		<field name="fat">74.850</field>
+		<field name="ash">1.980</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">4053</field>
+		<field name="name">Oil, olive, salad or cooking</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">0.000</field>
+		<field name="energy_kcal">884.000</field>
+		<field name="energy_kj">3699.000</field>
+		<field name="protein">0.000</field>
+		<field name="lipid">100.000</field>
+		<field name="fat">100.000</field>
+		<field name="ash" xsi:nil="true" />
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">5062</field>
+		<field name="name">Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">73.900</field>
+		<field name="energy_kcal">120.000</field>
+		<field name="energy_kj">501.000</field>
+		<field name="protein">22.500</field>
+		<field name="lipid">2.620</field>
+		<field name="fat">2.620</field>
+		<field name="ash">1.130</field>
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">5066</field>
+		<field name="name">Chicken, broilers or fryers, drumstick, meat and skin, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">72.460</field>
+		<field name="energy_kcal">161.000</field>
+		<field name="energy_kj">672.000</field>
+		<field name="protein">18.080</field>
+		<field name="lipid">9.200</field>
+		<field name="fat">9.200</field>
+		<field name="ash">0.860</field>
+		<field name="carbohydrates">1.000</field>
+		<field name="sugars">0.000</field>
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">5091</field>
+		<field name="name">Chicken, broilers or fryers, thigh, meat and skin, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">66.470</field>
+		<field name="energy_kcal">221.000</field>
+		<field name="energy_kj">926.000</field>
+		<field name="protein">16.520</field>
+		<field name="lipid">16.610</field>
+		<field name="fat">16.610</field>
+		<field name="ash">0.810</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars">0.000</field>
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">6114</field>
+		<field name="name">Gravy, au jus, canned</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">94.500</field>
+		<field name="energy_kcal">16.000</field>
+		<field name="energy_kj">67.000</field>
+		<field name="protein">1.200</field>
+		<field name="lipid">0.200</field>
+		<field name="fat">0.200</field>
+		<field name="ash">1.600</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">6120</field>
+		<field name="name">Gravy, chicken, dry</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">3.850</field>
+		<field name="energy_kcal">381.000</field>
+		<field name="energy_kj">1594.000</field>
+		<field name="protein">11.270</field>
+		<field name="lipid">9.730</field>
+		<field name="fat">9.730</field>
+		<field name="ash">13.060</field>
+		<field name="carbohydrates">9.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">6170</field>
+		<field name="name">Soup, stock, beef, home-prepared</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">95.890</field>
+		<field name="energy_kcal">13.000</field>
+		<field name="energy_kj">54.000</field>
+		<field name="protein">1.970</field>
+		<field name="lipid">0.090</field>
+		<field name="fat">0.090</field>
+		<field name="ash">0.700</field>
+		<field name="carbohydrates">2.000</field>
+		<field name="sugars">0.540</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">6172</field>
+		<field name="name">Soup, stock, chicken, home-prepared</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">92.150</field>
+		<field name="energy_kcal">36.000</field>
+		<field name="energy_kj">151.000</field>
+		<field name="protein">2.520</field>
+		<field name="lipid">1.200</field>
+		<field name="fat">1.200</field>
+		<field name="ash">0.630</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">1.580</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">6235</field>
+		<field name="name">P REGO Pasta, Roasted Garlic and Herb Italian Sauce, ready-to-serve</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">83.500</field>
+		<field name="energy_kcal">69.000</field>
+		<field name="energy_kj" xsi:nil="true" />
+		<field name="protein">1.540</field>
+		<field name="lipid">2.310</field>
+		<field name="fat">2.310</field>
+		<field name="ash">2.500</field>
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars">6.920</field>
+		<field name="fiber">2.300</field>
+	</row>
+	<row>
+		<field name="id">6498</field>
+		<field name="name">Soup, tomato, dry, mix, prepared with water</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">89.880</field>
+		<field name="energy_kcal">38.000</field>
+		<field name="energy_kj">158.000</field>
+		<field name="protein">0.930</field>
+		<field name="lipid">0.610</field>
+		<field name="fat">0.610</field>
+		<field name="ash">1.410</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">3.900</field>
+		<field name="fiber">0.400</field>
+	</row>
+	<row>
+		<field name="id">6624</field>
+		<field name="name">SMART SOUP, Thai Coconut Curry</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">91.000</field>
+		<field name="energy_kcal">36.000</field>
+		<field name="energy_kj">151.000</field>
+		<field name="protein">0.800</field>
+		<field name="lipid">1.060</field>
+		<field name="fat">1.060</field>
+		<field name="ash">0.700</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars">3.700</field>
+		<field name="fiber">1.000</field>
+	</row>
+	<row>
+		<field name="id">6958</field>
+		<field name="name">Gravy, instant beef, dry</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">4.650</field>
+		<field name="energy_kcal">369.000</field>
+		<field name="energy_kj">1544.000</field>
+		<field name="protein">9.800</field>
+		<field name="lipid">9.480</field>
+		<field name="fat">9.480</field>
+		<field name="ash">14.970</field>
+		<field name="carbohydrates">1.000</field>
+		<field name="sugars">23.900</field>
+		<field name="fiber">4.300</field>
+	</row>
+	<row>
+		<field name="id">6972</field>
+		<field name="name">Sauce, tomato chili sauce, bottled, with salt</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">68.000</field>
+		<field name="energy_kcal">104.000</field>
+		<field name="energy_kj">435.000</field>
+		<field name="protein">2.500</field>
+		<field name="lipid">0.300</field>
+		<field name="fat">0.300</field>
+		<field name="ash">9.470</field>
+		<field name="carbohydrates">9.000</field>
+		<field name="sugars">10.540</field>
+		<field name="fiber">5.900</field>
+	</row>
+	<row>
+		<field name="id">7019</field>
+		<field name="name">Chorizo, pork and beef</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">31.850</field>
+		<field name="energy_kcal">455.000</field>
+		<field name="energy_kj">1904.000</field>
+		<field name="protein">24.100</field>
+		<field name="lipid">38.270</field>
+		<field name="fat">38.270</field>
+		<field name="ash">3.920</field>
+		<field name="carbohydrates">6.000</field>
+		<field name="sugars">0.000</field>
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">7028</field>
+		<field name="name">Ham, sliced, packaged (96% fat free, water added)</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">75.140</field>
+		<field name="energy_kcal">102.000</field>
+		<field name="energy_kj">427.000</field>
+		<field name="protein">16.900</field>
+		<field name="lipid">3.400</field>
+		<field name="fat">3.400</field>
+		<field name="ash">4.010</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">0.000</field>
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">7059</field>
+		<field name="name">Polish sausage, pork</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">53.150</field>
+		<field name="energy_kcal">326.000</field>
+		<field name="energy_kj">1364.000</field>
+		<field name="protein">14.100</field>
+		<field name="lipid">28.720</field>
+		<field name="fat">28.720</field>
+		<field name="ash">2.400</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">7240</field>
+		<field name="name">OSCAR MAYER, Wieners (pork, turkey)</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">53.350</field>
+		<field name="energy_kcal">327.000</field>
+		<field name="energy_kj">1368.000</field>
+		<field name="protein">10.950</field>
+		<field name="lipid">29.900</field>
+		<field name="fat">29.900</field>
+		<field name="ash">3.150</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">1.800</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">7972</field>
+		<field name="name">Meatballs, frozen, Italian style</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.480</field>
+		<field name="glucose">1.610</field>
+		<field name="fructose">0.210</field>
+		<field name="water">53.670</field>
+		<field name="energy_kcal">286.000</field>
+		<field name="energy_kj">1196.000</field>
+		<field name="protein">14.400</field>
+		<field name="lipid">22.210</field>
+		<field name="fat">22.210</field>
+		<field name="ash">2.640</field>
+		<field name="carbohydrates">6.000</field>
+		<field name="sugars">3.470</field>
+		<field name="fiber">2.300</field>
+	</row>
+	<row>
+		<field name="id">8054</field>
+		<field name="name">Cereals ready-to-eat, QUAKER, 100% Natural Granola, Oats, Wheat and Honey</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">2.190</field>
+		<field name="energy_kcal">421.000</field>
+		<field name="energy_kj">1761.000</field>
+		<field name="protein">10.550</field>
+		<field name="lipid">11.620</field>
+		<field name="fat">11.620</field>
+		<field name="ash">1.980</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars">20.340</field>
+		<field name="fiber">10.200</field>
+	</row>
+	<row>
+		<field name="id">8218</field>
+		<field name="name">Cereals ready-to-eat, QUAKER, QUAKER 100% Natural Granola with Oats, Wheat, Honey, and Raisins</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">3.390</field>
+		<field name="energy_kcal">412.000</field>
+		<field name="energy_kj">1724.000</field>
+		<field name="protein">9.660</field>
+		<field name="lipid">10.380</field>
+		<field name="fat">10.380</field>
+		<field name="ash">1.900</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">24.630</field>
+		<field name="fiber">9.400</field>
+	</row>
+	<row>
+		<field name="id">8228</field>
+		<field name="name">Cereals, QUAKER, Instant Oatmeal, raisins, dates and walnuts, dry</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">8.350</field>
+		<field name="energy_kcal">371.000</field>
+		<field name="energy_kj">1552.000</field>
+		<field name="protein">8.820</field>
+		<field name="lipid">6.980</field>
+		<field name="fat">6.980</field>
+		<field name="ash">3.430</field>
+		<field name="carbohydrates">1.000</field>
+		<field name="sugars">30.850</field>
+		<field name="fiber">6.900</field>
+	</row>
+	<row>
+		<field name="id">8506</field>
+		<field name="name">Cereals ready-to-eat, RALSTON Corn Flakes</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">4.610</field>
+		<field name="glucose">1.480</field>
+		<field name="fructose">1.340</field>
+		<field name="water">3.310</field>
+		<field name="energy_kcal">357.000</field>
+		<field name="energy_kj">1494.000</field>
+		<field name="protein">5.900</field>
+		<field name="lipid">0.910</field>
+		<field name="fat">0.910</field>
+		<field name="ash">1.880</field>
+		<field name="carbohydrates">1.000</field>
+		<field name="sugars">7.840</field>
+		<field name="fiber">2.700</field>
+	</row>
+	<row>
+		<field name="id">9195</field>
+		<field name="name">Olives, pickled, canned or bottled, green</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">75.280</field>
+		<field name="energy_kcal">145.000</field>
+		<field name="energy_kj">609.000</field>
+		<field name="protein">1.030</field>
+		<field name="lipid">15.320</field>
+		<field name="fat">15.320</field>
+		<field name="ash">4.530</field>
+		<field name="carbohydrates">4.000</field>
+		<field name="sugars">0.540</field>
+		<field name="fiber">3.300</field>
+	</row>
+	<row>
+		<field name="id">10994</field>
+		<field name="name">Bacon, pre-sliced, reduced/low sodium, unprepared</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.830</field>
+		<field name="glucose">0.000</field>
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">45.010</field>
+		<field name="energy_kcal">407.000</field>
+		<field name="energy_kj">1702.000</field>
+		<field name="protein">12.530</field>
+		<field name="lipid">39.270</field>
+		<field name="fat">39.270</field>
+		<field name="ash">2.400</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">11090</field>
+		<field name="name">Broccoli, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.100</field>
+		<field name="glucose">0.490</field>
+		<field name="fructose">0.680</field>
+		<field name="water">89.300</field>
+		<field name="energy_kcal">34.000</field>
+		<field name="energy_kj">141.000</field>
+		<field name="protein">2.820</field>
+		<field name="lipid">0.370</field>
+		<field name="fat">0.370</field>
+		<field name="ash">0.870</field>
+		<field name="carbohydrates">4.000</field>
+		<field name="sugars">1.700</field>
+		<field name="fiber">2.600</field>
+	</row>
+	<row>
+		<field name="id">11124</field>
+		<field name="name">Carrots, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">3.590</field>
+		<field name="glucose">0.590</field>
+		<field name="fructose">0.550</field>
+		<field name="water">88.290</field>
+		<field name="energy_kcal">41.000</field>
+		<field name="energy_kj">173.000</field>
+		<field name="protein">0.930</field>
+		<field name="lipid">0.240</field>
+		<field name="fat">0.240</field>
+		<field name="ash">0.970</field>
+		<field name="carbohydrates">8.000</field>
+		<field name="sugars">4.740</field>
+		<field name="fiber">2.800</field>
+	</row>
+	<row>
+		<field name="id">11167</field>
+		<field name="name">Corn, sweet, yellow, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.890</field>
+		<field name="glucose">3.430</field>
+		<field name="fructose">1.940</field>
+		<field name="water">76.050</field>
+		<field name="energy_kcal">86.000</field>
+		<field name="energy_kj">360.000</field>
+		<field name="protein">3.270</field>
+		<field name="lipid">1.350</field>
+		<field name="fat">1.350</field>
+		<field name="ash">0.620</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">6.260</field>
+		<field name="fiber">2.000</field>
+	</row>
+	<row>
+		<field name="id">11215</field>
+		<field name="name">Garlic, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">58.580</field>
+		<field name="energy_kcal">149.000</field>
+		<field name="energy_kj">623.000</field>
+		<field name="protein">6.360</field>
+		<field name="lipid">0.500</field>
+		<field name="fat">0.500</field>
+		<field name="ash">1.500</field>
+		<field name="carbohydrates">6.000</field>
+		<field name="sugars">1.000</field>
+		<field name="fiber">2.100</field>
+	</row>
+	<row>
+		<field name="id">11253</field>
+		<field name="name">Lettuce, green leaf, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose">0.360</field>
+		<field name="fructose">0.430</field>
+		<field name="water">94.980</field>
+		<field name="energy_kcal">15.000</field>
+		<field name="energy_kj">62.000</field>
+		<field name="protein">1.360</field>
+		<field name="lipid">0.150</field>
+		<field name="fat">0.150</field>
+		<field name="ash">0.620</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">0.780</field>
+		<field name="fiber">1.300</field>
+	</row>
+	<row>
+		<field name="id">11266</field>
+		<field name="name">Mushrooms, brown, italian, or crimini, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">92.120</field>
+		<field name="energy_kcal">22.000</field>
+		<field name="energy_kj">94.000</field>
+		<field name="protein">2.500</field>
+		<field name="lipid">0.100</field>
+		<field name="fat">0.100</field>
+		<field name="ash">0.980</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">1.720</field>
+		<field name="fiber">0.600</field>
+	</row>
+	<row>
+		<field name="id">11282</field>
+		<field name="name">Onions, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.990</field>
+		<field name="glucose">1.970</field>
+		<field name="fructose">1.290</field>
+		<field name="water">89.110</field>
+		<field name="energy_kcal">40.000</field>
+		<field name="energy_kj">166.000</field>
+		<field name="protein">1.100</field>
+		<field name="lipid">0.100</field>
+		<field name="fat">0.100</field>
+		<field name="ash">0.350</field>
+		<field name="carbohydrates">4.000</field>
+		<field name="sugars">4.240</field>
+		<field name="fiber">1.700</field>
+	</row>
+	<row>
+		<field name="id">11333</field>
+		<field name="name">Peppers, sweet, green, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.110</field>
+		<field name="glucose">1.160</field>
+		<field name="fructose">1.120</field>
+		<field name="water">93.890</field>
+		<field name="energy_kcal">20.000</field>
+		<field name="energy_kj">84.000</field>
+		<field name="protein">0.860</field>
+		<field name="lipid">0.170</field>
+		<field name="fat">0.170</field>
+		<field name="ash">0.430</field>
+		<field name="carbohydrates">4.000</field>
+		<field name="sugars">2.400</field>
+		<field name="fiber">1.700</field>
+	</row>
+	<row>
+		<field name="id">11352</field>
+		<field name="name">Potatoes, flesh and skin, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.170</field>
+		<field name="glucose">0.330</field>
+		<field name="fructose">0.270</field>
+		<field name="water">79.340</field>
+		<field name="energy_kcal">77.000</field>
+		<field name="energy_kj">321.000</field>
+		<field name="protein">2.020</field>
+		<field name="lipid">0.090</field>
+		<field name="fat">0.090</field>
+		<field name="ash">1.080</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">0.780</field>
+		<field name="fiber">2.200</field>
+	</row>
+	<row>
+		<field name="id">11378</field>
+		<field name="name">Potatoes, mashed, dehydrated, flakes without milk, dry form</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.990</field>
+		<field name="glucose">0.890</field>
+		<field name="fructose">0.980</field>
+		<field name="water">6.580</field>
+		<field name="energy_kcal">354.000</field>
+		<field name="energy_kj">1480.000</field>
+		<field name="protein">8.340</field>
+		<field name="lipid">0.410</field>
+		<field name="fat">0.410</field>
+		<field name="ash">3.500</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">3.360</field>
+		<field name="fiber">6.600</field>
+	</row>
+	<row>
+		<field name="id">11529</field>
+		<field name="name">Tomatoes, red, ripe, raw, year round average</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose">1.250</field>
+		<field name="fructose">1.370</field>
+		<field name="water">94.520</field>
+		<field name="energy_kcal">18.000</field>
+		<field name="energy_kj">74.000</field>
+		<field name="protein">0.880</field>
+		<field name="lipid">0.200</field>
+		<field name="fat">0.200</field>
+		<field name="ash">0.500</field>
+		<field name="carbohydrates">9.000</field>
+		<field name="sugars">2.630</field>
+		<field name="fiber">1.200</field>
+	</row>
+	<row>
+		<field name="id">11583</field>
+		<field name="name">Vegetables, mixed, frozen, unprepared</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">82.080</field>
+		<field name="energy_kcal">72.000</field>
+		<field name="energy_kj">301.000</field>
+		<field name="protein">3.330</field>
+		<field name="lipid">0.520</field>
+		<field name="fat">0.520</field>
+		<field name="ash">0.600</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">4.000</field>
+	</row>
+	<row>
+		<field name="id">11816</field>
+		<field name="name">Peas and carrots, canned, no salt added, solids and liquids</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">88.150</field>
+		<field name="energy_kcal">38.000</field>
+		<field name="energy_kj">159.000</field>
+		<field name="protein">2.170</field>
+		<field name="lipid">0.270</field>
+		<field name="fat">0.270</field>
+		<field name="ash">0.930</field>
+		<field name="carbohydrates">8.000</field>
+		<field name="sugars">2.830</field>
+		<field name="fiber">3.300</field>
+	</row>
+	<row>
+		<field name="id">11819</field>
+		<field name="name">Peppers, hot chili, red, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">88.020</field>
+		<field name="energy_kcal">40.000</field>
+		<field name="energy_kj">166.000</field>
+		<field name="protein">1.870</field>
+		<field name="lipid">0.440</field>
+		<field name="fat">0.440</field>
+		<field name="ash">0.870</field>
+		<field name="carbohydrates">1.000</field>
+		<field name="sugars">5.300</field>
+		<field name="fiber">1.500</field>
+	</row>
+	<row>
+		<field name="id">12118</field>
+		<field name="name">Nuts, coconut milk, canned (liquid expressed from grated meat and water)</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">72.880</field>
+		<field name="energy_kcal">197.000</field>
+		<field name="energy_kj">824.000</field>
+		<field name="protein">2.020</field>
+		<field name="lipid">21.330</field>
+		<field name="fat">21.330</field>
+		<field name="ash">0.970</field>
+		<field name="carbohydrates">1.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">14214</field>
+		<field name="name">Coffee, instant, regular, powder</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">3.100</field>
+		<field name="energy_kcal">353.000</field>
+		<field name="energy_kj">1479.000</field>
+		<field name="protein">12.200</field>
+		<field name="lipid">0.500</field>
+		<field name="fat">0.500</field>
+		<field name="ash">8.800</field>
+		<field name="carbohydrates">4.000</field>
+		<field name="sugars">0.000</field>
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">14355</field>
+		<field name="name">Tea, black, brewed, prepared with tap water</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">99.700</field>
+		<field name="energy_kcal">1.000</field>
+		<field name="energy_kj">4.000</field>
+		<field name="protein">0.000</field>
+		<field name="lipid" xsi:nil="true" />
+		<field name="fat" xsi:nil="true" />
+		<field name="ash">0.040</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">0.000</field>
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">14411</field>
+		<field name="name">Water, tap, drinking</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">99.900</field>
+		<field name="energy_kcal">0.000</field>
+		<field name="energy_kj" xsi:nil="true" />
+		<field name="protein">0.000</field>
+		<field name="lipid" xsi:nil="true" />
+		<field name="fat" xsi:nil="true" />
+		<field name="ash">0.100</field>
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">15124</field>
+		<field name="name">Fish, tuna, white, canned in oil, drained solids</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">64.020</field>
+		<field name="energy_kcal">186.000</field>
+		<field name="energy_kj">778.000</field>
+		<field name="protein">26.530</field>
+		<field name="lipid">8.080</field>
+		<field name="fat">8.080</field>
+		<field name="ash">2.180</field>
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">16029</field>
+		<field name="name">Beans, kidney, all types, mature seeds, canned</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">1.850</field>
+		<field name="glucose">0.000</field>
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">78.040</field>
+		<field name="energy_kcal">84.000</field>
+		<field name="energy_kj">353.000</field>
+		<field name="protein">5.220</field>
+		<field name="lipid">0.600</field>
+		<field name="fat">0.600</field>
+		<field name="ash">1.640</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars">1.850</field>
+		<field name="fiber">4.300</field>
+	</row>
+	<row>
+		<field name="id">16070</field>
+		<field name="name">Lentils, mature seeds, cooked, boiled, without salt</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">69.640</field>
+		<field name="energy_kcal">116.000</field>
+		<field name="energy_kj">487.000</field>
+		<field name="protein">9.020</field>
+		<field name="lipid">0.380</field>
+		<field name="fat">0.380</field>
+		<field name="ash">0.830</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">1.800</field>
+		<field name="fiber">7.900</field>
+	</row>
+	<row>
+		<field name="id">16124</field>
+		<field name="name">Soy sauce made from soy (tamari)</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">66.000</field>
+		<field name="energy_kcal">60.000</field>
+		<field name="energy_kj">251.000</field>
+		<field name="protein">10.510</field>
+		<field name="lipid">0.100</field>
+		<field name="fat">0.100</field>
+		<field name="ash">17.820</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">1.700</field>
+		<field name="fiber">0.800</field>
+	</row>
+	<row>
+		<field name="id">18077</field>
+		<field name="name">Bread, whole-wheat, prepared from recipe</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">32.700</field>
+		<field name="energy_kcal">278.000</field>
+		<field name="energy_kj">1163.000</field>
+		<field name="protein">8.400</field>
+		<field name="lipid">5.400</field>
+		<field name="fat">5.400</field>
+		<field name="ash">2.000</field>
+		<field name="carbohydrates">4.000</field>
+		<field name="sugars">3.840</field>
+		<field name="fiber">6.000</field>
+	</row>
+	<row>
+		<field name="id">18347</field>
+		<field name="name">Rolls, dinner, wheat</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">37.000</field>
+		<field name="energy_kcal">273.000</field>
+		<field name="energy_kj">1142.000</field>
+		<field name="protein">8.600</field>
+		<field name="lipid">6.300</field>
+		<field name="fat">6.300</field>
+		<field name="ash">2.100</field>
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars">1.630</field>
+		<field name="fiber">3.800</field>
+	</row>
+	<row>
+		<field name="id">18350</field>
+		<field name="name">Rolls, hamburger or hotdog, plain</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose">1.920</field>
+		<field name="fructose">2.440</field>
+		<field name="water">34.180</field>
+		<field name="energy_kcal">278.000</field>
+		<field name="energy_kj">1164.000</field>
+		<field name="protein">9.870</field>
+		<field name="lipid">3.760</field>
+		<field name="fat">3.760</field>
+		<field name="ash">2.060</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars">6.370</field>
+		<field name="fiber">2.100</field>
+	</row>
+	<row>
+		<field name="id">18371</field>
+		<field name="name">Leavening agents, baking powder, low-sodium</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">6.200</field>
+		<field name="energy_kcal">97.000</field>
+		<field name="energy_kj">406.000</field>
+		<field name="protein">0.100</field>
+		<field name="lipid">0.400</field>
+		<field name="fat">0.400</field>
+		<field name="ash">46.400</field>
+		<field name="carbohydrates">9.000</field>
+		<field name="sugars">0.000</field>
+		<field name="fiber">2.200</field>
+	</row>
+	<row>
+		<field name="id">18374</field>
+		<field name="name">Leavening agents, yeast, baker's, compressed</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">69.000</field>
+		<field name="energy_kcal">105.000</field>
+		<field name="energy_kj">439.000</field>
+		<field name="protein">8.400</field>
+		<field name="lipid">1.900</field>
+		<field name="fat">1.900</field>
+		<field name="ash">1.800</field>
+		<field name="carbohydrates">1.000</field>
+		<field name="sugars">0.000</field>
+		<field name="fiber">8.100</field>
+	</row>
+	<row>
+		<field name="id">19256</field>
+		<field name="name">Candies, MARS SNACKFOOD US, MILKY WAY Caramels, milk chocolate covered</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">6.990</field>
+		<field name="energy_kcal">463.000</field>
+		<field name="energy_kj">1938.000</field>
+		<field name="protein">4.280</field>
+		<field name="lipid">19.170</field>
+		<field name="fat">19.170</field>
+		<field name="ash">1.080</field>
+		<field name="carbohydrates">9.000</field>
+		<field name="sugars">58.650</field>
+		<field name="fiber">0.700</field>
+	</row>
+	<row>
+		<field name="id">19336</field>
+		<field name="name">Sugars, powdered</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">0.230</field>
+		<field name="energy_kcal">389.000</field>
+		<field name="energy_kj">1627.000</field>
+		<field name="protein">0.000</field>
+		<field name="lipid" xsi:nil="true" />
+		<field name="fat" xsi:nil="true" />
+		<field name="ash">0.010</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">97.810</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">19404</field>
+		<field name="name">Snacks, granola bars, soft, uncoated, chocolate chip</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">16.510</field>
+		<field name="glucose">5.160</field>
+		<field name="fructose">2.010</field>
+		<field name="water">6.450</field>
+		<field name="energy_kcal">418.000</field>
+		<field name="energy_kj">1749.000</field>
+		<field name="protein">5.650</field>
+		<field name="lipid">16.570</field>
+		<field name="fat">16.570</field>
+		<field name="ash">1.140</field>
+		<field name="carbohydrates">2.000</field>
+		<field name="sugars">28.920</field>
+		<field name="fiber">3.800</field>
+	</row>
+	<row>
+		<field name="id">20028</field>
+		<field name="name">Couscous, dry</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">8.560</field>
+		<field name="energy_kcal">376.000</field>
+		<field name="energy_kj">1573.000</field>
+		<field name="protein">12.760</field>
+		<field name="lipid">0.640</field>
+		<field name="fat">0.640</field>
+		<field name="ash">0.620</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">5.000</field>
+	</row>
+	<row>
+		<field name="id">20040</field>
+		<field name="name">Rice, brown, medium-grain, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">12.370</field>
+		<field name="energy_kcal">362.000</field>
+		<field name="energy_kj">1515.000</field>
+		<field name="protein">7.500</field>
+		<field name="lipid">2.680</field>
+		<field name="fat">2.680</field>
+		<field name="ash">1.270</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">3.400</field>
+	</row>
+	<row>
+		<field name="id">20124</field>
+		<field name="name">Spaghetti, whole-wheat, dry</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">7.340</field>
+		<field name="energy_kcal">348.000</field>
+		<field name="energy_kj">1456.000</field>
+		<field name="protein">14.630</field>
+		<field name="lipid">1.400</field>
+		<field name="fat">1.400</field>
+		<field name="ash">1.600</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">20129</field>
+		<field name="name">Wheat flours, bread, unenriched</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">13.360</field>
+		<field name="energy_kcal">361.000</field>
+		<field name="energy_kj">1510.000</field>
+		<field name="protein">11.980</field>
+		<field name="lipid">1.660</field>
+		<field name="fat">1.660</field>
+		<field name="ash">0.470</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">0.310</field>
+		<field name="fiber">2.400</field>
+	</row>
+	<row>
+		<field name="id">20409</field>
+		<field name="name">Noodles, egg, dry, unenriched</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.260</field>
+		<field name="glucose">0.100</field>
+		<field name="fructose">0.000</field>
+		<field name="water">9.010</field>
+		<field name="energy_kcal">384.000</field>
+		<field name="energy_kj">1609.000</field>
+		<field name="protein">14.160</field>
+		<field name="lipid">4.440</field>
+		<field name="fat">4.440</field>
+		<field name="ash">1.120</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">1.880</field>
+		<field name="fiber">3.300</field>
+	</row>
+	<row>
+		<field name="id">20420</field>
+		<field name="name">Spaghetti, dry, unenriched</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.480</field>
+		<field name="glucose">0.120</field>
+		<field name="fructose">0.110</field>
+		<field name="water">9.900</field>
+		<field name="energy_kcal">371.000</field>
+		<field name="energy_kj">1553.000</field>
+		<field name="protein">13.040</field>
+		<field name="lipid">1.510</field>
+		<field name="fat">1.510</field>
+		<field name="ash">0.880</field>
+		<field name="carbohydrates">7.000</field>
+		<field name="sugars">2.670</field>
+		<field name="fiber">3.200</field>
+	</row>
+	<row>
+		<field name="id">20450</field>
+		<field name="name">Rice, white, medium-grain, raw, unenriched</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">12.890</field>
+		<field name="energy_kcal">360.000</field>
+		<field name="energy_kj">1506.000</field>
+		<field name="protein">6.610</field>
+		<field name="lipid">0.580</field>
+		<field name="fat">0.580</field>
+		<field name="ash" xsi:nil="true" />
+		<field name="carbohydrates">4.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">23562</field>
+		<field name="name">Beef, ground, 90% lean meat / 10% fat, raw</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">69.450</field>
+		<field name="energy_kcal">176.000</field>
+		<field name="energy_kj">735.000</field>
+		<field name="protein">20.000</field>
+		<field name="lipid">10.000</field>
+		<field name="fat">10.000</field>
+		<field name="ash">0.980</field>
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">25004</field>
+		<field name="name">Formulated bar, MARS SNACKFOOD US, SNICKERS MARATHON Chewy Chocolate Peanut Bar</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">12.900</field>
+		<field name="energy_kcal">396.000</field>
+		<field name="energy_kj">1657.000</field>
+		<field name="protein">24.290</field>
+		<field name="lipid">13.120</field>
+		<field name="fat">13.120</field>
+		<field name="ash">3.000</field>
+		<field name="carbohydrates">4.000</field>
+		<field name="sugars">32.860</field>
+		<field name="fiber">2.500</field>
+	</row>
+	<row>
+		<field name="id">28295</field>
+		<field name="name">Tortillas, ready-to-bake or -fry, whole wheat</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">30.150</field>
+		<field name="energy_kcal">310.000</field>
+		<field name="energy_kj">1299.000</field>
+		<field name="protein">9.760</field>
+		<field name="lipid" xsi:nil="true" />
+		<field name="fat" xsi:nil="true" />
+		<field name="ash">4.450</field>
+		<field name="carbohydrates">9.000</field>
+		<field name="sugars">2.440</field>
+		<field name="fiber">9.800</field>
+	</row>
+	<row>
+		<field name="id">28307</field>
+		<field name="name">Bread, naan (Indian bread), plain, commercially prepared, refrigerated</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose">0.650</field>
+		<field name="fructose">0.850</field>
+		<field name="water">32.600</field>
+		<field name="energy_kcal">291.000</field>
+		<field name="energy_kj">1218.000</field>
+		<field name="protein">9.620</field>
+		<field name="lipid">5.650</field>
+		<field name="fat">5.650</field>
+		<field name="ash">1.690</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">3.550</field>
+		<field name="fiber">2.200</field>
+	</row>
+	<row>
+		<field name="id">42183</field>
+		<field name="name">Candies, MARS SNACKFOOD US, TWIX chocolate fudge cookie bars</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">2.200</field>
+		<field name="energy_kcal">550.000</field>
+		<field name="energy_kj">2301.000</field>
+		<field name="protein">7.300</field>
+		<field name="lipid">33.300</field>
+		<field name="fat">33.300</field>
+		<field name="ash">1.200</field>
+		<field name="carbohydrates">0.000</field>
+		<field name="sugars">53.000</field>
+		<field name="fiber">3.000</field>
+	</row>
+	<row>
+		<field name="id">42237</field>
+		<field name="name">Cereals ready-to-eat, WEETABIX whole grain cereal</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit">2</field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">3.000</field>
+		<field name="energy_kcal">371.000</field>
+		<field name="energy_kj">1554.000</field>
+		<field name="protein">11.430</field>
+		<field name="lipid">2.860</field>
+		<field name="fat">2.860</field>
+		<field name="ash">1.210</field>
+		<field name="carbohydrates">5.000</field>
+		<field name="sugars">5.710</field>
+		<field name="fiber">11.400</field>
+	</row>
+	</table_data>
+	<table_data name="composition">
+	<row>
+		<field name="dish">1</field>
+		<field name="ingredient">1123</field>
+		<field name="quantity">40.000</field>
+	</row>
+	<row>
+		<field name="dish">1</field>
+		<field name="ingredient">1174</field>
+		<field name="quantity">52.000</field>
+	</row>
+	<row>
+		<field name="dish">1</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">1.000</field>
+	</row>
+	<row>
+		<field name="dish">1</field>
+		<field name="ingredient">4053</field>
+		<field name="quantity">2.000</field>
+	</row>
+	<row>
+		<field name="dish">1</field>
+		<field name="ingredient">18371</field>
+		<field name="quantity">2.000</field>
+	</row>
+	<row>
+		<field name="dish">1</field>
+		<field name="ingredient">19336</field>
+		<field name="quantity">12.000</field>
+	</row>
+	<row>
+		<field name="dish">1</field>
+		<field name="ingredient">20129</field>
+		<field name="quantity">54.000</field>
+	</row>
+	<row>
+		<field name="dish">2</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">2</field>
+		<field name="ingredient">14411</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">2</field>
+		<field name="ingredient">18371</field>
+		<field name="quantity">0.500</field>
+	</row>
+	<row>
+		<field name="dish">2</field>
+		<field name="ingredient">18374</field>
+		<field name="quantity">2.800</field>
+	</row>
+	<row>
+		<field name="dish">2</field>
+		<field name="ingredient">19336</field>
+		<field name="quantity">6.000</field>
+	</row>
+	<row>
+		<field name="dish">2</field>
+		<field name="ingredient">20129</field>
+		<field name="quantity">200.000</field>
+	</row>
+	<row>
+		<field name="dish">3</field>
+		<field name="ingredient">1009</field>
+		<field name="quantity">25.000</field>
+	</row>
+	<row>
+		<field name="dish">3</field>
+		<field name="ingredient">2030</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">3</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">3</field>
+		<field name="ingredient">4025</field>
+		<field name="quantity">7.500</field>
+	</row>
+	<row>
+		<field name="dish">3</field>
+		<field name="ingredient">7028</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">3</field>
+		<field name="ingredient">11253</field>
+		<field name="quantity">26.500</field>
+	</row>
+	<row>
+		<field name="dish">3</field>
+		<field name="ingredient">11529</field>
+		<field name="quantity">46.000</field>
+	</row>
+	<row>
+		<field name="dish">3</field>
+		<field name="ingredient">18077</field>
+		<field name="quantity">250.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">2030</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">6170</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">11124</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">11529</field>
+		<field name="quantity">40.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">11819</field>
+		<field name="quantity">0.188</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">14411</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">19336</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">20040</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">4</field>
+		<field name="ingredient">23562</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">2030</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">6235</field>
+		<field name="quantity">10.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">7972</field>
+		<field name="quantity">110.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">11124</field>
+		<field name="quantity">18.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">15.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">14411</field>
+		<field name="quantity">200.000</field>
+	</row>
+	<row>
+		<field name="dish">5</field>
+		<field name="ingredient">20028</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">6</field>
+		<field name="ingredient">5066</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">6</field>
+		<field name="ingredient">6624</field>
+		<field name="quantity">37.500</field>
+	</row>
+	<row>
+		<field name="dish">6</field>
+		<field name="ingredient">11124</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">6</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">6</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">6</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">6</field>
+		<field name="ingredient">12118</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">6</field>
+		<field name="ingredient">20450</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">2069</field>
+		<field name="quantity">2.500</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">4053</field>
+		<field name="quantity">2.500</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">5062</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">11124</field>
+		<field name="quantity">24.000</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">15.000</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">11352</field>
+		<field name="quantity">300.000</field>
+	</row>
+	<row>
+		<field name="dish">7</field>
+		<field name="ingredient">16029</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">2009</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">2030</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">11124</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">11529</field>
+		<field name="quantity">40.000</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">19336</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">20420</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">8</field>
+		<field name="ingredient">23562</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">9</field>
+		<field name="ingredient">4053</field>
+		<field name="quantity">2.500</field>
+	</row>
+	<row>
+		<field name="dish">9</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">9</field>
+		<field name="ingredient">11378</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">9</field>
+		<field name="ingredient">15124</field>
+		<field name="quantity">60.000</field>
+	</row>
+	<row>
+		<field name="dish">9</field>
+		<field name="ingredient">20129</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">2030</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">6958</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">11124</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">11378</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">11529</field>
+		<field name="quantity">10.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">16070</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">19336</field>
+		<field name="quantity">1.000</field>
+	</row>
+	<row>
+		<field name="dish">10</field>
+		<field name="ingredient">23562</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">1023</field>
+		<field name="quantity">24.000</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">1123</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">2030</field>
+		<field name="quantity">2.500</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">2.500</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">11167</field>
+		<field name="quantity">20.000</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">0.750</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">11</field>
+		<field name="ingredient">11352</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">2003</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">2.500</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">5091</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">6120</field>
+		<field name="quantity">2.500</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">6172</field>
+		<field name="quantity">1.000</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">11529</field>
+		<field name="quantity">10.000</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">11816</field>
+		<field name="quantity">10.000</field>
+	</row>
+	<row>
+		<field name="dish">12</field>
+		<field name="ingredient">16070</field>
+		<field name="quantity">25.000</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">1009</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">2009</field>
+		<field name="quantity">0.750</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">2030</field>
+		<field name="quantity">0.750</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">2047</field>
+		<field name="quantity">1.250</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">5062</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">11167</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">0.750</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">20.000</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">16029</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">13</field>
+		<field name="ingredient">28295</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">14</field>
+		<field name="ingredient">1055</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">14</field>
+		<field name="ingredient">2003</field>
+		<field name="quantity">3.000</field>
+	</row>
+	<row>
+		<field name="dish">14</field>
+		<field name="ingredient">10994</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">14</field>
+		<field name="ingredient">11215</field>
+		<field name="quantity">1.500</field>
+	</row>
+	<row>
+		<field name="dish">14</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">14</field>
+		<field name="ingredient">20420</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">15</field>
+		<field name="ingredient">1174</field>
+		<field name="quantity">250.000</field>
+	</row>
+	<row>
+		<field name="dish">15</field>
+		<field name="ingredient">8218</field>
+		<field name="quantity">75.000</field>
+	</row>
+	<row>
+		<field name="dish">16</field>
+		<field name="ingredient">1123</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">16</field>
+		<field name="ingredient">18077</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">17</field>
+		<field name="ingredient">1174</field>
+		<field name="quantity">250.000</field>
+	</row>
+	<row>
+		<field name="dish">17</field>
+		<field name="ingredient">8228</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">18</field>
+		<field name="ingredient">19256</field>
+		<field name="quantity">7.500</field>
+	</row>
+	<row>
+		<field name="dish">18</field>
+		<field name="ingredient">19404</field>
+		<field name="quantity">7.500</field>
+	</row>
+	<row>
+		<field name="dish">18</field>
+		<field name="ingredient">25004</field>
+		<field name="quantity">7.500</field>
+	</row>
+	<row>
+		<field name="dish">18</field>
+		<field name="ingredient">42183</field>
+		<field name="quantity">7.500</field>
+	</row>
+	<row>
+		<field name="dish">19</field>
+		<field name="ingredient">14214</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">19</field>
+		<field name="ingredient">14355</field>
+		<field name="quantity">5.000</field>
+	</row>
+	<row>
+		<field name="dish">20</field>
+		<field name="ingredient">14411</field>
+		<field name="quantity">500.000</field>
+	</row>
+	<row>
+		<field name="dish">23</field>
+		<field name="ingredient">1009</field>
+		<field name="quantity">62.500</field>
+	</row>
+	<row>
+		<field name="dish">23</field>
+		<field name="ingredient">6498</field>
+		<field name="quantity">250.000</field>
+	</row>
+	<row>
+		<field name="dish">23</field>
+		<field name="ingredient">7028</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">23</field>
+		<field name="ingredient">11253</field>
+		<field name="quantity">33.125</field>
+	</row>
+	<row>
+		<field name="dish">23</field>
+		<field name="ingredient">11529</field>
+		<field name="quantity">57.500</field>
+	</row>
+	<row>
+		<field name="dish">23</field>
+		<field name="ingredient">18077</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">24</field>
+		<field name="ingredient">5062</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">24</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">37.500</field>
+	</row>
+	<row>
+		<field name="dish">24</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">3.125</field>
+	</row>
+	<row>
+		<field name="dish">24</field>
+		<field name="ingredient">11583</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">24</field>
+		<field name="ingredient">16124</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">24</field>
+		<field name="ingredient">20409</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">25</field>
+		<field name="ingredient">1009</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">25</field>
+		<field name="ingredient">4053</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">25</field>
+		<field name="ingredient">7019</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">25</field>
+		<field name="ingredient">9195</field>
+		<field name="quantity">12.500</field>
+	</row>
+	<row>
+		<field name="dish">25</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">25.000</field>
+	</row>
+	<row>
+		<field name="dish">25</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">12.500</field>
+	</row>
+	<row>
+		<field name="dish">25</field>
+		<field name="ingredient">20124</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">26</field>
+		<field name="ingredient">1009</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">26</field>
+		<field name="ingredient">2009</field>
+		<field name="quantity">3.125</field>
+	</row>
+	<row>
+		<field name="dish">26</field>
+		<field name="ingredient">6972</field>
+		<field name="quantity">75.000</field>
+	</row>
+	<row>
+		<field name="dish">26</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">18.750</field>
+	</row>
+	<row>
+		<field name="dish">26</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">3.125</field>
+	</row>
+	<row>
+		<field name="dish">26</field>
+		<field name="ingredient">16029</field>
+		<field name="quantity">75.000</field>
+	</row>
+	<row>
+		<field name="dish">26</field>
+		<field name="ingredient">20040</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">26</field>
+		<field name="ingredient">23562</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">27</field>
+		<field name="ingredient">6114</field>
+		<field name="quantity">62.500</field>
+	</row>
+	<row>
+		<field name="dish">27</field>
+		<field name="ingredient">7059</field>
+		<field name="quantity">156.250</field>
+	</row>
+	<row>
+		<field name="dish">27</field>
+		<field name="ingredient">11378</field>
+		<field name="quantity">62.500</field>
+	</row>
+	<row>
+		<field name="dish">27</field>
+		<field name="ingredient">11583</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">27</field>
+		<field name="ingredient">18077</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">28</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">18.750</field>
+	</row>
+	<row>
+		<field name="dish">28</field>
+		<field name="ingredient">11529</field>
+		<field name="quantity">28.750</field>
+	</row>
+	<row>
+		<field name="dish">28</field>
+		<field name="ingredient">15124</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">28</field>
+		<field name="ingredient">28295</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">29</field>
+		<field name="ingredient">1009</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">29</field>
+		<field name="ingredient">1055</field>
+		<field name="quantity">62.500</field>
+	</row>
+	<row>
+		<field name="dish">29</field>
+		<field name="ingredient">1123</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">29</field>
+		<field name="ingredient">10994</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">29</field>
+		<field name="ingredient">11266</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">29</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">29</field>
+		<field name="ingredient">20420</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">30</field>
+		<field name="ingredient">6624</field>
+		<field name="quantity">75.000</field>
+	</row>
+	<row>
+		<field name="dish">30</field>
+		<field name="ingredient">11090</field>
+		<field name="quantity">81.250</field>
+	</row>
+	<row>
+		<field name="dish">30</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">37.500</field>
+	</row>
+	<row>
+		<field name="dish">30</field>
+		<field name="ingredient">11333</field>
+		<field name="quantity">25.000</field>
+	</row>
+	<row>
+		<field name="dish">30</field>
+		<field name="ingredient">20409</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">30</field>
+		<field name="ingredient">28307</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">31</field>
+		<field name="ingredient">1174</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">31</field>
+		<field name="ingredient">8054</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">31</field>
+		<field name="ingredient">8506</field>
+		<field name="quantity">31.250</field>
+	</row>
+	<row>
+		<field name="dish">31</field>
+		<field name="ingredient">18077</field>
+		<field name="quantity">50.000</field>
+	</row>
+	<row>
+		<field name="dish">31</field>
+		<field name="ingredient">42237</field>
+		<field name="quantity">37.500</field>
+	</row>
+	<row>
+		<field name="dish">32</field>
+		<field name="ingredient">1174</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">32</field>
+		<field name="ingredient">8054</field>
+		<field name="quantity">15.625</field>
+	</row>
+	<row>
+		<field name="dish">32</field>
+		<field name="ingredient">8228</field>
+		<field name="quantity">37.500</field>
+	</row>
+	<row>
+		<field name="dish">32</field>
+		<field name="ingredient">8506</field>
+		<field name="quantity">15.625</field>
+	</row>
+	<row>
+		<field name="dish">32</field>
+		<field name="ingredient">18077</field>
+		<field name="quantity">25.000</field>
+	</row>
+	<row>
+		<field name="dish">32</field>
+		<field name="ingredient">42237</field>
+		<field name="quantity">18.750</field>
+	</row>
+	<row>
+		<field name="dish">33</field>
+		<field name="ingredient">1123</field>
+		<field name="quantity">100.000</field>
+	</row>
+	<row>
+		<field name="dish">33</field>
+		<field name="ingredient">1174</field>
+		<field name="quantity">125.000</field>
+	</row>
+	<row>
+		<field name="dish">33</field>
+		<field name="ingredient">10994</field>
+		<field name="quantity">62.500</field>
+	</row>
+	<row>
+		<field name="dish">33</field>
+		<field name="ingredient">18347</field>
+		<field name="quantity">75.000</field>
+	</row>
+	<row>
+		<field name="dish">34</field>
+		<field name="ingredient">7240</field>
+		<field name="quantity">120.000</field>
+	</row>
+	<row>
+		<field name="dish">34</field>
+		<field name="ingredient">11282</field>
+		<field name="quantity">37.500</field>
+	</row>
+	<row>
+		<field name="dish">34</field>
+		<field name="ingredient">18350</field>
+		<field name="quantity">100.000</field>
+	</row>
+	</table_data>
+	<table_data name="cruise">
+	</table_data>
+	<table_data name="meal">
+	<row>
+		<field name="id">1</field>
+		<field name="nbGuests">2</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">31</field>
+		<field name="dessert">22</field>
+		<field name="drink">19</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-21 07:00:00</field>
+	</row>
+	<row>
+		<field name="id">57</field>
+		<field name="nbGuests">2</field>
+		<field name="firstCourse">19</field>
+		<field name="secondCourse">31</field>
+		<field name="dessert">22</field>
+		<field name="drink">35</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-21 07:00:00</field>
+	</row>
+	<row>
+		<field name="id">58</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">24</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-20 18:00:00</field>
+	</row>
+	<row>
+		<field name="id">61</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">25</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-21 12:00:00</field>
+	</row>
+	<row>
+		<field name="id">63</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">26</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-21 18:00:00</field>
+	</row>
+	<row>
+		<field name="id">64</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">23</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-20 12:00:00</field>
+	</row>
+	<row>
+		<field name="id">65</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">32</field>
+		<field name="dessert">22</field>
+		<field name="drink">19</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-22 07:00:00</field>
+	</row>
+	<row>
+		<field name="id">66</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">23</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-22 12:00:00</field>
+	</row>
+	<row>
+		<field name="id">67</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">27</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-22 18:00:00</field>
+	</row>
+	<row>
+		<field name="id">68</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">33</field>
+		<field name="dessert">22</field>
+		<field name="drink">19</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-23 07:00:00</field>
+	</row>
+	<row>
+		<field name="id">69</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">28</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-23 12:00:00</field>
+	</row>
+	<row>
+		<field name="id">70</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">29</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-23 18:00:00</field>
+	</row>
+	<row>
+		<field name="id">71</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">31</field>
+		<field name="dessert">22</field>
+		<field name="drink">19</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-24 07:00:00</field>
+	</row>
+	<row>
+		<field name="id">72</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">25</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-24 18:00:00</field>
+	</row>
+	<row>
+		<field name="id">73</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">34</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-24 12:00:00</field>
+	</row>
+	<row>
+		<field name="id">74</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">32</field>
+		<field name="dessert">22</field>
+		<field name="drink">19</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-25 07:00:00</field>
+	</row>
+	<row>
+		<field name="id">75</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">23</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-25 12:00:00</field>
+	</row>
+	<row>
+		<field name="id">76</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">30</field>
+		<field name="dessert">22</field>
+		<field name="drink">20</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-25 18:00:00</field>
+	</row>
+	<row>
+		<field name="id">77</field>
+		<field name="nbGuests">16</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">31</field>
+		<field name="dessert">22</field>
+		<field name="drink">19</field>
+		<field name="cook">3</field>
+		<field name="date">2015-07-26 07:00:00</field>
+	</row>
+	</table_data>
+</database>
+</mysqldump>

@@ -7,8 +7,6 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use app\models\LoginForm;
-use app\models\ContactForm;
 use app\models\Ingredient;
 use app\models\User;
 use app\models\Unit;
@@ -65,43 +63,6 @@ class SiteController extends Controller
         return $this->render('recipe');
     }
 
-    public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
-
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
     public function actionCalendar()
     {
         $users        = User::find()->all();
@@ -131,27 +92,6 @@ class SiteController extends Controller
             ];
         return $this->render('calendar', $params);
     }
-
-    public function actionAdmin()
-    {
-        return $this->render('admin');
-    }
-
-    public function actionAdminUser()
-    {
-        return $this->render('admin/user');
-    }
-
-    public function actionAdminDish()
-    {
-        return $this->render('admin/dish');
-    }
-
-    public function actionAdminIngredient()
-    {
-        return $this->render('admin/ingredient');
-    }
-
     public function actionNewIngredient()
     {
         $model = new \app\models\Ingredient();

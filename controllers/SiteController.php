@@ -60,11 +60,18 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionRecipe()
+    public function actionRecipe($id = 0)
     {
         $ingredients = Ingredient::find()->all();
+        $components = [];
+        if ( $id !== 0 ) {
+            $components = Composition::findAll(['dish' => $id]);
+        }
+
         $params = [
-            'ingredients'  => $ingredients,
+            'ingredients' => $ingredients,
+            'dish'        => $id,
+            'components'  => $components,
         ];
 
         return $this->render('recipe', $params);
@@ -276,6 +283,6 @@ class SiteController extends Controller
         $model->load(Yii::$app->request->post());
         $model->save();
 
-        $this->redirect(['site/recipe']);
+        $this->redirect(['site/recipe', 'id' => $model->dish]);
     }
 }

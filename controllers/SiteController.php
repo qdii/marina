@@ -237,19 +237,24 @@ class SiteController extends Controller
 
     public function actionManyColumnListDish($id)
     {
-        if (($dish = \app\models\Dish::findOne($id)) === null) {
-            return;
-        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        $components  = $dish->getCompositions()->all();
-        $ingredients = Ingredient::find()->all();
+        $query = new \yii\db\Query;
+        $query->select(
+            [
+                'composition.quantity',
+                'ingredient.name',
+                'ingredient.id'
+            ]
+        )
+            ->from('composition')
+            ->join(
+                'left join',
+                'ingredient',
+                'composition.ingredient = ingredient.id'
+            )
+            ->where(['dish' => $id]);
 
-        $params = [
-            'ingredients' => $ingredients,
-            'components'  => $components,
-            'dish'        => $dish,
-        ];
-
-        return $this->renderPartial('new-meal', $params);
+        return $query->all();
     }
 }

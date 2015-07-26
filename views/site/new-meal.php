@@ -19,6 +19,12 @@ $ingredientChoser = Chosen::widget(
 );
 
 // RECIPE
+$formOptions = [
+        'id' => 'new-ingredient-form',
+        'method' => 'POST',
+        'action' => 'site/insert-composition',
+    ];
+$form = ActiveForm::begin($formOptions);
 echo Html::beginTag("table", ['class' => 'table table-hover']);
 echo Html::beginTag("thead");
 
@@ -60,14 +66,8 @@ $compositionModel = new \app\models\Composition;
 $inline           = [ 'template' => '{input}{error}' ];
 
 $plusIcon = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
-$formOptions = [
-        'id' => 'new-ingredient-form',
-        'method' => 'POST',
-        'action' => 'site/insert-composition',
-    ];
 
 echo Html::beginTag('tr');
-$form = ActiveForm::begin($formOptions);
 
     echo Html::beginTag('td', ['data-id' => 'new-ingredient']);
     echo $form->field($compositionModel, 'ingredient', $inline)->widget(
@@ -85,7 +85,6 @@ $form = ActiveForm::begin($formOptions);
     echo Html::activeHiddenInput($compositionModel, 'dish');
     echo Html::endTag('td');
 
-ActiveForm::end();
 echo Html::endTag('tr');
 
 // TOTAL
@@ -98,3 +97,5 @@ echo Html::endTag('tr');
 
 echo Html::endtag("tbody");
 echo Html::endtag("table");
+
+ActiveForm::end();

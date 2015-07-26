@@ -62,7 +62,12 @@ class SiteController extends Controller
 
     public function actionRecipe()
     {
-        return $this->render('recipe');
+        $ingredients = Ingredient::find()->all();
+        $params = [
+            'ingredients'  => $ingredients,
+        ];
+
+        return $this->render('recipe', $params);
     }
 
     public function actionLogin()
@@ -244,7 +249,9 @@ class SiteController extends Controller
             [
                 'composition.quantity',
                 'ingredient.name',
-                'ingredient.id'
+                'ingredient.id',
+                'ingredient.energy_kcal',
+                'ingredient.protein'
             ]
         )
             ->from('composition')
@@ -256,5 +263,19 @@ class SiteController extends Controller
             ->where(['dish' => $id]);
 
         return $query->all();
+    }
+
+    /**
+     * Insert composition in the database
+     *
+     * @return void
+     */
+    public function actionInsertComposition()
+    {
+        $model = new \app\models\Composition;
+        $model->load(Yii::$app->request->post());
+        $model->save();
+
+        $this->redirect(['site/recipe']);
     }
 }

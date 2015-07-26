@@ -12,6 +12,7 @@ class ManyColumnList extends \yii\bootstrap\Widget
     public $totals       = [];
     public $showTotal    = true;
     public $attributes   = [];
+    public $data_id;
 
     public function init()
     {
@@ -41,12 +42,18 @@ class ManyColumnList extends \yii\bootstrap\Widget
         $html .= Html::beginTag("tbody");
 
         // item rows
+        $i = 0;
         foreach ( $this->items as $item ) {
-            $html .= Html::beginTag("tr");
+            $options = [];
+            if (isset($this->attributes[$i]['data-id'])) {
+                $options['data-id'] = $this->attributes[$i]['data-id'];
+            }
+            $html .= Html::beginTag("tr", $options);
             foreach ( $item as $value ) {
                 $html .= Html::tag("td", $value);
             }
             $html .= Html::endTag("tr");
+            $i++;
         }
 
         // TOTAL row
@@ -67,7 +74,13 @@ class ManyColumnList extends \yii\bootstrap\Widget
     public function run()
     {
         $html = "";
-        $html .= Html::beginTag( "table", [ "class" => "table table-hover" ] );
+
+        $tableOptions = [];
+        Html::addCssClass($tableOptions, "table table-hover");
+        if (count($this->data_id)) {
+            $tableOptions[ 'data-id' ] = $this->data_id;
+        }
+        $html .= Html::beginTag("table", $tableOptions);
 
         $html .= $this->renderHead();
         $html .= $this->renderRows();

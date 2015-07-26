@@ -58,9 +58,21 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionRecipe()
+    public function actionRecipe($id = 0)
     {
-        return $this->render('recipe');
+        $ingredients = Ingredient::find()->all();
+        $components = [];
+        if ( $id !== 0 ) {
+            $components = Composition::findAll(['dish' => $id]);
+        }
+
+        $params = [
+            'ingredients' => $ingredients,
+            'dish'        => $id,
+            'components'  => $components,
+        ];
+
+        return $this->render('recipe', $params);
     }
 
     public function actionCalendar()
@@ -177,21 +189,40 @@ class SiteController extends Controller
 
     public function actionManyColumnListDish($id)
     {
-        if (($dish = \app\models\Dish::findOne($id)) === null) {
-            return;
-        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        $components = $dish->getCompositions()->all();
+        $query = new \yii\db\Query;
+        $query->select(
+            [
+                'composition.quantity',
+                'ingredient.name',
+                'ingredient.id',
+                'ingredient.energy_kcal',
+                'ingredient.protein'
+            ]
+        )
+            ->from('composition')
+            ->join(
+                'left join',
+                'ingredient',
+                'composition.ingredient = ingredient.id'
+            )
+            ->where(['dish' => $id]);
 
-        $ingredientIds = ArrayHelper::getColumn($components, 'ingredient');
-        $ingredients   = Ingredient::findAll([ 'id' => $ingredientIds]);
+        return $query->all();
+    }
 
-        $params = [
-            'ingredients' => $ingredients,
-            'components'  => $components,
-            'dish'        => $dish,
-        ];
+    /**
+     * Insert composition in the database
+     *
+     * @return void
+     */
+    public function actionInsertComposition()
+    {
+        $model = new \app\models\Composition;
+        $model->load(Yii::$app->request->post());
+        $model->save();
 
-        return $this->renderPartial('new-meal', $params);
+        $this->redirect(['site/recipe', 'id' => $model->dish]);
     }
 }

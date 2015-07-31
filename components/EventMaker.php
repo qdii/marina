@@ -143,7 +143,7 @@ class EventMaker
     {
         $start = new \DateTime($meal->date);
         $end   = clone $start;
-        $end->add(new \DateInterval("PT2H30M"));
+        $end->add(new \DateInterval("PT2H"));
         return [
             'id'    => $meal->id,
             'title' => $this->getTitleFromMeal($meal),

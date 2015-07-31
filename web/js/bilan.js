@@ -42,3 +42,15 @@ function load_bilan(where, dishId, url) {
         $('#composition-dish').val(dishId);
     });
 }
+
+function make_new_ingredient_ajax(form) {
+    form.submit(function(event) {
+        event.preventDefault();
+        form.data('yiiActiveForm').submitting = true;
+        form.yiiActiveForm('validate');
+        form.ajaxSubmit({url: 'index.php?site/insert-composition', type:'post'});
+        return false;
+    });
+}
+
+make_new_ingredient_ajax($('#new-ingredient-form'));

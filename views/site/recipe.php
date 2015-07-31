@@ -20,7 +20,8 @@ use \skeeks\widget\chosen\Chosen;
 
 $this->title = 'Recipe';
 $this->params['breadcrumbs'][] = $this->title;
-$this->registerJsFile('js/bilan.js');
+
+\app\assets\RecipeAsset::register($this);
 
 // the id of the div that will contain the list, when a dish is selected
 $bilanId = "bilan";

@@ -223,8 +223,6 @@ class SiteController extends Controller
         $model = new \app\models\Composition;
         $model->load(Yii::$app->request->post());
         $model->save();
-
-        \Yii::$app->response->statusCode = 200;
     }
 
     /**
@@ -234,24 +232,14 @@ class SiteController extends Controller
      */
     public function actionUpdateComposition()
     {
-        $model = new Composition;
-        $model->load(Yii::$app->request->post());
-        $item = Composition::findOne(
-            [
-                'dish'       => $model->dish,
-                'ingredient' => $model->ingredient,
-            ]
+        $args = Yii::$app->request->post();
+        $composition = $args['Composition'];
+
+        $compositionHelper = new \app\components\CompositionHelper();
+        $compositionHelper->updateDelete(
+            $composition['dish'],
+            $composition['ingredient'],
+            $composition['quantity']
         );
-
-        if ($item == null) {
-            return;
-        }
-
-        if ($model->quantity == 0) {
-            $item->delete();
-        } else {
-            $item->quantity = $model->quantity;
-            $item->save();
-        }
     }
 }

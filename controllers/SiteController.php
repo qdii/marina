@@ -224,6 +224,6 @@ class SiteController extends Controller
         $model->load(Yii::$app->request->post());
         $model->save();
 
-        $this->redirect(['site/recipe', 'id' => $model->dish]);
+        \Yii::$app->response->statusCode = 200;
     }
 }

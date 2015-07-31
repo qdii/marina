@@ -236,20 +236,22 @@ class SiteController extends Controller
     {
         $model = new Composition;
         $model->load(Yii::$app->request->post());
+        $item = Composition::findOne(
+            [
+                'dish'       => $model->dish,
+                'ingredient' => $model->ingredient,
+            ]
+        );
 
-        if ($model->quantity == 0) {
-            $item = Composition::findOne(
-                [
-                    'dish'       => $model->dish,
-                    'ingredient' => $model->ingredient,
-                ]
-            );
-
-            $item->delete();
-        } else {
-            $model->save();
+        if ($item == null) {
+            return;
         }
 
-        \Yii::$app->response->statusCode = 200;
+        if ($model->quantity == 0) {
+            $item->delete();
+        } else {
+            $item->quantity = $model->quantity;
+            $item->save();
+        }
     }
 }

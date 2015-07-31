@@ -26,6 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
 // the id of the div that will contain the list, when a dish is selected
 $bilanId = "bilan";
 
+// icons to add/remove ingredients
+$plusIcon  = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
+$minusIcon = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+
 // the URL that permits loading the list
 $loadUrl = Url::toRoute("site/many-column-list-dish");
 
@@ -75,40 +79,15 @@ echo Html::beginTag("tr");
 foreach ($headers as $value) {
     echo Html::tag("th", $value);
 }
+echo Html::tag("tr", "");
 echo Html::endTag("tr");
 echo Html::endTag("thead");
 
-// INGREDIENTS
 echo Html::beginTag("tbody");
-$total_proteins = 0;
-$total_energy   = 0;
-$total_weight   = 0;
-
-foreach ( $components as $component ) {
-    $ingredient = $ingredientsById[ $component->ingredient ];
-    $quantity   = $component->quantity;
-    $proteins   = $quantity * $ingredient['protein']     / 100;
-    $energy     = $quantity * $ingredient['energy_kcal'] / 100;
-    $options    = ['data-id' => $component->ingredient];
-    Html::addCssClass($options, 'ingredient');
-
-    echo Html::beginTag("tr", $options);
-    echo Html::tag("td", $ingredient['name']);
-    echo Html::tag("td", round($quantity, 1) . " g");
-    echo Html::tag("td", round($proteins, 1) . " g");
-    echo Html::tag("td", round($energy, 1)   . " kcal");
-    echo Html::endTag("tr");
-
-    $total_weight   += $quantity;
-    $total_proteins += $proteins;
-    $total_energy   += $energy;
-}
 
 // NEW INGREDIENT FORM
 $compositionModel = new \app\models\Composition;
 $inline           = [ 'template' => '{input}{error}' ];
-
-$plusIcon = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
 
 echo Html::beginTag('tr', ['id' => 'new-ingredient']);
 echo Html::beginTag('td', ['data-id' => 0]);
@@ -124,19 +103,23 @@ echo Html::beginTag('td');
 echo $form->field($compositionModel, 'quantity', $inline);
 echo Html::endTag('td');
 echo Html::beginTag('td');
-echo Html::submitButton($plusIcon, [ 'class' => 'btn btn-success' ]);
 echo Html::endTag('td');
 echo Html::beginTag('td');
+echo Html::endTag('td');
 echo Html::activeHiddenInput($compositionModel, 'dish');
 echo Html::endTag('td');
+echo Html::beginTag('td');
+echo Html::submitButton($plusIcon, [ 'class' => 'btn btn-success' ]);
+echo Html::endTag('td');
 echo Html::endTag('tr');
-//
+
 // TOTAL
 echo Html::beginTag('tr', ['class' => 'list-group-item-success', 'id' => 'total']);
 echo Html::tag("td", Html::tag('strong', 'Total'));
-echo Html::tag("td", Html::tag('strong', round($total_weight,   1) . " g"));
-echo Html::tag("td", Html::tag('strong', round($total_proteins, 1) . " g"));
-echo Html::tag("td", Html::tag('strong', round($total_energy,   1) . " kcal"));
+echo Html::tag("td", "");
+echo Html::tag("td", "");
+echo Html::tag("td", "");
+echo Html::tag("td", "");
 echo Html::endTag('tr');
 
 
@@ -145,3 +128,34 @@ echo Html::endtag("table");
 
 ActiveForm::end();
 
+// DELETE INGREDIENT FORM
+/**
+ * Generates the Yii2 ActiveField options
+ *
+ * @param string $fieldId The new id to set
+ *
+ * @return string The option field
+ */
+function fieldOptions($fieldId)
+{
+    return
+        [
+            'options' =>
+            [
+                'id' => $fieldId,
+                'selectors' => '#' + $fieldId,
+            ]
+        ];
+}
+echo Html::beginTag("div", ['class' => 'hidden']);
+$updateFormOptions = [
+    'id'     => 'update-ingredient-form',
+        'method' => 'POST',
+        'action' => Url::toRoute('site/update-composition'),
+    ];
+$updateForm = ActiveForm::begin($updateFormOptions);
+echo $form->field($compositionModel, 'dish', fieldOptions('update-dish'));
+echo $form->field($compositionModel, 'ingredient', fieldOptions('update-ingr'));
+echo $form->field($compositionModel, 'quantity', fieldOptions('update-quantity'));
+ActiveForm::end($updateFormOptions);
+echo Html::endTag("div");

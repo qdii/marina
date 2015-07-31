@@ -226,4 +226,30 @@ class SiteController extends Controller
 
         \Yii::$app->response->statusCode = 200;
     }
+
+    /**
+     * Insert composition in the database
+     *
+     * @return void
+     */
+    public function actionUpdateComposition()
+    {
+        $model = new Composition;
+        $model->load(Yii::$app->request->post());
+
+        if ($model->quantity == 0) {
+            $item = Composition::findOne(
+                [
+                    'dish'       => $model->dish,
+                    'ingredient' => $model->ingredient,
+                ]
+            );
+
+            $item->delete();
+        } else {
+            $model->save();
+        }
+
+        \Yii::$app->response->statusCode = 200;
+    }
 }

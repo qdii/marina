@@ -40,6 +40,7 @@ function load_bilan(where, dishId, url) {
                 +   '<td>' + qty.toFixed(1) + ' g</td>'
                 +   '<td>' + proteinText    + ' ' + proteinUnit + '</td>'
                 +   '<td>' + caloryText     + ' ' + caloryUnit  + '</td>'
+                +   '<td><button class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
                 + '</tr>'
             );
         }
@@ -50,12 +51,14 @@ function load_bilan(where, dishId, url) {
             +   '<td><strong>' + total_qty.toFixed(1)  + ' g</strong></td>'
             +   '<td><strong>' + total_prot.toFixed(1) + ' g</strong></td>'
             +   '<td><strong>' + total_cal.toFixed(1)  + ' kcal</strong></td>'
+            +   '<td></td>'
             +'</tr>'
         );
 
         where.parents().removeClass('hidden');
 
         $('#composition-dish').val(dishId);
+        handle_update_composition($('.ingredient button'),$('#update-ingredient-form'))
     });
 }
 
@@ -81,6 +84,31 @@ function make_new_ingredient_ajax(form) {
         };
 
         form.ajaxSubmit(opts);
+        return false;
+    });
+}
+
+function handle_update_composition(target, form) {
+    target.click(function(event){
+        event.preventDefault();
+
+        // prepare the update form
+        var dishId       = $('#composition-dish').val();
+        var ingredientId = $(this).parents('.ingredient').attr('data-id');
+        var quantity     = 0;
+
+        $('#update-dish input').val(dishId);
+        $('#update-ingr input').val(ingredientId);
+        $('#update-quantity input').val(quantity);
+
+        opts = {
+            'success' : reload_bilan,
+            'error' : function() { },
+        };
+
+        // commit the result
+        form.ajaxSubmit(opts);
+
         return false;
     });
 }

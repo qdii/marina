@@ -207,7 +207,8 @@ class SiteController extends Controller
                 'ingredient',
                 'composition.ingredient = ingredient.id'
             )
-            ->where(['dish' => $id]);
+            ->where(['dish' => $id])
+            ->addOrderBy(['ingredient.name' => SORT_DESC]);
 
         return $query->all();
     }

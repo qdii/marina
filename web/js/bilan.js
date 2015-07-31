@@ -10,20 +10,36 @@ function load_bilan(where, dishId, url) {
         for ( var i = 0; i < nelements; i++ ) {
             var id   = data[i].id;
             var name = data[i].name;
-            var qty  = parseFloat(data[i].quantity);
-            var prot = parseFloat(data[i].protein);
-            var cal  = parseFloat(data[i].energy_kcal);
 
+            var qty      = parseFloat(data[i].quantity);
             total_qty  += qty;
-            total_prot += prot;
-            total_cal  += cal;
+
+            var proteinText = "unknown";
+            var proteinUnit = "";
+            if (data[i].protein != undefined) {
+                var protUnit  = parseFloat(data[i].protein);
+                var prot      = protUnit / 100.0 * qty;
+                proteinUnit   = "g";
+                total_prot   += prot;
+                proteinText   = prot.toFixed(1);
+            }
+
+            var caloryText = "unknown";
+            var caloryUnit = "";
+            if (data[i].energy_kcal != undefined) {
+                var calUnit  = parseFloat(data[i].energy_kcal);
+                var cal      = calUnit / 100.0 * qty;
+                caloryUnit   = "kcal";
+                total_cal   += cal;
+                caloryText   = cal.toFixed(1);
+            }
 
             where.prepend(
                   '<tr data-id="' + id + '" class="ingredient">'
-                +   '<td>' + name + '</td>'
-                +   '<td>' + qty.toFixed(1)  + ' g</td>'
-                +   '<td>' + prot.toFixed(1) + ' g</td>'
-                +   '<td>' + cal.toFixed(1)  + ' kcal</td>'
+                +   '<td>' + name           + '</td>'
+                +   '<td>' + qty.toFixed(1) + ' g</td>'
+                +   '<td>' + proteinText    + ' ' + proteinUnit + '</td>'
+                +   '<td>' + caloryText     + ' ' + caloryUnit  + '</td>'
                 + '</tr>'
             );
         }

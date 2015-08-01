@@ -59,7 +59,7 @@ function load_bilan(where, dishId, url) {
 
         $('#composition-dish').val(dishId);
         handle_delete_composition($('.ingredient button'),$('#update-ingredient-form'))
-        handle_weight_update();
+        handle_weight_update($(".weight"));
     });
 }
 
@@ -68,7 +68,7 @@ function reload_bilan() {
     dishId = $('#composition-dish').val();
     url    = '/index.php?r=site%2Fmany-column-list-dish';
 
-    load_bilan(where, dishId , url );
+    load_bilan(where, dishId , url);
 }
 
 function make_new_ingredient_ajax(form) {
@@ -89,14 +89,14 @@ function make_new_ingredient_ajax(form) {
     });
 }
 
-function update_composition(form, dishId, ingredientId, quantity) {
+function update_composition(form, dishId, ingredientId, quantity, callback) {
     $('#update-dish input').val(dishId);
     $('#update-ingr input').val(ingredientId);
     $('#update-quantity input').val(quantity);
 
     opts = {
-        'success' : reload_bilan,
-        'error' : function() { },
+        'success': callback,
+        'error':   function() { },
     };
 
     // commit the result
@@ -112,7 +112,7 @@ function handle_delete_composition(target, form) {
         var ingredientId = $(this).parents('.ingredient').attr('data-id');
         var quantity     = 0;
 
-        update_composition(form, dishId, ingredientId, quantity);
+        update_composition(form, dishId, ingredientId, quantity, reload_bilan);
 
         return false;
     });
@@ -128,37 +128,50 @@ function save_and_remove_modified_quantities() {
     var dishId       = $('#composition-dish').val();
     var form         = $('#update-ingredient-form');
 
-    update_composition(form, dishId, ingredientId, quantity);
+    update_composition(form, dishId, ingredientId, quantity, function() {});
 
-    modifiedElement.html(quantity);
+    // restore click handlers
+    var elem = modifiedElement.parent();
+    handle_weight_update(elem);
+
+    elem.html(quantity + ' g');
 }
 
 make_new_ingredient_ajax($('#new-ingredient-form'));
 
 function create_button(where) {
+    console.log("creating button");
     value = where.text();
     where.html("<button class='btn btn-default'>" + value +"</button>");
     $('selector').css('cursor', 'pointer');
 }
 
 function remove_button(where) {
+    console.log("removing button");
     value = where.children('button').text();
     where.html(value);
     $('selector').css('cursor', 'default');
 }
 
-function handle_weight_update() {
-    $(".weight").hover(
+function on_weight_click(where) {
+    save_and_remove_modified_quantities();
+    where.unbind('click');
+    where.unbind('mouseenter').unbind('mouseleave');
+    remove_button(where);
+    var val = where.text().replace(" g","");
+    where.html('<input id="modified-quantity" class="form-control" type="text" value="' + val + '">');
+    where.children('input').focus();
+}
+
+function handle_weight_update(where) {
+    where.hover(
         function() { create_button($(this)); },
         function() { remove_button($(this)); }
     );
 
-    $(".weight").click(function() {
-        save_and_remove_modified_quantities();
-        $(this).unbind('click');
-        $(this).unbind('mouseenter').unbind('mouseleave');
-        remove_button($(this));
-        var val = $(this).text().replace(" g","");
-        $(this).html('<input id="modified-quantity" class="form-control" type="text" value="' + val + '">');
-    });
+    where.click(
+        function() {
+            on_weight_click($(this));
+        }
+    );
 }

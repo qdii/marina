@@ -111,7 +111,13 @@ $this->registerJs(
 // main part of the modal dialog
 $model = new app\models\Meal;
 
-echo $form->field($model, 'date')        ->widget(DateTimePicker::classname(), []);
+$datepickerOpts
+    = [
+        'clientOptions' => [
+            'weekStart' => 1
+        ]
+    ];
+echo $form->field($model, 'date')        ->widget(DateTimePicker::classname(), $datepickerOpts);
 echo $form->field($model, 'nbGuests')    ->widget(TouchSpin::classname(),['pluginOptions'=>['initval'=>1,'min'=>1]]);
 echo $form->field($model, 'cook')        ->dropDownList( ArrayHelper::map( $users,   'id', 'username' ) );
 echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $firsts,   'id', 'name' ) );

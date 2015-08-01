@@ -134,11 +134,31 @@ function save_and_remove_modified_quantities() {
 }
 
 make_new_ingredient_ajax($('#new-ingredient-form'));
+
+function create_button(where) {
+    value = where.text();
+    where.html("<button class='btn btn-default'>" + value +"</button>");
+    $('selector').css('cursor', 'pointer');
+}
+
+function remove_button(where) {
+    value = where.children('button').text();
+    where.html(value);
+    $('selector').css('cursor', 'default');
+}
+
 function handle_weight_update() {
+    $(".weight").hover(
+        function() { create_button($(this)); },
+        function() { remove_button($(this)); }
+    );
+
     $(".weight").click(function() {
         save_and_remove_modified_quantities();
         $(this).unbind('click');
-        val = $(this).text().replace(" g"," ");
+        $(this).unbind('mouseenter').unbind('mouseleave');
+        remove_button($(this));
+        var val = $(this).text().replace(" g","");
         $(this).html('<input id="modified-quantity" class="form-control" type="text" value="' + val + '">');
     });
 }

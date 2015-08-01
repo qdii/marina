@@ -49,6 +49,77 @@ class SiteControllerTest extends PHPUnit_Extensions_Database_TestCase
     }
 
     /**
+     * Tests that the correct information is returned
+     * by the CompositionHelper component for water
+     *
+     * @return void
+     */
+    public function testGetInformationWater()
+    {
+        $helper = new CompositionHelper;
+
+        $waterWeight = 500.0;
+
+        // 20 is the id of a dish containing only water
+        $info = $helper->getInformation(20);
+
+        foreach( $info as $row ) {
+            if (isset($row['total_qty'])) {
+                $this->assertEquals($waterWeight, $row['total_qty'], '', 0.01);
+                $this->assertEquals(0.0, $row['total_cal'], '', 0.01);
+                $this->assertEquals(0.0, $row['total_prot'], '', 0.01);
+            } else {
+                $this->assertEquals($waterWeight, $row['quantity'], '', 0.01);
+                $this->assertEquals(0.0, $row['energy_kcal'], '', 0.01);
+                $this->assertEquals(0.0, $row['protein'], '', 0.01);
+            }
+        }
+    }
+
+    /**
+     * Tests that the correct information is returned
+     * by the CompositionHelper component for cereals and milk
+     */
+    public function testGetInformationCerealsMilk()
+    {
+        $helper = new CompositionHelper;
+
+        $cerealsWeight   = 75.0;
+        $cerealsProtUnit = 9.660;
+        $cerealsCalUnit  = 412.0;
+        $cerealsProt     = $cerealsWeight * $cerealsProtUnit / 100.0;
+        $cerealsCal      = $cerealsWeight * $cerealsCalUnit / 100.0;
+
+        $milkWeight   = 250.0;
+        $milkProtUnit = 3.3;
+        $milkCalUnit  = 50.0;
+        $milkProt     = $milkWeight * $milkProtUnit / 100.0;
+        $milkCal      = $milkWeight * $milkCalUnit / 100.0;
+
+        $totalWeight = $milkWeight  + $cerealsWeight;
+        $totalCal    = $cerealsCal  + $milkCal;
+        $totalProt   = $cerealsProt + $milkProt;
+
+        $info = $helper->getInformation(15);
+
+        foreach ( $info as $row ) {
+            if (isset($row['total_qty'])) {
+                $this->assertEquals($totalWeight, $row['total_qty'], '', 0.01);
+                $this->assertEquals($totalCal, $row['total_cal'], '', 0.01);
+                $this->assertEquals($totalProt, $row['total_prot'], '', 0.01);
+            } else if ($row['id'] == 1174) {
+                $this->assertEquals($milkWeight, $row['quantity'], '', 0.01);
+                $this->assertEquals($milkCal, $row['energy_kcal'], '', 0.01);
+                $this->assertEquals($milkProt, $row['protein'], '', 0.01);
+            } else {
+                $this->assertEquals($cerealsWeight, $row['quantity'], '', 0.01);
+                $this->assertEquals($cerealsCal, $row['energy_kcal'], '', 0.01);
+                $this->assertEquals($cerealsProt, $row['protein'], '', 0.01);
+            }
+        }
+    }
+
+    /**
      * Establishes a connection to the database
      *
      * @return mixed A mysql connection

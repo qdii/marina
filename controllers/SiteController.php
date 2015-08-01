@@ -6,8 +6,14 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use yii\helpers\ArrayHelper;
+use app\models\Ingredient;
+use app\models\User;
+use app\models\Unit;
+use app\models\Dish;
+use app\models\Boat;
+use app\models\Meal;
+use app\models\Composition;
 
 class SiteController extends Controller
 {
@@ -52,73 +58,52 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionLogin()
+    public function actionRecipe($id = 0)
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+        $ingredients = Ingredient::find()->all();
+        $components = [];
+        if ( $id !== 0 ) {
+            $components = Composition::findAll(['dish' => $id]);
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+        $params = [
+            'ingredients' => $ingredients,
+            'dish'        => $id,
+            'components'  => $components,
+        ];
+
+        return $this->render('recipe', $params);
     }
 
-    public function actionLogout()
+    public function actionCalendar()
     {
-        Yii::$app->user->logout();
+        $users        = User::find()->all();
+        $units        = Unit::find()->all();
+        $dishes       = Dish::find()->all();
+        $boat         = Boat::find()->one();
+        $meals        = Meal::find()->all();
+        $compositions = Composition::find()->all();
 
-        return $this->goHome();
+        // fetch the ingredients which are part of a composition
+        $ingredients  = Ingredient::findAll(
+            [
+                'id' => ArrayHelper::getColumn($compositions, 'ingredient')
+            ]
+        );
+
+        $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
+
+        $params = [
+            'users'        => $users,
+            'units'        => $units,
+            'dishes'       => $dishes,
+            'types'        => $types,
+            'boat'         => $boat,
+            'compositions' => $compositions,
+            'ingredients'  => $ingredients,
+            ];
+        return $this->render('calendar', $params);
     }
-
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
-    public function actionRepas()
-    {
-        return $this->render('repas');
-    }
-
-    public function actionAdmin()
-    {
-        return $this->render('admin');
-    }
-
-    public function actionAdminUser()
-    {
-        return $this->render('admin/user');
-    }
-
-    public function actionAdminDish()
-    {
-        return $this->render('admin/dish');
-    }
-
-    public function actionAdminIngredient()
-    {
-        return $this->render('admin/ingredient');
-    }
-
     public function actionNewIngredient()
     {
         $model = new \app\models\Ingredient();
@@ -138,7 +123,40 @@ class SiteController extends Controller
             $model->save();
         }
 
-        $this->redirect(['site/repas']);
+        $this->redirect(['site/calendar']);
+    }
+
+    /**
+     * Deletes an existing Meal
+     *
+     * @param integer $id The id of the meal to delete
+     *
+     * @return void
+     */
+    public function actionDeleteMeal($id)
+    {
+        if (($model = \app\models\Meal::findOne($id)) !== null) {
+            $model->delete();
+        }
+
+        $this->redirect(['site/calendar']);
+    }
+
+    /**
+     * Updates an existing Meal
+     *
+     * @param integer $id The id of the meal to update
+     *
+     * @return void
+     */
+    public function actionUpdateMeal($id)
+    {
+        if (($model = \app\models\Meal::findOne($id)) !== null) {
+            $model->load(Yii::$app->request->post());
+            $model->save();
+        }
+
+        $this->redirect(['site/calendar']);
     }
 
     public function actionAjaxDeleteMeal($id)
@@ -151,7 +169,10 @@ class SiteController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $meal = \app\models\Meal::find()->where( ["id" => $id] )->one();
-        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date", "type" ] );
+        if ($meal == null)
+            return;
+
+        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date" ] );
     }
 
     public function actionAjaxUser($id)
@@ -164,5 +185,61 @@ class SiteController extends Controller
     public function actionListIngredients()
     {
         return $this->render('list-ingredients');
+    }
+
+    public function actionManyColumnListDish($id)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $query = new \yii\db\Query;
+        $query->select(
+            [
+                'composition.quantity',
+                'ingredient.name',
+                'ingredient.id',
+                'ingredient.energy_kcal',
+                'ingredient.protein'
+            ]
+        )
+            ->from('composition')
+            ->join(
+                'left join',
+                'ingredient',
+                'composition.ingredient = ingredient.id'
+            )
+            ->where(['dish' => $id])
+            ->addOrderBy(['ingredient.name' => SORT_DESC]);
+
+        return $query->all();
+    }
+
+    /**
+     * Insert composition in the database
+     *
+     * @return void
+     */
+    public function actionInsertComposition()
+    {
+        $model = new \app\models\Composition;
+        $model->load(Yii::$app->request->post());
+        $model->save();
+    }
+
+    /**
+     * Insert composition in the database
+     *
+     * @return void
+     */
+    public function actionUpdateComposition()
+    {
+        $args = Yii::$app->request->post();
+        $composition = $args['Composition'];
+
+        $compositionHelper = new \app\components\CompositionHelper();
+        $compositionHelper->updateDelete(
+            $composition['dish'],
+            $composition['ingredient'],
+            $composition['quantity']
+        );
     }
 }

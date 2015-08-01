@@ -15,7 +15,6 @@ use Yii;
  * @property integer $drink
  * @property integer $cook
  * @property string $date
- * @property string $type
  *
  * @property Dish $firstCourse0
  * @property Dish $secondCourse0
@@ -41,8 +40,7 @@ class Meal extends \yii\db\ActiveRecord
         return [
             [['nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook'], 'integer'],
             [['firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'date'], 'required'],
-            [['date'], 'safe'],
-            [['type'], 'string']
+            [['date'], 'safe']
         ];
     }
 
@@ -60,7 +58,6 @@ class Meal extends \yii\db\ActiveRecord
             'drink' => Yii::t('app', 'Drink'),
             'cook' => Yii::t('app', 'Cook'),
             'date' => Yii::t('app', 'Date'),
-            'type' => Yii::t('app', 'Type'),
         ];
     }
 

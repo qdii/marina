@@ -1,33 +1,101 @@
 <?php
+use \app\components\ManyColumnList;
+use \app\models\Ingredient;
+use \yii\helpers\ArrayHelper;
+use \yii\helpers\Html;
+use \yii\widgets\ActiveForm;
+use \skeeks\widget\chosen\Chosen;
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+$ingredientsById = ArrayHelper::index($ingredients, 'id');
 
-$all_dessert = app\models\Dish::find()->where('Type = \'dessert\'')->all();
-$all_first   = app\models\Dish::find()->where('Type = \'firstCourse\'')->all();
-$all_second  = app\models\Dish::find()->where('Type = \'secondCourse\'')->all();
-$all_drink   = app\models\Dish::find()->where('Type = \'drink\'')->all();
+// CHOSEN WIDGET
+$ingredientChoser = Chosen::widget(
+    [
+        'model'       => new \app\models\Ingredient,
+        'attribute'   => 'name',
+        'placeholder' => 'Choose an ingredient',
+        'items'       => ArrayHelper::map($ingredients, 'id', 'name'),
+    ]
+);
 
-$model       = new app\models\Meal;
-$form = ActiveForm::begin([ 'id' => 'new-meal', ]);
+// RECIPE
+$formOptions = [
+        'id' => 'new-ingredient-form',
+        'method' => 'POST',
+        'action' => 'site/insert-composition',
+    ];
+$form = ActiveForm::begin($formOptions);
+echo Html::beginTag("table", ['class' => 'table table-hover']);
+echo Html::beginTag("thead");
 
-$firstCourseField = $form->field($model, 'firstCourse');
-$firstCourseField->dropDownList( yii\helpers\ArrayHelper::map( $all_first, 'id', 'name' ) );
-$secondCourseField = $form->field($model, 'secondCourse');
-$secondCourseField->dropDownList( yii\helpers\ArrayHelper::map( $all_second, 'id', 'name' ) );
-$dessertCourseField = $form->field($model, 'dessert');
-$dessertCourseField->dropDownList( yii\helpers\ArrayHelper::map( $all_dessert, 'id', 'name' ) );
-$drinkCourseField = $form->field($model, 'drink');
-$drinkCourseField->dropDownList( yii\helpers\ArrayHelper::map( $all_drink, 'id', 'name' ) );
-?>
+// HEADERS
+$headers = [ 'Name', 'Weight', 'Proteins', 'Energy', '' ];
+echo Html::beginTag("tr");
+foreach ($headers as $value) {
+    echo Html::tag("th", $value);
+}
+echo Html::endTag("tr");
+echo Html::endTag("thead");
 
-<?php echo $firstCourseField;    ?>
-<?php echo $secondCourseField;   ?>
-<?php echo $dessertCourseField;  ?>
-<?php echo $drinkCourseField;    ?>
+// INGREDIENTS
+echo Html::beginTag("tbody");
+$total_proteins = 0;
+$total_energy   = 0;
+$total_weight   = 0;
 
-<div class="form-group">
-    <?= Html::submitButton('OK', ['class' => 'btn btn-primary']) ?>
-</div>
+foreach ( $components as $component ) {
+    $ingredient = $ingredientsById[ $component->ingredient ];
+    $quantity   = $component->quantity;
+    $proteins   = $quantity * $ingredient['protein']     / 100;
+    $energy     = $quantity * $ingredient['energy_kcal'] / 100;
 
-<?php ActiveForm::end() ?>
+    echo Html::beginTag("tr", ['data-id' => $component->ingredient]);
+    echo Html::tag("td", $ingredient['name']);
+    echo Html::tag("td", round($quantity, 1) . " g");
+    echo Html::tag("td", round($proteins, 1) . " g");
+    echo Html::tag("td", round($energy, 1)   . " kcal");
+    echo Html::endTag("tr");
+
+    $total_weight   += $quantity;
+    $total_proteins += $proteins;
+    $total_energy   += $energy;
+}
+
+// NEW INGREDIENT FORM
+$compositionModel = new \app\models\Composition;
+$inline           = [ 'template' => '{input}{error}' ];
+
+$plusIcon = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
+
+echo Html::beginTag('tr');
+
+    echo Html::beginTag('td', ['data-id' => 'new-ingredient']);
+    echo $form->field($compositionModel, 'ingredient', $inline)->widget(
+        Chosen::className(),
+        [ 'items' => ArrayHelper::map($ingredients, 'id', 'name') ]
+    );
+    echo Html::endTag('td');
+    echo Html::beginTag('td');
+    echo $form->field($compositionModel, 'quantity', $inline);
+    echo Html::endTag('td');
+    echo Html::beginTag('td');
+    echo Html::submitButton($plusIcon, [ 'class' => 'btn btn-success' ]);
+    echo Html::endTag('td');
+    echo Html::beginTag('td');
+    echo Html::activeHiddenInput($compositionModel, 'dish');
+    echo Html::endTag('td');
+
+echo Html::endTag('tr');
+
+// TOTAL
+echo Html::beginTag('tr', ['class' => 'list-group-item-success']);
+echo Html::tag("td", Html::tag('strong', 'Total'));
+echo Html::tag("td", Html::tag('strong', round($total_weight,   1) . " g"));
+echo Html::tag("td", Html::tag('strong', round($total_proteins, 1) . " g"));
+echo Html::tag("td", Html::tag('strong', round($total_energy,   1) . " kcal"));
+echo Html::endTag('tr');
+
+echo Html::endtag("tbody");
+echo Html::endtag("table");
+
+ActiveForm::end();

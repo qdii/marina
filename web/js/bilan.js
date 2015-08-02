@@ -40,7 +40,7 @@ function load_bilan(where, dishId, url) {
                 +   '<td class="weight">' + qty.toFixed(1) + ' g</td>'
                 +   '<td>'                + proteinText    + ' ' + proteinUnit + '</td>'
                 +   '<td>'                + caloryText     + ' ' + caloryUnit  + '</td>'
-                +   '<td><button class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
+                +   '<td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
                 + '</tr>'
             );
         }

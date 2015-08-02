@@ -21,6 +21,11 @@ use \skeeks\widget\chosen\Chosen;
 $this->title = 'Recipe';
 $this->params['breadcrumbs'][] = $this->title;
 
+echo Html::beginTag('h2');
+echo $boat->name . ' ';
+echo Html::tag('small', 'Clipper 70');
+echo Html::endTag('h2');
+
 \app\assets\RecipeAsset::register($this);
 
 // the id of the div that will contain the list, when a dish is selected

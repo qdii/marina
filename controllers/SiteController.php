@@ -60,6 +60,7 @@ class SiteController extends Controller
 
     public function actionRecipe($id = 0)
     {
+        $boat        = Boat::find()->one();
         $ingredients = Ingredient::find()->all();
         $components = [];
         if ( $id !== 0 ) {
@@ -67,6 +68,7 @@ class SiteController extends Controller
         }
 
         $params = [
+            'boat'        => $boat,
             'ingredients' => $ingredients,
             'dish'        => $id,
             'components'  => $components,

@@ -17,7 +17,6 @@ use kartik\widgets\TouchSpin;
 
 /* @var $this yii\web\View */
 $this->title = 'Calendar';
-$this->params['breadcrumbs'][] = $this->title;
 
 app\assets\RepasAsset::register($this);
 

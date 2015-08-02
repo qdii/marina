@@ -19,7 +19,6 @@ use \yii\widgets\ActiveForm;
 use \skeeks\widget\chosen\Chosen;
 
 $this->title = 'Recipe';
-$this->params['breadcrumbs'][] = $this->title;
 
 echo Html::beginTag('h2');
 echo $boat->name . ' ';

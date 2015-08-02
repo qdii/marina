@@ -140,14 +140,12 @@ function save_and_remove_modified_quantities() {
 make_new_ingredient_ajax($('#new-ingredient-form'));
 
 function create_button(where) {
-    console.log("creating button");
     value = where.text();
     where.html("<button class='btn btn-default'>" + value +"</button>");
     $('selector').css('cursor', 'pointer');
 }
 
 function remove_button(where) {
-    console.log("removing button");
     value = where.children('button').text();
     where.html(value);
     $('selector').css('cursor', 'default');

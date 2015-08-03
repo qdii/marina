@@ -7,8 +7,8 @@ use yii\bootstrap\Button;
 use yii\bootstrap\Modal;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\ActiveField;
-use yii\jui\Dialog;
 use app\models\Dish;
+use app\models\Boat;
 use app\models\User;
 use app\models\Meal;
 use app\models\Composition;
@@ -68,6 +68,13 @@ function isDessert($dish)
     return $dish->type === 'dessert';
 }
 
+echo \app\components\BoatSelector::widget(
+    [
+        'selectedBoat' => Boat::find()->one(),
+        'boats'        => Boat::find()->all(),
+    ]
+);
+
 $firsts   = array_filter($dishes, 'isFirstCourse');
 $seconds  = array_filter($dishes, 'isSecondCourse');
 $drinks   = array_filter($dishes, 'isDrink');
@@ -102,10 +109,10 @@ $this->registerJs(
         $('#" . $newMealId ."').attr('action', '" .  Url::toRoute("delete-meal") .
         "&id=' + $('#meal-id').val());
     }
-    $('#delete-meal-btn').click(function(){ onDeleteNewMeal(); });",
+    $('#delete-meal-btn').click(function(){ onDeleteNewMeal(); });
+    $('button').removeClass('ui-widget ui-state-default ui-button ui-corner-all ui-button-text-only');",
     \yii\web\View::POS_LOAD
 );
-
 
 // main part of the modal dialog
 $model = new app\models\Meal;
@@ -205,10 +212,6 @@ $calendarOptions =
     ],
 ];
 
-?>
-
-<h2><?php echo $boat->name ?> <small>Clipper 70</small></h2>
-<?php
 echo \yii2fullcalendar\yii2fullcalendar::widget($calendarOptions);
 
 $priceComputer = new app\components\PriceComputer(

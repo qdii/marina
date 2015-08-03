@@ -17,13 +17,16 @@ use \yii\helpers\Url;
 use \yii\web\JsExpression;
 use \yii\widgets\ActiveForm;
 use \skeeks\widget\chosen\Chosen;
+use \app\models\Boat;
 
 $this->title = 'Recipe';
 
-echo Html::beginTag('h2');
-echo $boat->name . ' ';
-echo Html::tag('small', 'Clipper 70');
-echo Html::endTag('h2');
+echo \app\components\BoatSelector::widget(
+    [
+        'selectedBoat' => Boat::find()->one(),
+        'boats'        => Boat::find()->all(),
+    ]
+);
 
 \app\assets\RecipeAsset::register($this);
 

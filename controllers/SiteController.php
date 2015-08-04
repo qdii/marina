@@ -151,6 +151,8 @@ class SiteController extends Controller
             assert($model->validate());
             $model->save();
         }
+
+        $this->redirect(['site/calendar']);
     }
 
     public function actionNewMeal()

@@ -83,20 +83,21 @@ class SiteController extends Controller
         $users = User::find()->all();
         $units = Unit::find()->all();
 
-        $cruises    = Cruise::find()->all();
-        $cruiseById = ArrayHelper::index($cruises, 'id');
-        $cruise     = null;
-        $boatId     = 0;
-        if (key_exists($id, $cruiseById)) {
-            $cruise = $cruiseById[$id];
-            $boatId = $cruise->boat;
-        }
-
         $boats    = Boat::find()->all();
         $boatById = ArrayHelper::index($boats, 'id');
         $boat     = null;
-        if (key_exists($boatId, $boatById)) {
-            $boat = $boatById[$boatId];
+        if (key_exists($id, $boatById)) {
+            $boat = $boatById[$id];
+        }
+
+        $cruises    = Cruise::find()->all();
+        $cruiseById = ArrayHelper::index($cruises, 'id');
+        $cruise     = null;
+        foreach ( $cruises as $cr ) {
+            if ($cr->boat == $id) {
+                $cruise = $cr;
+                break;
+            }
         }
 
         $meals        = [];

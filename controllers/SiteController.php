@@ -77,12 +77,12 @@ class SiteController extends Controller
         return $this->render('recipe', $params);
     }
 
-    public function actionCalendar()
+    public function actionCalendar($id = 0)
     {
         $users        = User::find()->all();
         $units        = Unit::find()->all();
         $dishes       = Dish::find()->all();
-        $boat         = Boat::find()->one();
+        $boats        = Boat::find()->all();
         $meals        = Meal::find()->all();
         $compositions = Composition::find()->all();
 
@@ -93,6 +93,12 @@ class SiteController extends Controller
             ]
         );
 
+        $boatById  = ArrayHelper::index($boats, 'id');
+        $boat      = null;
+        if (key_exists($id, $boatById)) {
+            $boat = $boatById[$id];
+        }
+
         $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
 
         $params = [
@@ -100,6 +106,7 @@ class SiteController extends Controller
             'units'        => $units,
             'dishes'       => $dishes,
             'types'        => $types,
+            'boats'        => $boats,
             'boat'         => $boat,
             'compositions' => $compositions,
             'ingredients'  => $ingredients,

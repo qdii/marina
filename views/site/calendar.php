@@ -82,8 +82,8 @@ $newBoatDialogId = $dialog->getId();
 // BOAT SELECTOR ICON
 echo \app\components\BoatSelector::widget(
     [
-        'selectedBoat' => Boat::find()->one(),
-        'boats'        => Boat::find()->all(),
+        'selectedBoat' => $boat,
+        'boats'        => $boats,
         'onNewBoat'    => new JsExpression("function() { $('#$newBoatDialogId').modal('show'); }"),
     ]
 );

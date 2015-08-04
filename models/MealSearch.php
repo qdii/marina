@@ -18,7 +18,7 @@ class MealSearch extends Meal
     public function rules()
     {
         return [
-            [['id', 'nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook'], 'integer'],
+            [['id', 'nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'cruise'], 'integer'],
             [['date'], 'safe'],
         ];
     }
@@ -64,6 +64,7 @@ class MealSearch extends Meal
             'drink' => $this->drink,
             'cook' => $this->cook,
             'date' => $this->date,
+            'cruise' => $this->cruise,
         ]);
 
         return $dataProvider;

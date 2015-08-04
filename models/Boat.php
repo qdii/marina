@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ *
+ * @property Cruise[] $cruises
  */
 class Boat extends \yii\db\ActiveRecord
 {
@@ -40,5 +42,13 @@ class Boat extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCruises()
+    {
+        return $this->hasMany(Cruise::className(), ['boat' => 'id']);
     }
 }

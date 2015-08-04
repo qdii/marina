@@ -78,7 +78,7 @@ class SiteController extends Controller
         return $this->render('recipe', $params);
     }
 
-    public function actionCalendar($id = 0)
+    public function actionCalendar($id = 1)
     {
         $users = User::find()->all();
         $units = Unit::find()->all();

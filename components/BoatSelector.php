@@ -98,6 +98,7 @@ class BoatSelector extends \yii\base\Widget
     {
         $view = $this->getView();
         $myId = $this->getId();
+        $js   = [];
 
         foreach ($this->clientEvents as $event => $handler) {
             $js[] = "jQuery('#$myId li').on('$event', $handler);";

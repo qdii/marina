@@ -82,9 +82,15 @@ $newBoatDialogId = $dialog->getId();
 // BOAT SELECTOR ICON
 echo \app\components\BoatSelector::widget(
     [
-        'selectedBoat' => $boat,
-        'boats'        => $boats,
-        'onNewBoat'    => new JsExpression("function() { $('#$newBoatDialogId').modal('show'); }"),
+        'selectedBoat'   => $boat,
+        'boats'          => $boats,
+        'onNewBoat'      => new JsExpression("function() { $('#$newBoatDialogId').modal('show'); }"),
+        'onBoatSelected' => new JsExpression(
+            "function(event) {
+                var id = $(this).attr('data-id');
+                window.location.href = '" . Url::toRoute("calendar") . "&id=' + id;
+            }"
+        ),
     ]
 );
 

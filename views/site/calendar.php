@@ -68,10 +68,23 @@ function isDessert($dish)
     return $dish->type === 'dessert';
 }
 
+// NEW BOAT FORM
+$title  = Html::tag('h4', 'Create a new boat');
+$dialog = Modal::begin(['header' => $title]);
+$form   = ActiveForm::begin([ 'action' => ['site/new-boat'] ]);
+$model  = new \app\models\Boat();
+echo $form->field($model, 'name');
+echo Html::submitButton('Create', ['class' => 'btn btn-primary']);
+ActiveForm::end();
+Modal::end();
+$newBoatDialogId = $dialog->getId();
+
+// BOAT SELECTOR ICON
 echo \app\components\BoatSelector::widget(
     [
         'selectedBoat' => Boat::find()->one(),
         'boats'        => Boat::find()->all(),
+        'onNewBoat'    => new JsExpression("function() { $('#$newBoatDialogId').modal('show'); }"),
     ]
 );
 

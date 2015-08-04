@@ -152,6 +152,14 @@ class SiteController extends Controller
             $model->save();
         }
 
+        // hack: create a new cruise here
+        $cruise             = new \app\models\Cruise();
+
+        $cruise->boat       = $model->id;
+        $cruise->dateStart  = "2015-01-01";
+        $cruise->dateFinish = "2020-01-01";
+        $cruise->save();
+
         $this->redirect(['site/calendar']);
     }
 

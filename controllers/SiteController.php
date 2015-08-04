@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use app\models\Ingredient;
 use app\models\User;
+use app\models\Cruise;
 use app\models\Unit;
 use app\models\Dish;
 use app\models\Boat;
@@ -79,24 +80,43 @@ class SiteController extends Controller
 
     public function actionCalendar($id = 0)
     {
-        $users        = User::find()->all();
-        $units        = Unit::find()->all();
-        $dishes       = Dish::find()->all();
-        $boats        = Boat::find()->all();
-        $meals        = Meal::find()->all();
-        $compositions = Composition::find()->all();
+        $users = User::find()->all();
+        $units = Unit::find()->all();
 
-        // fetch the ingredients which are part of a composition
-        $ingredients  = Ingredient::findAll(
-            [
-                'id' => ArrayHelper::getColumn($compositions, 'ingredient')
-            ]
-        );
+        $cruises    = Cruise::find()->all();
+        $cruiseById = ArrayHelper::index($cruises, 'id');
+        $cruise     = null;
+        $boatId     = 0;
+        if (key_exists($id, $cruiseById)) {
+            $cruise = $cruiseById[$id];
+            $boatId = $cruise->boat;
+        }
 
-        $boatById  = ArrayHelper::index($boats, 'id');
-        $boat      = null;
-        if (key_exists($id, $boatById)) {
-            $boat = $boatById[$id];
+        $boats    = Boat::find()->all();
+        $boatById = ArrayHelper::index($boats, 'id');
+        $boat     = null;
+        if (key_exists($boatId, $boatById)) {
+            $boat = $boatById[$boatId];
+        }
+
+        $meals        = [];
+        $dishes       = [];
+        $compositions = [];
+        $ingredients  = [];
+        if ($cruise !== null) {
+            $meals = Meal::findAll(['cruise' => $cruise->id]);
+
+            $dishIds = ArrayHelper::merge(
+                ArrayHelper::getColumn($meals, 'firstCourse'),
+                ArrayHelper::getColumn($meals, 'secondCourse'),
+                ArrayHelper::getColumn($meals, 'dessert'),
+                ArrayHelper::getColumn($meals, 'drink')
+            );
+
+            $dishes       = Dish::findAll(['id' => $dishIds]);
+            $compositions = Composition::findAll(['dish' => $dishIds]);
+            $ingrIds      = ArrayHelper::getColumn($compositions, 'ingredient');
+            $ingredients  = Ingredient::findAll(['id' => $ingrIds]);
         }
 
         $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
@@ -105,14 +125,18 @@ class SiteController extends Controller
             'users'        => $users,
             'units'        => $units,
             'dishes'       => $dishes,
+            'meals'        => $meals,
             'types'        => $types,
             'boats'        => $boats,
             'boat'         => $boat,
+            'cruises'      => $cruises,
+            'cruise'       => $cruise,
             'compositions' => $compositions,
             'ingredients'  => $ingredients,
             ];
         return $this->render('calendar', $params);
     }
+
     public function actionNewIngredient()
     {
         $model = new \app\models\Ingredient();

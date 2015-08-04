@@ -101,24 +101,15 @@ class SiteController extends Controller
         }
 
         $meals        = [];
-        $dishes       = [];
-        $compositions = [];
-        $ingredients  = [];
         if ($cruise !== null) {
             $meals = Meal::findAll(['cruise' => $cruise->id]);
-
-            $dishIds = ArrayHelper::merge(
-                ArrayHelper::getColumn($meals, 'firstCourse'),
-                ArrayHelper::getColumn($meals, 'secondCourse'),
-                ArrayHelper::getColumn($meals, 'dessert'),
-                ArrayHelper::getColumn($meals, 'drink')
-            );
-
-            $dishes       = Dish::findAll(['id' => $dishIds]);
-            $compositions = Composition::findAll(['dish' => $dishIds]);
-            $ingrIds      = ArrayHelper::getColumn($compositions, 'ingredient');
-            $ingredients  = Ingredient::findAll(['id' => $ingrIds]);
         }
+
+        $dishes       = Dish::find()->all();
+        $dishIds      = ArrayHelper::getColumn($dishes, 'id');
+        $compositions = Composition::findAll(['dish' => $dishIds]);
+        $ingrIds      = ArrayHelper::getColumn($compositions, 'ingredient');
+        $ingredients  = Ingredient::findAll(['id' => $ingrIds]);
 
         $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
 

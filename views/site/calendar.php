@@ -147,7 +147,6 @@ echo '<input name="meal-id" id="meal-id" type="hidden" value="0"/>';
 
 echo $placerRepasDlg->run();
 ActiveForm::end();
-$meals = Meal::find()->all();
 
 $eventMaker = new app\components\EventMaker(
     ArrayHelper::index($desserts, "id"),

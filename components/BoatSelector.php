@@ -133,7 +133,7 @@ class BoatSelector extends \yii\base\Widget
             ];
 
             // prevent selecting the currently selected boat
-            if ($item->id == $this->selectedBoat->id) {
+            if ($this->selectedBoat && $item->id == $this->selectedBoat->id) {
                 Html::addCssClass($info['options'], 'disabled');
             }
 
@@ -175,6 +175,8 @@ class BoatSelector extends \yii\base\Widget
             'id'          => $this->getId() . '-button',
         ];
 
+        $boatName = $this->selectedBoat ?  $this->selectedBoat->name : "";
+
         $html = [
             Html::beginTag(
                 'div',
@@ -184,7 +186,7 @@ class BoatSelector extends \yii\base\Widget
                 ]
             ),
             Html::beginTag('h1'),
-            ButtonDropdown::widget($dropdownOpts) . ' ' . $this->selectedBoat->name,
+            ButtonDropdown::widget($dropdownOpts) . ' ' . $boatName,
             Html::endTag('h1'),
             Html::endTag('div'),
         ];

@@ -21,13 +21,6 @@ use \app\models\Boat;
 
 $this->title = 'Recipe';
 
-echo \app\components\BoatSelector::widget(
-    [
-        'selectedBoat' => Boat::find()->one(),
-        'boats'        => Boat::find()->all(),
-    ]
-);
-
 \app\assets\RecipeAsset::register($this);
 
 // the id of the div that will contain the list, when a dish is selected

@@ -49,19 +49,22 @@ class BoatSelector extends \yii\base\Widget
     public $boats = [];
 
     /**
-     * Initializes the widget.
-     * This method will register the boat asset bundle. If you override this method,
-     * make sure you call the parent implementation first.
-     *
-     * @return void
-    */
-    public function init()
-    {
-        parent::init();
-        if (!isset($this->options['id'])) {
-            $this->options['id'] = $this->getId();
-        }
-    }
+     * @var array A event => handler array. Where event is a javascript event
+     * and handler is a javascript function that handles it.
+     */
+    public $clientEvents = [];
+
+    /**
+     * @var JsExpression $onBoatSelected a javascript function that is run
+     * when a boat is selected. The id of the boat is passed as the first parameter
+     */
+    public $onBoatSelected = null;
+
+    /**
+     * @var JsExpression $onBoatSelected a javascript function that is run
+     * when the new boat button is clicked
+     */
+    public $onNewBoat = null;
 
     /**
      * Registers the assets for this widget
@@ -81,7 +84,34 @@ class BoatSelector extends \yii\base\Widget
     public function run()
     {
         $this->registerPlugin();
+        $this->registerClientEvents();
+
         return $this->render();
+    }
+
+    /**
+     * Adds client-side code to handle events
+     *
+     * @return void
+     */
+    public function registerClientEvents()
+    {
+        $view = $this->getView();
+        $myId = $this->getId();
+
+        foreach ($this->clientEvents as $event => $handler) {
+            $js[] = "jQuery('#$myId li').on('$event', $handler);";
+        }
+
+        if ($this->onNewBoat !== null) {
+            $js[] = "jQuery('#$myId-new-boat').on('click', $this->onNewBoat)";
+        }
+
+        if ($this->onBoatSelected !== null) {
+            $js[] = "jQuery('.$myId-selected-boat').on('click', $this->onBoatSelected)";
+        }
+
+        $view->registerJs(implode("\n", $js));
     }
 
     /**
@@ -98,6 +128,7 @@ class BoatSelector extends \yii\base\Widget
                 'url'     => '#',
                 'options' => [
                     'data-id' => $item->id,
+                    'class' => $this->getId() . '-selected-boat',
                 ],
             ];
 
@@ -132,20 +163,26 @@ class BoatSelector extends \yii\base\Widget
                 'url'     => '#',
                 'encode'  => false,
                 'options' => [
-                    'data-id' => 0,
+                    'id'      => $this->getId() . '-new-boat',
                 ],
             ];
-
 
         $dropdownOpts = [
             'label'       => $img,
             'encodeLabel' => false,
             'options'     => [ 'class' => 'btn-default btn-lg' ],
-            'dropdown'    => [ 'items' => $items ]
+            'dropdown'    => [ 'items' => $items ],
+            'id'          => $this->getId() . '-button',
         ];
 
         $html = [
-            Html::beginTag('div', ['class' => 'page-header']),
+            Html::beginTag(
+                'div',
+                [
+                    'class' => 'page-header',
+                    'id' => $this->getId()
+                ]
+            ),
             Html::beginTag('h1'),
             ButtonDropdown::widget($dropdownOpts) . ' ' . $this->selectedBoat->name,
             Html::endTag('h1'),

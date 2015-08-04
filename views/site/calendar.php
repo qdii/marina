@@ -135,6 +135,7 @@ $this->registerJs(
 
 // main part of the modal dialog
 $model = new app\models\Meal;
+$cruiseId = $cruise ? $cruise->id : 0;
 
 $datepickerOpts
     = [
@@ -150,6 +151,7 @@ echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $seco
 echo $form->field($model, 'dessert')     ->dropDownList( ArrayHelper::map( $desserts, 'id', 'name' ) );
 echo $form->field($model, 'drink')       ->dropDownList( ArrayHelper::map( $drinks,   'id', 'name' ) );
 echo '<input name="meal-id" id="meal-id" type="hidden" value="0"/>';
+echo $form->field($model, 'cruise', [ 'options' => [ 'class' => 'hidden' ]]);
 
 echo $placerRepasDlg->run();
 ActiveForm::end();
@@ -217,6 +219,7 @@ $calendarOptions =
                     $( '#meal-dessert' ).val( event.dessert );
                     $( '#meal-drink' ).val( event.drink );
                     $( '#meal-id' ).val( event.id );
+                    $( '#meal-cruise' ).attr('value', '$cruiseId');
                     $( '#" . $newMealId . "').attr('action', '" . Url::toRoute("update-meal") . "&id=' + event.id);
                     $( '#" . $placerRepasDlg->getID() . "').modal();
                 } )
@@ -224,7 +227,8 @@ $calendarOptions =
         'dayClick'          => new JsExpression( "
             function(date,jsEvent,view)
             {
-                $( '#" . $newMealId . "').attr('action', '" . Url::toRoute("new-meal") . "');
+                $( '#$newMealId').attr('action', '" . Url::toRoute("new-meal") . "');
+                $( '#meal-cruise' ).attr('value', '$cruiseId');
                 $( '#" . $placerRepasDlg->getID() . "').modal();
             }" ),
     ],

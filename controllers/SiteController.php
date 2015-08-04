@@ -116,6 +116,20 @@ class SiteController extends Controller
         }
     }
 
+    /**
+     * Adds a new boat to the database
+     *
+     * @return void
+     */
+    public function actionNewBoat()
+    {
+        $model = new \app\models\Boat();
+        if ($model->load(Yii::$app->request->post())) {
+            assert($model->validate());
+            $model->save();
+        }
+    }
+
     public function actionNewMeal()
     {
         $model = new \app\models\Meal();

@@ -17,9 +17,9 @@ use \yii\helpers\Url;
 use \yii\web\JsExpression;
 use \yii\widgets\ActiveForm;
 use \skeeks\widget\chosen\Chosen;
+use \app\models\Boat;
 
 $this->title = 'Recipe';
-$this->params['breadcrumbs'][] = $this->title;
 
 \app\assets\RecipeAsset::register($this);
 

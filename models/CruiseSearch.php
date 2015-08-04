@@ -18,7 +18,7 @@ class CruiseSearch extends Cruise
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'boat'], 'integer'],
             [['dateStart', 'dateFinish'], 'safe'],
         ];
     }
@@ -59,6 +59,7 @@ class CruiseSearch extends Cruise
             'id' => $this->id,
             'dateStart' => $this->dateStart,
             'dateFinish' => $this->dateFinish,
+            'boat' => $this->boat,
         ]);
 
         return $dataProvider;

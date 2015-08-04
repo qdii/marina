@@ -40,7 +40,7 @@ function load_bilan(where, dishId, url) {
                 +   '<td class="weight">' + qty.toFixed(1) + ' g</td>'
                 +   '<td>'                + proteinText    + ' ' + proteinUnit + '</td>'
                 +   '<td>'                + caloryText     + ' ' + caloryUnit  + '</td>'
-                +   '<td><button class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
+                +   '<td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
                 + '</tr>'
             );
         }
@@ -140,14 +140,12 @@ function save_and_remove_modified_quantities() {
 make_new_ingredient_ajax($('#new-ingredient-form'));
 
 function create_button(where) {
-    console.log("creating button");
     value = where.text();
     where.html("<button class='btn btn-default'>" + value +"</button>");
     $('selector').css('cursor', 'pointer');
 }
 
 function remove_button(where) {
-    console.log("removing button");
     value = where.children('button').text();
     where.html(value);
     $('selector').css('cursor', 'default');

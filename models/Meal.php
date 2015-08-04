@@ -15,12 +15,14 @@ use Yii;
  * @property integer $drink
  * @property integer $cook
  * @property string $date
+ * @property integer $cruise
  *
  * @property Dish $firstCourse0
  * @property Dish $secondCourse0
  * @property Dish $dessert0
  * @property Dish $drink0
  * @property User $cook0
+ * @property Cruise $cruise0
  */
 class Meal extends \yii\db\ActiveRecord
 {
@@ -38,8 +40,8 @@ class Meal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook'], 'integer'],
-            [['firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'date'], 'required'],
+            [['nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'cruise'], 'integer'],
+            [['firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'date', 'cruise'], 'required'],
             [['date'], 'safe']
         ];
     }
@@ -58,6 +60,7 @@ class Meal extends \yii\db\ActiveRecord
             'drink' => Yii::t('app', 'Drink'),
             'cook' => Yii::t('app', 'Cook'),
             'date' => Yii::t('app', 'Date'),
+            'cruise' => Yii::t('app', 'Cruise'),
         ];
     }
 
@@ -99,5 +102,13 @@ class Meal extends \yii\db\ActiveRecord
     public function getCook0()
     {
         return $this->hasOne(User::className(), ['id' => 'cook']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCruise0()
+    {
+        return $this->hasOne(Cruise::className(), ['id' => 'cruise']);
     }
 }

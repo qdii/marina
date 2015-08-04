@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'dateStart',
             'dateFinish',
+            'boat',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -151,16 +151,17 @@ class SiteController extends Controller
             assert($model->validate());
             $model->save();
         }
+        $boatId = $model->id;
 
         // hack: create a new cruise here
         $cruise             = new \app\models\Cruise();
 
-        $cruise->boat       = $model->id;
+        $cruise->boat       = $boatId;
         $cruise->dateStart  = "2015-01-01";
         $cruise->dateFinish = "2020-01-01";
         $cruise->save();
 
-        $this->redirect(['site/calendar']);
+        $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
     public function actionNewMeal()
@@ -172,7 +173,10 @@ class SiteController extends Controller
             $model->save();
         }
 
-        $this->redirect(['site/calendar']);
+        $cruise = $model->getCruise0()->one();
+        $boat   = $cruise->getBoat0()->one();
+
+        $this->redirect(['site/calendar', 'id' => $boat->id]);
     }
 
     /**
@@ -184,11 +188,17 @@ class SiteController extends Controller
      */
     public function actionDeleteMeal($id)
     {
+        $boatId = 0;
         if (($model = \app\models\Meal::findOne($id)) !== null) {
+            $cruise = $model->getCruise0()->one();
+            $boat   = $cruise->getBoat0()->one();
+            $boatId = $boat->id;
+
             $model->delete();
         }
 
-        $this->redirect(['site/calendar']);
+
+        $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
     /**
@@ -200,12 +210,17 @@ class SiteController extends Controller
      */
     public function actionUpdateMeal($id)
     {
+        $boatId = 0;
         if (($model = \app\models\Meal::findOne($id)) !== null) {
             $model->load(Yii::$app->request->post());
+            $cruise = $model->getCruise0()->one();
+            $boat   = $cruise->getBoat0()->one();
+            $boatId = $boat->id;
+
             $model->save();
         }
 
-        $this->redirect(['site/calendar']);
+        $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
     public function actionAjaxDeleteMeal($id)

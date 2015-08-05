@@ -172,7 +172,10 @@ class SiteController extends Controller
             $model->save();
         }
 
-        $this->redirect(['site/calendar']);
+        $cruise = $model->getCruise0()->one();
+        $boat   = $cruise->getBoat0()->one();
+
+        $this->redirect(['site/calendar', 'id' => $boat->id]);
     }
 
     /**

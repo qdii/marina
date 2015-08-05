@@ -15,6 +15,7 @@ use app\models\Dish;
 use app\models\Boat;
 use app\models\Meal;
 use app\models\Composition;
+use app\components\EventMaker;
 
 class SiteController extends Controller
 {
@@ -305,5 +306,46 @@ class SiteController extends Controller
             $composition['ingredient'],
             $composition['quantity']
         );
+    }
+
+    /**
+     * Returns fullcalendar events
+     *
+     * @param int $id The id of a cruise
+     *
+     * @return array An array of fullcalendar events
+     */
+    public function actionGetMeals($id = 0)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $units        = Unit::find()->all();
+        $users        = User::find()->all();
+        $dishes       = Dish::find()->all();
+        $compositions = Composition::find()->all();
+        $ingredients  = Ingredient::find()->all();
+
+        $meals    = Meal::findAll(['cruise' => $id]);
+        $mealIds  = ArrayHelper::getColumn($meals, 'id');
+
+        $drinks   = Dish::findAll(['type' => 'drink']);
+        $desserts = Dish::findAll(['type' => 'dessert']);
+        $firsts   = Dish::findAll(['type' => 'firstCourse']);
+        $seconds  = Dish::findAll(['type' => 'secondCourse']);
+
+        $eventMaker = new EventMaker(
+            ArrayHelper::index($desserts, 'id'),
+            ArrayHelper::index($firsts, 'id'),
+            ArrayHelper::index($seconds, 'id'),
+            ArrayHelper::index($drinks, 'id'),
+            ArrayHelper::index($users, 'id'),
+            $ingredients,
+            $compositions,
+            $units,
+            $dishes,
+            $meals
+        );
+        $events = $eventMaker->getEventsAndBilanFromMeals($meals);
+        return $events;
     }
 }

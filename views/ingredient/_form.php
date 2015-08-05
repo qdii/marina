@@ -36,6 +36,16 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lipid')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'fat')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'ash')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'carbohydrates')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'sugars')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'fiber')->textInput(['maxlength' => true]) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

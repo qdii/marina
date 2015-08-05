@@ -37,3 +37,6 @@ phpunit.phar
 runtime/
 config/db.php
 web/assets/
+
+# shouldn't be in version control so that we can distinguish dev/prod
+index.php

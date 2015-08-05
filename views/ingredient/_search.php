@@ -41,6 +41,16 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'lipid') ?>
 
+    <?php // echo $form->field($model, 'fat') ?>
+
+    <?php // echo $form->field($model, 'ash') ?>
+
+    <?php // echo $form->field($model, 'carbohydrates') ?>
+
+    <?php // echo $form->field($model, 'sugars') ?>
+
+    <?php // echo $form->field($model, 'fiber') ?>
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>

@@ -20,6 +20,11 @@ use Yii;
  * @property string $energy_kj
  * @property string $protein
  * @property string $lipid
+ * @property string $fat
+ * @property string $ash
+ * @property string $carbohydrates
+ * @property string $sugars
+ * @property string $fiber
  *
  * @property Composition[] $compositions
  * @property Dish[] $dishes
@@ -42,7 +47,7 @@ class Ingredient extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'price', 'duration'], 'required'],
-            [['price', 'sucrose', 'glucose', 'fructose', 'water', 'energy_kcal', 'energy_kj', 'protein', 'lipid'], 'number'],
+            [['price', 'sucrose', 'glucose', 'fructose', 'water', 'energy_kcal', 'energy_kj', 'protein', 'lipid', 'fat', 'ash', 'carbohydrates', 'sugars', 'fiber'], 'number'],
             [['duration', 'unit'], 'integer'],
             [['name'], 'string', 'max' => 128]
         ];
@@ -67,6 +72,11 @@ class Ingredient extends \yii\db\ActiveRecord
             'energy_kj' => Yii::t('app', 'energy in kj per 100g'),
             'protein' => Yii::t('app', 'protein in g per 100g'),
             'lipid' => Yii::t('app', 'lipid in g per 100g'),
+            'fat' => Yii::t('app', 'total lipid in g per 100g'),
+            'ash' => Yii::t('app', 'ash in g per 100g'),
+            'carbohydrates' => Yii::t('app', 'carbohydrates in g per 100g'),
+            'sugars' => Yii::t('app', 'total sugars in g per 100g'),
+            'fiber' => Yii::t('app', 'fiber total dietary in g per 100g'),
         ];
     }
 

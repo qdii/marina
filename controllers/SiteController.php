@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use app\models\Ingredient;
 use app\models\User;
+use app\models\Cruise;
 use app\models\Unit;
 use app\models\Dish;
 use app\models\Boat;
@@ -60,6 +61,7 @@ class SiteController extends Controller
 
     public function actionRecipe($id = 0)
     {
+        $boat        = Boat::find()->one();
         $ingredients = Ingredient::find()->all();
         $components = [];
         if ( $id !== 0 ) {
@@ -67,6 +69,7 @@ class SiteController extends Controller
         }
 
         $params = [
+            'boat'        => $boat,
             'ingredients' => $ingredients,
             'dish'        => $id,
             'components'  => $components,
@@ -75,21 +78,38 @@ class SiteController extends Controller
         return $this->render('recipe', $params);
     }
 
-    public function actionCalendar()
+    public function actionCalendar($id = 1)
     {
-        $users        = User::find()->all();
-        $units        = Unit::find()->all();
-        $dishes       = Dish::find()->all();
-        $boat         = Boat::find()->one();
-        $meals        = Meal::find()->all();
-        $compositions = Composition::find()->all();
+        $users = User::find()->all();
+        $units = Unit::find()->all();
 
-        // fetch the ingredients which are part of a composition
-        $ingredients  = Ingredient::findAll(
-            [
-                'id' => ArrayHelper::getColumn($compositions, 'ingredient')
-            ]
-        );
+        $boats    = Boat::find()->all();
+        $boatById = ArrayHelper::index($boats, 'id');
+        $boat     = null;
+        if (key_exists($id, $boatById)) {
+            $boat = $boatById[$id];
+        }
+
+        $cruises    = Cruise::find()->all();
+        $cruiseById = ArrayHelper::index($cruises, 'id');
+        $cruise     = null;
+        foreach ( $cruises as $cr ) {
+            if ($cr->boat == $id) {
+                $cruise = $cr;
+                break;
+            }
+        }
+
+        $meals        = [];
+        if ($cruise !== null) {
+            $meals = Meal::findAll(['cruise' => $cruise->id]);
+        }
+
+        $dishes       = Dish::find()->all();
+        $dishIds      = ArrayHelper::getColumn($dishes, 'id');
+        $compositions = Composition::findAll(['dish' => $dishIds]);
+        $ingrIds      = ArrayHelper::getColumn($compositions, 'ingredient');
+        $ingredients  = Ingredient::findAll(['id' => $ingrIds]);
 
         $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
 
@@ -97,13 +117,18 @@ class SiteController extends Controller
             'users'        => $users,
             'units'        => $units,
             'dishes'       => $dishes,
+            'meals'        => $meals,
             'types'        => $types,
+            'boats'        => $boats,
             'boat'         => $boat,
+            'cruises'      => $cruises,
+            'cruise'       => $cruise,
             'compositions' => $compositions,
             'ingredients'  => $ingredients,
             ];
         return $this->render('calendar', $params);
     }
+
     public function actionNewIngredient()
     {
         $model = new \app\models\Ingredient();
@@ -112,6 +137,31 @@ class SiteController extends Controller
             assert( $model->validate() );
             $model->save();
         }
+    }
+
+    /**
+     * Adds a new boat to the database
+     *
+     * @return void
+     */
+    public function actionNewBoat()
+    {
+        $model = new \app\models\Boat();
+        if ($model->load(Yii::$app->request->post())) {
+            assert($model->validate());
+            $model->save();
+        }
+        $boatId = $model->id;
+
+        // hack: create a new cruise here
+        $cruise             = new \app\models\Cruise();
+
+        $cruise->boat       = $boatId;
+        $cruise->dateStart  = "2015-01-01";
+        $cruise->dateFinish = "2020-01-01";
+        $cruise->save();
+
+        $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
     public function actionNewMeal()
@@ -123,7 +173,10 @@ class SiteController extends Controller
             $model->save();
         }
 
-        $this->redirect(['site/calendar']);
+        $cruise = $model->getCruise0()->one();
+        $boat   = $cruise->getBoat0()->one();
+
+        $this->redirect(['site/calendar', 'id' => $boat->id]);
     }
 
     /**
@@ -135,11 +188,17 @@ class SiteController extends Controller
      */
     public function actionDeleteMeal($id)
     {
+        $boatId = 0;
         if (($model = \app\models\Meal::findOne($id)) !== null) {
+            $cruise = $model->getCruise0()->one();
+            $boat   = $cruise->getBoat0()->one();
+            $boatId = $boat->id;
+
             $model->delete();
         }
 
-        $this->redirect(['site/calendar']);
+
+        $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
     /**
@@ -151,12 +210,17 @@ class SiteController extends Controller
      */
     public function actionUpdateMeal($id)
     {
+        $boatId = 0;
         if (($model = \app\models\Meal::findOne($id)) !== null) {
             $model->load(Yii::$app->request->post());
+            $cruise = $model->getCruise0()->one();
+            $boat   = $cruise->getBoat0()->one();
+            $boatId = $boat->id;
+
             $model->save();
         }
 
-        $this->redirect(['site/calendar']);
+        $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
     public function actionAjaxDeleteMeal($id)

@@ -2860,7 +2860,13 @@
 	</row>
 	</table_data>
 	<table_data name="cruise">
-	</table_data>
+    <row>
+		<field name="id">1</field>
+		<field name="dateStart">2015-07-01</field>
+		<field name="dateFinish">2020-07-01</field>
+		<field name="boat">1</field>
+	</row>
+</table_data>
 	<table_data name="meal">
 	<row>
 		<field name="id">1</field>
@@ -2871,6 +2877,7 @@
 		<field name="drink">19</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-21 07:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">57</field>
@@ -2881,6 +2888,7 @@
 		<field name="drink">19</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-21 07:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">58</field>
@@ -2891,6 +2899,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-20 18:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">61</field>
@@ -2901,6 +2910,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-21 12:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">63</field>
@@ -2911,6 +2921,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-21 18:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">64</field>
@@ -2921,6 +2932,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-20 12:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">65</field>
@@ -2931,6 +2943,7 @@
 		<field name="drink">19</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-22 07:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">66</field>
@@ -2941,6 +2954,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-22 12:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">67</field>
@@ -2951,6 +2965,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-22 18:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">68</field>
@@ -2961,6 +2976,7 @@
 		<field name="drink">19</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-23 07:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">69</field>
@@ -2971,6 +2987,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-23 12:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">70</field>
@@ -2981,6 +2998,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-23 18:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">71</field>
@@ -2991,6 +3009,7 @@
 		<field name="drink">19</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-24 07:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">72</field>
@@ -3001,6 +3020,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-24 18:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">73</field>
@@ -3011,6 +3031,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-24 12:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">74</field>
@@ -3021,6 +3042,7 @@
 		<field name="drink">19</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-25 07:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">75</field>
@@ -3031,6 +3053,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-25 12:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">76</field>
@@ -3041,6 +3064,7 @@
 		<field name="drink">20</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-25 18:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	<row>
 		<field name="id">77</field>
@@ -3051,6 +3075,7 @@
 		<field name="drink">19</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-26 07:00:00</field>
+		<field name="cruise">1</field>
 	</row>
 	</table_data>
 </database>

@@ -168,11 +168,10 @@ $eventMaker = new app\components\EventMaker(
     $dishes,
     $meals
 );
-$events = $eventMaker->getEventsAndBilanFromMeals($meals);
 
 $calendarOptions =
 [
-    'events' => $events,
+    'ajaxEvents' => Url::toRoute(['site/get-meals', 'id' => $cruiseId]),
     'header' =>
     [
         'center' => 'title',

@@ -128,7 +128,7 @@ function save_and_remove_modified_quantities() {
     var dishId       = $('#composition-dish').val();
     var form         = $('#update-ingredient-form');
 
-    update_composition(form, dishId, ingredientId, quantity, function() {});
+    update_composition(form, dishId, ingredientId, quantity, reload_bilan);
 
     // restore click handlers
     var elem = modifiedElement.parent();

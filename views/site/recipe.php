@@ -18,6 +18,7 @@ use \yii\web\JsExpression;
 use \yii\widgets\ActiveForm;
 use \skeeks\widget\chosen\Chosen;
 use \app\models\Boat;
+use \app\models\Dish;
 
 $this->title = 'Recipe';
 
@@ -29,20 +30,18 @@ $bilanId = "bilan";
 // icons to add/remove ingredients
 $plusIcon  = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
 $minusIcon = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+$copyIcon = '<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>';
 
 // the URL that permits loading the list
 $loadUrl = Url::toRoute("ajax/dish-info");
 
 $ingredientsById = ArrayHelper::index($ingredients, 'id');
 
-$meals = \app\models\Dish::find()->all();
-$model = new \app\models\Dish;
-echo \skeeks\widget\chosen\Chosen::widget(
-    [
-        'model'       => $model,
+$dishChosenOpts = [
+        'model'       => new Dish,
         'attribute'   => 'name',
         'placeholder' => 'Choose a dish',
-        'items'       => ArrayHelper::map($meals, 'id', 'name'),
+        'items'       => ArrayHelper::map($dishes, 'id', 'name'),
         'clientEvents' =>
         [
             'change' => "function(ev, params) {
@@ -50,83 +49,31 @@ echo \skeeks\widget\chosen\Chosen::widget(
                 load_bilan(table, params.selected, '$loadUrl');
             }"
         ]
-    ]
-);
+    ];
 
-echo Html::tag("div", "", [ "id" => $bilanId ]);
+$ingredientChosenOpts = [
+        'items' => ArrayHelper::map($ingredients, 'id', 'name'),
+        'placeholder' => 'Choose an ingredient',
+    ];
 
-// RECIPE
 $formOptions = [
         'id'     => 'new-ingredient-form',
         'method' => 'POST',
         'action' => Url::toRoute('ajax/insert-composition'),
     ];
-$form = ActiveForm::begin($formOptions);
+
+$updateFormOptions = [
+    'id'     => 'update-ingredient-form',
+        'method' => 'POST',
+        'action' => Url::toRoute('ajax/update-composition'),
+    ];
 
 $tableOptions = ['id' => 'ingredient-table'];
 Html::addCssClass($tableOptions, 'table');
 Html::addCssClass($tableOptions, 'table-hover');
-if ($dish === 0) {
-    Html::addCssClass($tableOptions, 'hidden');
-}
 
-echo Html::beginTag("table", $tableOptions);
-echo Html::beginTag("thead");
-
-// HEADERS
-$headers = [ 'Name', 'Weight', 'Proteins', 'Energy', '' ];
-echo Html::beginTag("tr");
-foreach ($headers as $value) {
-    echo Html::tag("th", $value);
-}
-echo Html::tag("tr", "");
-echo Html::endTag("tr");
-echo Html::endTag("thead");
-
-echo Html::beginTag("tbody");
-
-// NEW INGREDIENT FORM
 $compositionModel = new \app\models\Composition;
 $inline           = [ 'template' => '{input}{error}' ];
-
-echo Html::beginTag('tr', ['id' => 'new-ingredient']);
-echo Html::beginTag('td', ['data-id' => 0]);
-echo $form->field($compositionModel, 'ingredient', $inline)->widget(
-    Chosen::className(),
-    [
-        'items' => ArrayHelper::map($ingredients, 'id', 'name'),
-        'placeholder' => 'Choose an ingredient',
-    ]
-);
-echo Html::endTag('td');
-echo Html::beginTag('td');
-echo $form->field($compositionModel, 'quantity', $inline);
-echo Html::endTag('td');
-echo Html::beginTag('td');
-echo Html::endTag('td');
-echo Html::beginTag('td');
-echo Html::endTag('td');
-echo Html::activeHiddenInput($compositionModel, 'dish');
-echo Html::endTag('td');
-echo Html::beginTag('td');
-echo Html::submitButton($plusIcon, [ 'class' => 'btn btn-success' ]);
-echo Html::endTag('td');
-echo Html::endTag('tr');
-
-// TOTAL
-echo Html::beginTag('tr', ['class' => 'list-group-item-success', 'id' => 'total']);
-echo Html::tag("td", Html::tag('strong', 'Total'));
-echo Html::tag("td", "");
-echo Html::tag("td", "");
-echo Html::tag("td", "");
-echo Html::tag("td", "");
-echo Html::endTag('tr');
-
-
-echo Html::endtag("tbody");
-echo Html::endtag("table");
-
-ActiveForm::end();
 
 // DELETE INGREDIENT FORM
 /**
@@ -147,15 +94,68 @@ function fieldOptions($fieldId)
             ]
         ];
 }
-echo Html::beginTag("div", ['class' => 'hidden']);
-$updateFormOptions = [
-    'id'     => 'update-ingredient-form',
-        'method' => 'POST',
-        'action' => Url::toRoute('ajax/update-composition'),
-    ];
-$updateForm = ActiveForm::begin($updateFormOptions);
-echo $form->field($compositionModel, 'dish', fieldOptions('update-dish'));
-echo $form->field($compositionModel, 'ingredient', fieldOptions('update-ingr'));
-echo $form->field($compositionModel, 'quantity', fieldOptions('update-quantity'));
-ActiveForm::end($updateFormOptions);
-echo Html::endTag("div");
+
+if ($dish === 0) {
+    Html::addCssClass($tableOptions, 'hidden');
+}
+?>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-11">
+            <?php echo Chosen::widget($dishChosenOpts); ?>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary"><?php echo $copyIcon ?></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="<?php echo $bilanId ?>" class="col-md-12">
+        <?php $form = ActiveForm::begin($formOptions);
+        echo Html::beginTag("table", $tableOptions);
+        ?>
+
+        <thead>
+            <th>Name</th>
+            <th>Weight</th>
+            <th>Proteins</th>
+            <th>Energy</th>
+            <th></th>
+        </thead>
+
+        <tbody>
+            <tr id="new-ingredient">
+                <td data-id="0"> <?php echo $form->field($compositionModel, 'ingredient', $inline)->widget(Chosen::className(), $ingredientChosenOpts); ?> </td>
+                <td><?php echo $form->field($compositionModel, 'quantity', $inline); ?></td>
+                <td></td>
+                <td><?php echo Html::activeHiddenInput($compositionModel, 'dish'); ?></td>
+                <td><?php echo Html::submitButton($plusIcon, [ 'class' => 'btn btn-success' ]); ?></td>
+            </tr>
+
+            <tr class="list-group-item-success" id="total"»
+                <td><?php echo Html::tag("td", Html::tag('strong', 'Total')); ?></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+<?php ActiveForm::end(); ?>
+
+<div class="hidden">
+
+    <?php $updateForm = ActiveForm::begin($updateFormOptions);
+            echo $form->field($compositionModel, 'dish', fieldOptions('update-dish'));
+            echo $form->field($compositionModel, 'ingredient', fieldOptions('update-ingr'));
+            echo $form->field($compositionModel, 'quantity', fieldOptions('update-quantity'));
+        ActiveForm::end($updateFormOptions);
+    ?>
+
+</div>

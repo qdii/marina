@@ -233,4 +233,23 @@ class AjaxController extends Controller
         return $query->all();
     }
 
+    /**
+     * Returns the ingredient list as an array
+     *
+     * @param array $ids The ids of the ingredients to select, or an empty
+     * array to select them all
+     *
+     * @return string a JSON string representing the ingredients
+     */
+    public function actionGetIngredients($ids = [])
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $ingredients = [];
+        if (count($ids)) {
+            $ingredients = Ingredient::findAll(['id' => $ids]);
+        } else {
+            $ingredients = Ingredient::find()->all();
+        }
+        return $ingredients;
+    }
 }

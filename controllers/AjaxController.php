@@ -244,12 +244,15 @@ class AjaxController extends Controller
     public function actionGetIngredients($ids = [])
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $ingredients = [];
+        $query = new \yii\db\Query;
+        $query->select([ 'name', 'id'])
+            ->from('ingredient')
+            ->addOrderBy(['name' => SORT_DESC]);
+
         if (count($ids)) {
-            $ingredients = Ingredient::findAll(['id' => $ids]);
-        } else {
-            $ingredients = Ingredient::find()->all();
+            $query = $query->where(['id' => $ids]);
         }
-        return $ingredients;
+
+        return $query->all();
     }
 }

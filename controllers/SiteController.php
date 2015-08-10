@@ -63,10 +63,12 @@ class SiteController extends Controller
     public function actionRecipe($id = 0)
     {
         $boat        = Boat::find()->one();
-        $ingredients = Ingredient::find()->all();
         $components = [];
+        $ingredients = [];
         if ( $id !== 0 ) {
             $components = Composition::findAll(['dish' => $id]);
+            $compoIds   = ArrayHelper::getColumn($components, 'ingredient');
+            $ingredients = Ingredient::findAll(['id' => $compoIds]);
         }
 
         $params = [

@@ -31,9 +31,9 @@ class Cruise extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dateStart', 'dateFinish', 'boat'], 'required'],
-            [['dateStart', 'dateFinish'], 'safe'],
-            [['boat'], 'integer']
+            [['id', 'dateStart', 'dateFinish', 'boat'], 'required'],
+            [['id', 'boat'], 'integer'],
+            [['dateStart', 'dateFinish'], 'safe']
         ];
     }
 

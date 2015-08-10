@@ -19,7 +19,7 @@ class MealSearch extends Meal
     {
         return [
             [['id', 'nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'cruise'], 'integer'],
-            [['date'], 'safe'],
+            [['date', 'backgroundColor'], 'safe'],
         ];
     }
 
@@ -66,6 +66,8 @@ class MealSearch extends Meal
             'date' => $this->date,
             'cruise' => $this->cruise,
         ]);
+
+        $query->andFilterWhere(['like', 'backgroundColor', $this->backgroundColor]);
 
         return $dataProvider;
     }

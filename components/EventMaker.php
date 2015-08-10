@@ -150,7 +150,7 @@ class EventMaker
         $backgroundColor = $this->_defaultColorMeal;
 
         if ($meal->backgroundColor) {
-            $backgroundColor = '#' . $meal->backgroundColor;
+            $backgroundColor = $meal->backgroundColor;
         }
 
         return [

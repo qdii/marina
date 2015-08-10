@@ -44,7 +44,7 @@ class Meal extends \yii\db\ActiveRecord
             [['nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'cruise'], 'integer'],
             [['firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'date', 'cruise'], 'required'],
             [['date'], 'safe'],
-            [['backgroundColor'], 'string', 'max' => 6]
+            [['backgroundColor'], 'string', 'max' => 7]
         ];
     }
 

@@ -147,12 +147,18 @@ class EventMaker
         $start = new \DateTime($meal->date);
         $end   = clone $start;
         $end->add(new \DateInterval("PT2H"));
+        $backgroundColor = $this->_defaultColorMeal;
+
+        if ($meal->backgroundColor) {
+            $backgroundColor = '#' . $meal->backgroundColor;
+        }
+
         return [
             'id'              => $meal->id,
             'title'           => $this->getTitleFromMeal($meal),
             'start'           => $start->format('c'),
             'end'             => $end->format('c'),
-            'backgroundColor' => $this->_defaultColorMeal,
+            'backgroundColor' => $backgroundColor,
         ];
     }
 

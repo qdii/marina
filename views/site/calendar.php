@@ -136,6 +136,13 @@ $this->registerJs(
 // main part of the modal dialog
 $model = new app\models\Meal;
 $cruiseId = $cruise ? $cruise->id : 0;
+$spinOpts = [
+    'pluginOptions' => [
+        'initval' => 1,
+        'min'     => 1,
+        'max'     => 99999
+    ]
+];
 
 $datepickerOpts
     = [
@@ -144,7 +151,7 @@ $datepickerOpts
         ]
     ];
 echo $form->field($model, 'date')        ->widget(DateTimePicker::classname(), $datepickerOpts);
-echo $form->field($model, 'nbGuests')    ->widget(TouchSpin::classname(),['pluginOptions'=>['initval'=>1,'min'=>1]]);
+echo $form->field($model, 'nbGuests')    ->widget(TouchSpin::classname(), $spinOpts);
 echo $form->field($model, 'cook')        ->dropDownList( ArrayHelper::map( $users,   'id', 'username' ) );
 echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $firsts,   'id', 'name' ) );
 echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $seconds,  'id', 'name' ) );

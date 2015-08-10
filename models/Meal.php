@@ -16,6 +16,7 @@ use Yii;
  * @property integer $cook
  * @property string $date
  * @property integer $cruise
+ * @property string $backgroundColor
  *
  * @property Dish $firstCourse0
  * @property Dish $secondCourse0
@@ -42,7 +43,8 @@ class Meal extends \yii\db\ActiveRecord
         return [
             [['nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'cruise'], 'integer'],
             [['firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'date', 'cruise'], 'required'],
-            [['date'], 'safe']
+            [['date'], 'safe'],
+            [['backgroundColor'], 'string', 'max' => 7]
         ];
     }
 
@@ -61,6 +63,7 @@ class Meal extends \yii\db\ActiveRecord
             'cook' => Yii::t('app', 'Cook'),
             'date' => Yii::t('app', 'Date'),
             'cruise' => Yii::t('app', 'Cruise'),
+            'backgroundColor' => Yii::t('app', 'Background Color'),
         ];
     }
 

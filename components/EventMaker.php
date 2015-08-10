@@ -67,6 +67,9 @@ class EventMaker
     private $_dishes;
     private $_meals;
 
+    private $_defaultColorMeal  = '#2a4f6e';
+    private $_defaultColorBilan = '#267257';
+
     /**
      * Constructs an EventMaker
      *
@@ -144,12 +147,18 @@ class EventMaker
         $start = new \DateTime($meal->date);
         $end   = clone $start;
         $end->add(new \DateInterval("PT2H"));
+        $backgroundColor = $this->_defaultColorMeal;
+
+        if ($meal->backgroundColor) {
+            $backgroundColor = $meal->backgroundColor;
+        }
+
         return [
-            'id'    => $meal->id,
-            'title' => $this->getTitleFromMeal($meal),
-            'start' => $start->format('c'),
-            'end'   => $end->format('c'),
-            'backgroundColor'   => '#2a4f6e'
+            'id'              => $meal->id,
+            'title'           => $this->getTitleFromMeal($meal),
+            'start'           => $start->format('c'),
+            'end'             => $end->format('c'),
+            'backgroundColor' => $backgroundColor,
         ];
     }
 
@@ -272,10 +281,10 @@ class EventMaker
 
         foreach ( $mealsPerDate as $date => $mealsOnThisDate ) {
             $bilans[] = [
-                'title' => $this->getIntakeBilan($mealsOnThisDate),
-                'start' => $date . "T" . "21:40:00Z",
-                'end'   => $date . "T" . "23:59:00Z",
-                'backgroundColor'   => '#267257',
+                'title'           => $this->getIntakeBilan($mealsOnThisDate),
+                'start'           => $date . "T" . "21:40:00Z",
+                'end'             => $date . "T" . "23:59:00Z",
+                'backgroundColor' => $this->_defaultColorBilan,
             ];
         }
 

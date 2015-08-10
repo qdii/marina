@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'cook',
             'date',
             'cruise',
+            'backgroundColor',
         ],
     ]) ?>
 

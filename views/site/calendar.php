@@ -14,6 +14,7 @@ use app\models\Meal;
 use app\models\Composition;
 use dosamigos\datetimepicker\DateTimePicker;
 use kartik\widgets\TouchSpin;
+use kartik\color\ColorInput;
 
 /* @var $this yii\web\View */
 $this->title = 'Calendar';
@@ -150,6 +151,7 @@ echo $form->field($model, 'firstCourse') ->dropDownList( ArrayHelper::map( $firs
 echo $form->field($model, 'secondCourse')->dropDownList( ArrayHelper::map( $seconds,  'id', 'name' ) );
 echo $form->field($model, 'dessert')     ->dropDownList( ArrayHelper::map( $desserts, 'id', 'name' ) );
 echo $form->field($model, 'drink')       ->dropDownList( ArrayHelper::map( $drinks,   'id', 'name' ) );
+echo $form->field($model, 'backgroundColor')->widget(ColorInput::classname());
 echo '<input name="meal-id" id="meal-id" type="hidden" value="0"/>';
 echo $form->field($model, 'cruise', [ 'options' => [ 'class' => 'hidden' ]]);
 
@@ -217,6 +219,7 @@ $calendarOptions =
                     $( '#meal-drink' ).val( event.drink );
                     $( '#meal-id' ).val( event.id );
                     $( '#meal-cruise' ).attr('value', '$cruiseId');
+                    $( '#meal-backgroundcolor' ).attr('value', event.backgroundColor);
                     $( '#" . $newMealId . "').attr('action', '" . Url::toRoute(["ajax/update-meal"]) . "&id=' + event.id);
                     $( '#" . $placerRepasDlg->getID() . "').modal();
                 } )

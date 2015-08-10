@@ -125,7 +125,7 @@ $placerRepasDlg->footer = $deleteBtn . $okBtn;
 
 $this->registerJs(
     "function onDeleteNewMeal() {
-        $('#" . $newMealId ."').attr('action', '" .  Url::toRoute("delete-meal") .
+        $('#" . $newMealId ."').attr('action', '" .  Url::toRoute(["ajax/delete-meal"]) .
         "&id=' + $('#meal-id').val());
     }
     $('#delete-meal-btn').click(function(){ onDeleteNewMeal(); });
@@ -168,11 +168,10 @@ $eventMaker = new app\components\EventMaker(
     $dishes,
     $meals
 );
-$events = $eventMaker->getEventsAndBilanFromMeals($meals);
 
 $calendarOptions =
 [
-    'events' => $events,
+    'ajaxEvents' => Url::toRoute(['ajax/get-meals', 'id' => $cruiseId]),
     'header' =>
     [
         'center' => 'title',
@@ -206,7 +205,7 @@ $calendarOptions =
                 }
 
                 var data = { id: event.id };
-                $.getJSON( '" . Url::toRoute( 'ajax-get-meal' ) . "', data, function(event) {
+                $.getJSON( '" . Url::toRoute( ['ajax/get-meal'] ) . "', data, function(event) {
                     var date=moment(event.date,'YYYY-MM-DD HH-mm');
                     var day=date.format('YYYY-MM-DD HH:mm');
                     $( '#meal-date' ).val(day);
@@ -218,7 +217,7 @@ $calendarOptions =
                     $( '#meal-drink' ).val( event.drink );
                     $( '#meal-id' ).val( event.id );
                     $( '#meal-cruise' ).attr('value', '$cruiseId');
-                    $( '#" . $newMealId . "').attr('action', '" . Url::toRoute("update-meal") . "&id=' + event.id);
+                    $( '#" . $newMealId . "').attr('action', '" . Url::toRoute(["ajax/update-meal"]) . "&id=' + event.id);
                     $( '#" . $placerRepasDlg->getID() . "').modal();
                 } )
             }" ),

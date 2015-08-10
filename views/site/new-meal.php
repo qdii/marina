@@ -22,7 +22,7 @@ $ingredientChoser = Chosen::widget(
 $formOptions = [
         'id' => 'new-ingredient-form',
         'method' => 'POST',
-        'action' => 'site/insert-composition',
+        'action' => 'ajax/insert-composition',
     ];
 $form = ActiveForm::begin($formOptions);
 echo Html::beginTag("table", ['class' => 'table table-hover']);

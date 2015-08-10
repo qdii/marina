@@ -15,6 +15,7 @@ use app\models\Dish;
 use app\models\Boat;
 use app\models\Meal;
 use app\models\Composition;
+use app\components\EventMaker;
 
 class SiteController extends Controller
 {
@@ -129,16 +130,6 @@ class SiteController extends Controller
         return $this->render('calendar', $params);
     }
 
-    public function actionNewIngredient()
-    {
-        $model = new \app\models\Ingredient();
-        if ($model->load(Yii::$app->request->post()))
-        {
-            assert( $model->validate() );
-            $model->save();
-        }
-    }
-
     /**
      * Adds a new boat to the database
      *
@@ -201,109 +192,9 @@ class SiteController extends Controller
         $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
-    /**
-     * Updates an existing Meal
-     *
-     * @param integer $id The id of the meal to update
-     *
-     * @return void
-     */
-    public function actionUpdateMeal($id)
-    {
-        $boatId = 0;
-        if (($model = \app\models\Meal::findOne($id)) !== null) {
-            $model->load(Yii::$app->request->post());
-            $cruise = $model->getCruise0()->one();
-            $boat   = $cruise->getBoat0()->one();
-            $boatId = $boat->id;
-
-            $model->save();
-        }
-
-        $this->redirect(['site/calendar', 'id' => $boatId]);
-    }
-
-    public function actionAjaxDeleteMeal($id)
-    {
-        $meal = \app\models\Meal::find()->where( [ "id" => $id ] )->one();
-        $meal->delete();
-    }
-
-    public function actionAjaxGetMeal($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $meal = \app\models\Meal::find()->where( ["id" => $id] )->one();
-        if ($meal == null)
-            return;
-
-        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date" ] );
-    }
-
-    public function actionAjaxUser($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $user = \app\models\User::find()->where( ["id" => $id] )->one();
-        return $user->getAttributes( [ "username" , "id" ] );
-    }
-
     public function actionListIngredients()
     {
         return $this->render('list-ingredients');
     }
 
-    public function actionManyColumnListDish($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $query = new \yii\db\Query;
-        $query->select(
-            [
-                'composition.quantity',
-                'ingredient.name',
-                'ingredient.id',
-                'ingredient.energy_kcal',
-                'ingredient.protein'
-            ]
-        )
-            ->from('composition')
-            ->join(
-                'left join',
-                'ingredient',
-                'composition.ingredient = ingredient.id'
-            )
-            ->where(['dish' => $id])
-            ->addOrderBy(['ingredient.name' => SORT_DESC]);
-
-        return $query->all();
-    }
-
-    /**
-     * Insert composition in the database
-     *
-     * @return void
-     */
-    public function actionInsertComposition()
-    {
-        $model = new \app\models\Composition;
-        $model->load(Yii::$app->request->post());
-        $model->save();
-    }
-
-    /**
-     * Insert composition in the database
-     *
-     * @return void
-     */
-    public function actionUpdateComposition()
-    {
-        $args = Yii::$app->request->post();
-        $composition = $args['Composition'];
-
-        $compositionHelper = new \app\components\CompositionHelper();
-        $compositionHelper->updateDelete(
-            $composition['dish'],
-            $composition['ingredient'],
-            $composition['quantity']
-        );
-    }
 }

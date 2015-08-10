@@ -31,7 +31,7 @@ $plusIcon  = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'
 $minusIcon = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
 
 // the URL that permits loading the list
-$loadUrl = Url::toRoute("site/many-column-list-dish");
+$loadUrl = Url::toRoute("ajax/dish-info");
 
 $ingredientsById = ArrayHelper::index($ingredients, 'id');
 
@@ -59,7 +59,7 @@ echo Html::tag("div", "", [ "id" => $bilanId ]);
 $formOptions = [
         'id'     => 'new-ingredient-form',
         'method' => 'POST',
-        'action' => Url::toRoute('site/insert-composition'),
+        'action' => Url::toRoute('ajax/insert-composition'),
     ];
 $form = ActiveForm::begin($formOptions);
 
@@ -151,7 +151,7 @@ echo Html::beginTag("div", ['class' => 'hidden']);
 $updateFormOptions = [
     'id'     => 'update-ingredient-form',
         'method' => 'POST',
-        'action' => Url::toRoute('site/update-composition'),
+        'action' => Url::toRoute('ajax/update-composition'),
     ];
 $updateForm = ActiveForm::begin($updateFormOptions);
 echo $form->field($compositionModel, 'dish', fieldOptions('update-dish'));

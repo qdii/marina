@@ -66,7 +66,7 @@ function load_bilan(where, dishId, url) {
 function reload_bilan() {
     where  = $('#ingredient-table');
     dishId = $('#composition-dish').val();
-    url    = '/index.php?r=site%2Fmany-column-list-dish';
+    url    = '/index.php?r=ajax%2Fdish-info';
 
     load_bilan(where, dishId , url);
 }

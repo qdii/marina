@@ -173,7 +173,8 @@ class AjaxController extends Controller
         $users        = User::find()->all();
         $dishes       = Dish::find()->all();
         $compositions = Composition::find()->all();
-        $ingredients  = Ingredient::find()->all();
+        $compoIds     = ArrayHelper::getColumn($compositions, 'ingredient');
+        $ingredients  = Ingredient::findAll(['id' => array_unique($compoIds)]);
 
         $meals    = Meal::findAll(['cruise' => $id]);
         $mealIds  = ArrayHelper::getColumn($meals, 'id');

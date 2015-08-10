@@ -219,6 +219,7 @@ $calendarOptions =
                     $( '#meal-drink' ).val( event.drink );
                     $( '#meal-id' ).val( event.id );
                     $( '#meal-cruise' ).attr('value', '$cruiseId');
+                    $( '#meal-backgroundcolor' ).attr('value', event.backgroundColor);
                     $( '#" . $newMealId . "').attr('action', '" . Url::toRoute(["ajax/update-meal"]) . "&id=' + event.id);
                     $( '#" . $placerRepasDlg->getID() . "').modal();
                 } )

@@ -16,6 +16,7 @@ use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\web\JsExpression;
 use \yii\widgets\ActiveForm;
+use \yii\bootstrap\Modal;
 use \skeeks\widget\chosen\Chosen;
 use \app\models\Boat;
 use \app\models\Dish;
@@ -68,14 +69,34 @@ $updateFormOptions = [
         'action' => Url::toRoute('ajax/update-composition'),
     ];
 
+$copyFormOptions = [
+    'id'     => 'new-dish-form',
+        'method' => 'POST',
+        'action' => Url::toRoute('ajax/new-dish'),
+    ];
+
+$copyModalOpts = [
+    'header' => 'Create a dish from selection',
+    'id'     => 'create-dish-modal',
+];
+
 $tableOptions = ['id' => 'ingredient-table'];
 Html::addCssClass($tableOptions, 'table');
 Html::addCssClass($tableOptions, 'table-hover');
+if ($dish === 0) {
+    Html::addCssClass($tableOptions, 'hidden');
+}
 
-$compositionModel = new \app\models\Composition;
+$compoModel = new \app\models\Composition;
+$dishModel        = new \app\models\Dish;
 $inline           = [ 'template' => '{input}{error}' ];
+$types = [
+    'firstCourse' => 'First Course',
+    'secondCourse' => 'Second Course',
+    'dessert' => 'Dessert',
+    'drink' => 'Drink',
+];
 
-// DELETE INGREDIENT FORM
 /**
  * Generates the Yii2 ActiveField options
  *
@@ -83,7 +104,7 @@ $inline           = [ 'template' => '{input}{error}' ];
  *
  * @return string The option field
  */
-function fieldOptions($fieldId)
+function fieldOpts($fieldId)
 {
     return
         [
@@ -95,9 +116,6 @@ function fieldOptions($fieldId)
         ];
 }
 
-if ($dish === 0) {
-    Html::addCssClass($tableOptions, 'hidden');
-}
 ?>
 
 <div class="container">
@@ -107,7 +125,9 @@ if ($dish === 0) {
             <?php echo Chosen::widget($dishChosenOpts); ?>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-primary"><?php echo $copyIcon ?></button>
+            <button type="button" id="copy-dish" class="disabled btn btn-primary">
+                <?php echo $copyIcon ?>
+            </button>
         </div>
     </div>
 
@@ -127,10 +147,10 @@ if ($dish === 0) {
 
         <tbody>
             <tr id="new-ingredient">
-                <td data-id="0"> <?php echo $form->field($compositionModel, 'ingredient', $inline)->widget(Chosen::className(), $ingredientChosenOpts); ?> </td>
-                <td><?php echo $form->field($compositionModel, 'quantity', $inline); ?></td>
+                <td data-id="0"> <?php echo $form->field($compoModel, 'ingredient', $inline)->widget(Chosen::className(), $ingredientChosenOpts); ?> </td>
+                <td><?php echo $form->field($compoModel, 'quantity', $inline); ?></td>
                 <td></td>
-                <td><?php echo Html::activeHiddenInput($compositionModel, 'dish'); ?></td>
+                <td><?php echo Html::activeHiddenInput($compoModel, 'dish'); ?></td>
                 <td><?php echo Html::submitButton($plusIcon, [ 'class' => 'btn btn-success' ]); ?></td>
             </tr>
 
@@ -150,12 +170,19 @@ if ($dish === 0) {
 <?php ActiveForm::end(); ?>
 
 <div class="hidden">
-
-    <?php $updateForm = ActiveForm::begin($updateFormOptions);
-            echo $form->field($compositionModel, 'dish', fieldOptions('update-dish'));
-            echo $form->field($compositionModel, 'ingredient', fieldOptions('update-ingr'));
-            echo $form->field($compositionModel, 'quantity', fieldOptions('update-quantity'));
-        ActiveForm::end($updateFormOptions);
+    <?php $form= ActiveForm::begin($updateFormOptions);
+            echo $form->field($compoModel, 'dish', fieldOpts('update-dish'));
+            echo $form->field($compoModel, 'ingredient', fieldOpts('update-ingr'));
+            echo $form->field($compoModel, 'quantity', fieldOpts('update-quantity'));
+        ActiveForm::end();
     ?>
-
 </div>
+
+<?php Modal::begin($copyModalOpts);
+    $form = ActiveForm::begin($copyFormOptions);
+    echo $form->field($dishModel, 'name');
+    echo $form->field($dishModel, 'type')->dropDownList($types);
+    echo Html::hiddenInput('from-dish', '0');
+    echo Html::submitButton('Create', ['class'=>'btn btn-primary']);
+    ActiveForm::end();
+Modal::end() ?>

@@ -60,6 +60,9 @@ function load_bilan(where, dishId, url) {
         $('#composition-dish').val(dishId);
         handle_delete_composition($('.ingredient button'),$('#update-ingredient-form'))
         handle_weight_update($(".weight"));
+
+        // let an user copy a dish by enabling the copy button
+        $('#copy-dish').removeClass('disabled');
     });
 }
 

@@ -12,4 +12,22 @@ function populate_ingredients() {
         list.trigger('chosen:updated');
     });
 }
+
+function handle_click_copy_button() {
+    if ($(this).is(':disabled') || $(this).hasClass('disabled')) {
+        return;
+    }
+
+    $('#create-dish-modal').modal('show');
+}
+
+function install_click_handler_copy_button() {
+    $('#copy-dish').click(handle_click_copy_button);
+}
+
+function install_click_handlers() {
+    install_click_handler_copy_button();
+}
+
 populate_ingredients();
+install_click_handlers();

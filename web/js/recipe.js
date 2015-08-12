@@ -21,13 +21,29 @@ function handle_click_copy_button() {
     $('#create-dish-modal').modal('show');
 }
 
+function handle_click_copy_submit() {
+}
+
+function install_click_handler_copy_submit() {
+    $('#submit-copy').click(handle_click_copy_submit);
+}
+
 function install_click_handler_copy_button() {
     $('#copy-dish').click(handle_click_copy_button);
 }
 
 function install_click_handlers() {
     install_click_handler_copy_button();
+    install_click_handler_copy_submit();
+}
+
+function update_form_on_selection_change() {
+    $('#dish-name').on('change', function(evt, params) {
+        var dishId = params.selected;
+        $('#from-dish').attr('value', dishId);
+    })
 }
 
 populate_ingredients();
 install_click_handlers();
+update_form_on_selection_change();

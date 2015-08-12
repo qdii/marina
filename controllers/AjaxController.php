@@ -255,4 +255,45 @@ class AjaxController extends Controller
 
         return $query->all();
     }
+
+    /**
+     * Creates a new dish with the same composition as another dish
+     *
+     * @return void
+     */
+    public function actionCopyDish()
+    {
+        $post = Yii::$app->request->post();
+        if (!isset($post['from-dish'])) {
+            return;
+        }
+        $fromDish = intval($post['from-dish'], 10);
+        if (!$fromDish) {
+            return;
+        }
+
+        $source = \app\models\Dish::findOne($fromDish);
+        if ($source === null) {
+            return;
+        }
+
+        $newDish = new \app\models\Dish;
+        $newDish->load(Yii::$app->request->post());
+        $newDish->save();
+
+        $srcCompos = Composition::findAll(['dish' => $fromDish]);
+        foreach ($srcCompos as $compo) {
+            $compo->dish = $newDish->id;
+            assert($compo->validate());
+        }
+
+        $rows = ArrayHelper::getColumn($srcCompos, 'attributes');
+
+        $compoModel = new Composition;
+
+        Yii::$app->db
+            ->createCommand()
+            ->batchInsert(Composition::tableName(), $compoModel->attributes(), $rows)
+            ->execute();
+    }
 }

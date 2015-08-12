@@ -72,7 +72,7 @@ $updateFormOptions = [
 $copyFormOptions = [
     'id'     => 'new-dish-form',
         'method' => 'POST',
-        'action' => Url::toRoute('ajax/new-dish'),
+        'action' => Url::toRoute('ajax/copy-dish'),
     ];
 
 $copyModalOpts = [
@@ -96,6 +96,21 @@ $types = [
     'dessert' => 'Dessert',
     'drink' => 'Drink',
 ];
+
+$submitNewIngredientButton
+    = Html::submitButton(
+        $plusIcon, [
+            'class' => 'btn btn-success',
+        ]
+    );
+
+$submitCopyButton
+    = Html::submitButton(
+        'Create', [
+            'class' => 'btn btn-success',
+            'id' => 'submit-copy',
+        ]
+    );
 
 /**
  * Generates the Yii2 ActiveField options
@@ -151,7 +166,7 @@ function fieldOpts($fieldId)
                 <td><?php echo $form->field($compoModel, 'quantity', $inline); ?></td>
                 <td></td>
                 <td><?php echo Html::activeHiddenInput($compoModel, 'dish'); ?></td>
-                <td><?php echo Html::submitButton($plusIcon, [ 'class' => 'btn btn-success' ]); ?></td>
+                <td><?php echo $submitNewIngredientButton ?></td>
             </tr>
 
             <tr class="list-group-item-success" id="total"»
@@ -182,7 +197,7 @@ function fieldOpts($fieldId)
     $form = ActiveForm::begin($copyFormOptions);
     echo $form->field($dishModel, 'name');
     echo $form->field($dishModel, 'type')->dropDownList($types);
-    echo Html::hiddenInput('from-dish', '0');
-    echo Html::submitButton('Create', ['class'=>'btn btn-primary']);
+    echo Html::hiddenInput('from-dish', '0', ['id' => 'from-dish']);
+    echo $submitCopyButton;
     ActiveForm::end();
 Modal::end() ?>

@@ -16,6 +16,7 @@ use app\models\Boat;
 use app\models\Meal;
 use app\models\Composition;
 use app\components\EventMaker;
+use app\components\CompositionHelper;
 
 class AjaxController extends Controller
 {
@@ -263,20 +264,21 @@ class AjaxController extends Controller
      */
     public function actionCopyDish()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
 
-        $dish = new \app\models\Dish;
-        $dish->load(Yii::$app->request->post());
-        $id = $dish->id;
+        $dish = new Dish;
+        $dish->load($post);
+        $id = $post['Dish']['id'];
 
-        if (($source = \app\models\Dish::findOne($id)) === null) {
+        if (($source = Dish::findOne($id)) === null) {
+            \Yii::$app->response->setStatusCode(400);
             return;
         }
 
-        $newDish = new \app\models\Dish;
-        $newDish->setAttributes($dish->attributes());
-        $newDish->save();
+        $dish->save();
 
-        $cloned = CompositionHelper::cloneDish($fromDish, $id);
+        if (!CompositionHelper::cloneDish($id, $dish->id)) {
+            \Yii::$app->response->setStatusCode(500);
+        }
     }
 }

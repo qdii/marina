@@ -21,7 +21,17 @@ function handle_click_copy_button() {
     $('#create-dish-modal').modal('show');
 }
 
-function handle_click_copy_submit() {
+function handle_click_copy_submit(event) {
+    event.preventDefault();
+
+    var opts = {
+        'success': function() { location.reload(); },
+        'error':   function() { console.log('failed to copy dish'); },
+    };
+
+    $('#new-dish-form').ajaxSubmit(opts);
+
+    return false;
 }
 
 function install_click_handler_copy_submit() {

@@ -263,17 +263,16 @@ class AjaxController extends Controller
      */
     public function actionCopyDish()
     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $post = Yii::$app->request->post();
         if (!isset($post['from-dish'])) {
             return;
         }
-        $fromDish = intval($post['from-dish'], 10);
-        if (!$fromDish) {
+        if (!($fromDish = intval($post['from-dish'], 10))) {
             return;
         }
 
-        $source = \app\models\Dish::findOne($fromDish);
-        if ($source === null) {
+        if (($source = \app\models\Dish::findOne($fromDish)) === null) {
             return;
         }
 
@@ -281,19 +280,6 @@ class AjaxController extends Controller
         $newDish->load(Yii::$app->request->post());
         $newDish->save();
 
-        $srcCompos = Composition::findAll(['dish' => $fromDish]);
-        foreach ($srcCompos as $compo) {
-            $compo->dish = $newDish->id;
-            assert($compo->validate());
-        }
-
-        $rows = ArrayHelper::getColumn($srcCompos, 'attributes');
-
-        $compoModel = new Composition;
-
-        Yii::$app->db
-            ->createCommand()
-            ->batchInsert(Composition::tableName(), $compoModel->attributes(), $rows)
-            ->execute();
+        $cloned = CompositionHelper::cloneDish($fromDish, $newDish->id);
     }
 }

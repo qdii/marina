@@ -87,4 +87,34 @@ class SiteControllerTest extends PHPUnit_Extensions_Database_TestCase
             \PHPUnit_Extensions_Database_Operation_Factory::INSERT()
         ));
     }
+
+    /**
+     * Checks that the cloning function of the composition helper works
+     *
+     * @return void
+     */
+    public function testCloneDish()
+    {
+        $helper = new CompositionHelper;
+
+        $ncompositions = $this->getConnection()->getRowCount('composition');
+        $ndish         = $this->getConnection()->getRowCount('dish');
+
+        $dish = new \app\models\Dish;
+        $dish->name = "whatever";
+        $dish->type = "firstCourse";
+        $dish->insert();
+
+        $this->assertEquals($ndish + 1, $this->getConnection()->getRowCount('dish'));
+
+        $cloned = $helper->cloneDish(9, $dish->id);
+        $this->assertTrue($cloned);
+
+        // 5 lines should be inserted (because there were 5 entries corresponding
+        // to dish 9 in the table "composition"
+        $this->assertEquals(
+            $ncompositions + 5,
+            $this->getConnection()->getRowCount('composition')
+        );
+    }
 }

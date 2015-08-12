@@ -264,22 +264,19 @@ class AjaxController extends Controller
     public function actionCopyDish()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $post = Yii::$app->request->post();
-        if (!isset($post['from-dish'])) {
-            return;
-        }
-        if (!($fromDish = intval($post['from-dish'], 10))) {
-            return;
-        }
 
-        if (($source = \app\models\Dish::findOne($fromDish)) === null) {
+        $dish = new \app\models\Dish;
+        $dish->load(Yii::$app->request->post());
+        $id = $dish->id;
+
+        if (($source = \app\models\Dish::findOne($id)) === null) {
             return;
         }
 
         $newDish = new \app\models\Dish;
-        $newDish->load(Yii::$app->request->post());
+        $newDish->setAttributes($dish->attributes());
         $newDish->save();
 
-        $cloned = CompositionHelper::cloneDish($fromDish, $newDish->id);
+        $cloned = CompositionHelper::cloneDish($fromDish, $id);
     }
 }

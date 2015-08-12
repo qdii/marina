@@ -197,7 +197,7 @@ function fieldOpts($fieldId)
     $form = ActiveForm::begin($copyFormOptions);
     echo $form->field($dishModel, 'name');
     echo $form->field($dishModel, 'type')->dropDownList($types);
-    echo Html::hiddenInput('from-dish', '0', ['id' => 'from-dish']);
+    echo Html::activeHiddenInput($dishModel, 'id');
     echo $submitCopyButton;
     ActiveForm::end();
 Modal::end() ?>

@@ -40,7 +40,7 @@ function install_click_handlers() {
 function update_form_on_selection_change() {
     $('#dish-name').on('change', function(evt, params) {
         var dishId = params.selected;
-        $('#from-dish').attr('value', dishId);
+        $('#dish-id').attr('value', dishId);
     })
 }
 

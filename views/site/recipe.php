@@ -67,15 +67,15 @@ $formOptions = [
 
 $updateFormOptions = [
     'id'     => 'update-ingredient-form',
-        'method' => 'POST',
-        'action' => Url::toRoute('ajax/update-composition'),
-    ];
+    'method' => 'POST',
+    'action' => Url::toRoute('ajax/update-composition'),
+];
 
 $copyFormOptions = [
     'id'     => 'new-dish-form',
-        'method' => 'POST',
-        'action' => Url::toRoute('ajax/copy-dish'),
-    ];
+    'method' => 'POST',
+    'action' => Url::toRoute('ajax/copy-dish'),
+];
 
 $copyModalOpts = [
     'header' => 'Create a dish from selection',

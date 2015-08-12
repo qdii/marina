@@ -159,12 +159,17 @@ class SiteController extends Controller
         $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
+
+    /**
+     * Registers a new meal in the database
+     *
+     * @return void
+     */
     public function actionNewMeal()
     {
         $model = new \app\models\Meal();
-        if ($model->load(Yii::$app->request->post()))
-        {
-            assert( $model->validate() );
+        if ($model->load(Yii::$app->request->post())) {
+            assert($model->validate());
             $model->save();
         }
 

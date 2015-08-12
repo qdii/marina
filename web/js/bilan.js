@@ -59,6 +59,7 @@ function load_bilan(where, dishId, url) {
 
         $('#composition-dish').val(dishId);
         handle_delete_composition($('.ingredient button'),$('#update-ingredient-form'))
+        handle_confirm_delete_composition();
         handle_weight_update($(".weight"));
 
         // let an user copy a dish by enabling the copy button
@@ -92,18 +93,14 @@ function make_new_ingredient_ajax(form) {
     });
 }
 
-function update_composition(form, dishId, ingredientId, quantity, callback) {
-    $('#update-dish input').val(dishId);
-    $('#update-ingr input').val(ingredientId);
-    $('#update-quantity input').val(quantity);
-
+function update_composition(callback) {
     opts = {
         'success': callback,
         'error':   function() { },
     };
 
     // commit the result
-    form.ajaxSubmit(opts);
+    $(update_ingr_form).ajaxSubmit(opts);
 }
 
 function handle_delete_composition(target, form) {
@@ -115,8 +112,23 @@ function handle_delete_composition(target, form) {
         var ingredientId = $(this).parents('.ingredient').attr('data-id');
         var quantity     = 0;
 
-        update_composition(form, dishId, ingredientId, quantity, reload_bilan);
+        $('#update-dish input').val(dishId);
+        $('#update-ingr input').val(ingredientId);
+        $('#update-quantity input').val(quantity);
 
+        $(delete_ingr_modal).modal('show');
+
+        return false;
+    });
+}
+
+function handle_confirm_delete_composition() {
+    $('#submit-delete-compo').click(function(event) {
+        event.preventDefault();
+        var ingredientId = $('#update-ingr input').val();
+
+        $(delete_ingr_modal).modal('hide');
+        update_composition(function(){ hide_ingredient(ingredientId); });
         return false;
     });
 }
@@ -129,15 +141,28 @@ function save_and_remove_modified_quantities() {
     var quantity     = modifiedElement.val();
     var ingredientId = modifiedElement.parents('.ingredient').attr('data-id');
     var dishId       = $('#composition-dish').val();
-    var form         = $('#update-ingredient-form');
 
-    update_composition(form, dishId, ingredientId, quantity, reload_bilan);
+    $('#update-dish input').val(dishId);
+    $('#update-ingr input').val(ingredientId);
+    $('#update-quantity input').val(quantity);
+
+    update_composition(reload_bilan);
 
     // restore click handlers
     var elem = modifiedElement.parent();
     handle_weight_update(elem);
 
     elem.html(quantity + ' g');
+}
+
+function hide_ingredient(ingredientId) {
+    $('.ingredient').each(function() {
+        var myId = $(this).attr('data-id');
+        if (myId != ingredientId)
+            return;
+
+        $(this).hide(400, reload_bilan);
+    });
 }
 
 make_new_ingredient_ajax($('#new-ingredient-form'));

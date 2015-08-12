@@ -82,6 +82,18 @@ $copyModalOpts = [
     'id'     => 'create-dish-modal',
 ];
 
+$confirmFormOpts = [
+    'id'     => 'delete-confirm-modal',
+    'method' => 'POST',
+    'action' => Url::toRoute('ajax/update-composition'),
+];
+
+$confirmModalOpts = [
+    'header' => 'Are you sure you want to delete this ingredient?',
+    'id'     => 'delete-confirm-modal',
+];
+
+
 $tableOptions = ['id' => 'ingredient-table'];
 Html::addCssClass($tableOptions, 'table');
 Html::addCssClass($tableOptions, 'table-hover');
@@ -114,6 +126,13 @@ $submitCopyButton
         ]
     );
 
+$deleteButton
+    = Html::button(
+        'Delete', [
+            'class' => 'btn btn-danger',
+            'id'    => 'submit-delete-compo',
+        ]
+    );
 /**
  * Generates the Yii2 ActiveField options
  *
@@ -187,10 +206,10 @@ function fieldOpts($fieldId)
 <?php ActiveForm::end(); ?>
 
 <div class="hidden">
-    <?php $form= ActiveForm::begin($updateFormOptions);
-            echo $form->field($compoModel, 'dish', fieldOpts('update-dish'));
-            echo $form->field($compoModel, 'ingredient', fieldOpts('update-ingr'));
-            echo $form->field($compoModel, 'quantity', fieldOpts('update-quantity'));
+    <?php $updateForm= ActiveForm::begin($updateFormOptions);
+            echo $updateForm->field($compoModel, 'dish', fieldOpts('update-dish'));
+            echo $updateForm->field($compoModel, 'ingredient', fieldOpts('update-ingr'));
+            echo $updateForm->field($compoModel, 'quantity', fieldOpts('update-quantity'));
         ActiveForm::end();
     ?>
 </div>
@@ -204,10 +223,16 @@ function fieldOpts($fieldId)
     ActiveForm::end();
 Modal::end() ?>
 
+<?php $deleteModal = Modal::begin($confirmModalOpts);
+    echo $deleteButton;
+Modal::end() ?>
+
 <?php $this->registerJs(
     'var url_recipe = "'          . Url::toRoute("site/recipe")          . '";' . "\n" .
     'var url_get_ingredients = "' . Url::toRoute("ajax/get-ingredients") .'";' . "\n" .
-    'var current_dish = ' . $dish . ";\n",
+    'var delete_ingr_modal   = "#' . $deleteModal->getId() .'";' . "\n" .
+    'var current_dish = ' . $dish . ";\n" .
+    'var update_ingr_form  = "#' . $updateForm->getId() . "\";\n",
     View::POS_BEGIN
 ); ?>
 

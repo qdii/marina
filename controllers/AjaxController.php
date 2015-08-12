@@ -16,6 +16,7 @@ use app\models\Boat;
 use app\models\Meal;
 use app\models\Composition;
 use app\components\EventMaker;
+use app\components\CompositionHelper;
 
 class AjaxController extends Controller
 {
@@ -254,5 +255,32 @@ class AjaxController extends Controller
         }
 
         return $query->all();
+    }
+
+    /**
+     * Creates a new dish with the same composition as another dish
+     *
+     * @return void
+     */
+    public function actionCopyDish()
+    {
+        $post = Yii::$app->request->post();
+
+        $dish = new Dish;
+        $dish->load($post);
+        $id = $post['Dish']['id'];
+
+        if (($source = Dish::findOne($id)) === null) {
+            \Yii::$app->response->setStatusCode(400);
+            return;
+        }
+
+        $dish->save();
+
+        if (!CompositionHelper::cloneDish($id, $dish->id)) {
+            \Yii::$app->response->setStatusCode(500);
+        }
+
+        return $dish->id;
     }
 }

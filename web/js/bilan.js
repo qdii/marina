@@ -60,6 +60,9 @@ function load_bilan(where, dishId, url) {
         $('#composition-dish').val(dishId);
         handle_delete_composition($('.ingredient button'),$('#update-ingredient-form'))
         handle_weight_update($(".weight"));
+
+        // let an user copy a dish by enabling the copy button
+        $('#copy-dish').removeClass('disabled');
     });
 }
 
@@ -172,4 +175,15 @@ function handle_weight_update(where) {
             on_weight_click($(this));
         }
     );
+}
+
+if (current_dish != 0) {
+    // the chosen selector now reflects the right dish
+    $('#dish-name').val(current_dish);
+    $('#dish-name').trigger('chosen:updated');
+
+    // the list now reflects the right ingredients
+    $('#composition-dish').attr('value', current_dish);
+    reload_bilan();
+    $('#dish-id').attr('value', current_dish);
 }

@@ -14,6 +14,7 @@
 namespace app\components;
 
 use \app\models\Composition;
+use \yii\helpers\ArrayHelper;
 
 /**
  * Provides new functions around Composition
@@ -60,5 +61,33 @@ class CompositionHelper
         }
 
         return true;
+    }
+
+    /**
+     * Inserts in the database a copy of all the composition of a given dish
+     *
+     * @param integer $oldDishId The dish to clone
+     * @param integer $newDishId The lines to insert
+     *
+     * @return true if the compositions were successfully inserted
+     */
+    function cloneDish($oldDishId, $newDishId)
+    {
+        $srcCompos = Composition::findAll(['dish' => $oldDishId]);
+        foreach ($srcCompos as $compo) {
+            $compo->dish = $newDishId;
+            assert($compo->validate());
+        }
+
+        $rows = ArrayHelper::getColumn($srcCompos, 'attributes');
+
+        $compoModel = new Composition;
+
+        $nrows = \Yii::$app->db
+            ->createCommand()
+            ->batchInsert(Composition::tableName(), $compoModel->attributes(), $rows)
+            ->execute();
+
+        return $nrows == count($srcCompos);
     }
 }

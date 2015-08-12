@@ -11,11 +11,6 @@ use \app\models\Composition;
  * Unit test for the class Price Compute
  */
 
-/**
- * Disables foreign key checks temporarily.
- *
- * @return void
- */
 class SiteControllerTest extends PHPUnit_Extensions_Database_TestCase
 {
     public function testUpdateComposition()

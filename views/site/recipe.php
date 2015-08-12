@@ -205,7 +205,8 @@ Modal::end() ?>
 
 <?php $this->registerJs(
     'var url_recipe = "'          . Url::toRoute("site/recipe")          . '";' . "\n" .
-    'var url_get_ingredients = "' . Url::toRoute("ajax/get-ingredients") .'";',
+    'var url_get_ingredients = "' . Url::toRoute("ajax/get-ingredients") .'";' . "\n" .
+    'var current_dish = ' . $dish . ";\n",
     View::POS_BEGIN
 ); ?>
 

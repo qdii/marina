@@ -176,3 +176,13 @@ function handle_weight_update(where) {
         }
     );
 }
+
+if (current_dish != 0) {
+    // the chosen selector now reflects the right dish
+    $('#dish-name').val(current_dish);
+    $('#dish-name').trigger('chosen:updated');
+
+    // the list now reflects the right ingredients
+    $('#composition-dish').val(current_dish);
+    reload_bilan();
+}

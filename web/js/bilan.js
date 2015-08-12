@@ -161,7 +161,7 @@ function hide_ingredient(ingredientId) {
         if (myId != ingredientId)
             return;
 
-        $(this).hide(400);
+        $(this).hide(400, reload_bilan);
     });
 }
 

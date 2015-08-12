@@ -183,6 +183,7 @@ if (current_dish != 0) {
     $('#dish-name').trigger('chosen:updated');
 
     // the list now reflects the right ingredients
-    $('#composition-dish').val(current_dish);
+    $('#composition-dish').attr('value', current_dish);
     reload_bilan();
+    $('#dish-id').attr('value', current_dish);
 }

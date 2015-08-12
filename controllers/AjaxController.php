@@ -280,5 +280,7 @@ class AjaxController extends Controller
         if (!CompositionHelper::cloneDish($id, $dish->id)) {
             \Yii::$app->response->setStatusCode(500);
         }
+
+        return $dish->id;
     }
 }

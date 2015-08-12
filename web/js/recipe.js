@@ -25,7 +25,9 @@ function handle_click_copy_submit(event) {
     event.preventDefault();
 
     var opts = {
-        'success': function() { location.reload(); },
+        'success': function(id) {
+            window.location.href = url_recipe + "&id=" + id;
+        },
         'error':   function() { console.log('failed to copy dish'); },
     };
 
@@ -47,13 +49,9 @@ function install_click_handlers() {
     install_click_handler_copy_submit();
 }
 
-function update_form_on_selection_change() {
-    $('#dish-name').on('change', function(evt, params) {
-        var dishId = params.selected;
-        $('#dish-id').attr('value', dishId);
-    })
+function update_dish_id_in_copy_form(dishId) {
+    $('#dish-id').attr('value', dishId);
 }
 
 populate_ingredients();
 install_click_handlers();
-update_form_on_selection_change();

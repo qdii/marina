@@ -49,6 +49,7 @@ $dishChosenOpts = [
             'change' => "function(ev, params) {
                 var table = $('tbody');
                 load_bilan(table, params.selected, '$loadUrl');
+                update_dish_id_in_copy_form(params.selected);
             }"
         ]
     ];

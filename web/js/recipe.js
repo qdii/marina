@@ -1,7 +1,7 @@
 function populate_ingredients() {
     var ids = {};
     var list = $('#composition-ingredient');
-    $.get('index.php?r=ajax%2Fget-ingredients', ids, function(data) {
+    $.get(url_get_ingredients, ids, function(data) {
         $.each(data, function(i, item) {
             list.append($('<option>', {
                 text:  item.name,

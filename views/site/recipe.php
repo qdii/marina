@@ -15,6 +15,7 @@ use \yii\helpers\ArrayHelper;
 use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\web\JsExpression;
+use \yii\web\View;
 use \yii\widgets\ActiveForm;
 use \yii\bootstrap\Modal;
 use \skeeks\widget\chosen\Chosen;
@@ -201,3 +202,10 @@ function fieldOpts($fieldId)
     echo $submitCopyButton;
     ActiveForm::end();
 Modal::end() ?>
+
+<?php $this->registerJs(
+    'var url_recipe = "'          . Url::toRoute("site/recipe")          . '";' . "\n" .
+    'var url_get_ingredients = "' . Url::toRoute("ajax/get-ingredients") .'";',
+    View::POS_BEGIN
+); ?>
+

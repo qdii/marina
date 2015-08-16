@@ -250,28 +250,27 @@ $priceComputer = new app\components\PriceComputer(
     $dishes,
     $meals
 );
-$priceComputer->addMeals( $meals );
+$priceComputer->addMeals($meals);
 
 // sort the list of ingredients by alphabetic order
 ArrayHelper::multisort($priceComputer->items, 'name');
 
-$ingredients = $priceComputer->items;
-$items = [];
-foreach ( $ingredients as $ingredient ) {
-    $items[]
-        = [
-            $ingredient['name'],
-            $ingredient['quantity'] . ' ' . $ingredient['unitName'],
-        ];
-}
-echo app\components\ManyColumnList::widget(
-    [
-        "items"      => $items,
-        "headers"    => [ "Name", "Quantity" ],
-        "attributes" => [ 'name', 'quantity' ],
-        "showTotal"  => false,
-        "totals"     => [ "" ]
-    ]
-);
-
 ?>
+<table class="table table-hover">
+    <thead>
+        <th>Name</th>
+        <th>Quantity (in g)</th>
+        <th>In unit</th>
+        <th>Unit</th>
+    </thead>
+    <tbody>
+        <?php foreach ($priceComputer->items as $it) { ?>
+        <tr>
+            <td><?php echo $it['name'] ?></td>
+            <td><?php echo $it['quantity'] ?></td>
+            <td><?php echo "" ?></td>
+            <td><?php echo "" ?></td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>

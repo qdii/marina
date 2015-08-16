@@ -1,5 +1,4 @@
 <?php
-use \app\components\ManyColumnList;
 use \app\models\Ingredient;
 use \yii\helpers\ArrayHelper;
 use \yii\helpers\Html;

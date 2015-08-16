@@ -59,11 +59,12 @@ function load_bilan(where, dishId, url) {
 
         $('#composition-dish').val(dishId);
         handle_delete_composition($('.ingredient button'),$('#update-ingredient-form'))
-        handle_confirm_delete_composition();
+        handle_confirm_delete();
         handle_weight_update($(".weight"));
 
         // let an user copy a dish by enabling the copy button
         $('#copy-dish').removeClass('disabled');
+        $('#delete-dish').removeClass('disabled');
     });
 }
 
@@ -122,7 +123,21 @@ function handle_delete_composition(target, form) {
     });
 }
 
-function handle_confirm_delete_composition() {
+function handle_delete_dish() {
+    $('#delete-dish').click(function(){
+        var dishId       = $('#composition-dish').val();
+        var ingredientId = 0;
+        var quantity     = 0;
+
+        $('#update-dish input').val(dishId);
+        $('#update-ingr input').val(ingredientId);
+        $('#update-quantity input').val(quantity);
+
+        $(delete_ingr_modal).modal('show');
+    });
+}
+
+function handle_confirm_delete() {
     $('#submit-delete-compo').click(function(event) {
         event.preventDefault();
         var ingredientId = $('#update-ingr input').val();

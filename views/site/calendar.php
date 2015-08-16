@@ -261,7 +261,7 @@ foreach ( $ingredients as $ingredient ) {
     $items[]
         = [
             $ingredient['name'],
-            $ingredient['quantity'] . ' g',
+            $ingredient['quantity'] . ' ' . $ingredient['unitName'],
         ];
 }
 echo app\components\ManyColumnList::widget(

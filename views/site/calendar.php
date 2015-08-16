@@ -250,18 +250,14 @@ $priceComputer = new app\components\PriceComputer(
     $dishes,
     $meals
 );
-$priceComputer->nbGuests = 1;
 $priceComputer->addMeals( $meals );
-$price = $priceComputer->price();
 
 // sort the list of ingredients by alphabetic order
 ArrayHelper::multisort($priceComputer->items, 'name');
 
 $ingredients = $priceComputer->items;
-$total = 0;
 $items = [];
 foreach ( $ingredients as $ingredient ) {
-    $total += $ingredient['price'];
     $items[]
         = [
             $ingredient['name'],

@@ -88,29 +88,22 @@
 	</table_data>
 	<table_data name="unit">
 	<row>
-		<field name="id">1</field>
-		<field name="shortName"></field>
-		<field name="name">object</field>
+		<field name="id">0</field>
+		<field name="display"></field>
+		<field name="name">grams</field>
+		<field name="weight">NULL</field>
 	</row>
 	<row>
-		<field name="id">2</field>
-		<field name="shortName">g</field>
-		<field name="name"> poids</field>
+		<field name="id"></field>
+		<field name="display">ℓ</field>
+		<field name="name">liter of water</field>
+		<field name="weight">1000</field>
 	</row>
 	<row>
-		<field name="id">3</field>
-		<field name="shortName">ℓ</field>
-		<field name="name"> liquide</field>
-	</row>
-	<row>
-		<field name="id">4</field>
-		<field name="shortName">c. à c.</field>
-		<field name="name">petits trucs</field>
-	</row>
-	<row>
-		<field name="id">5</field>
-		<field name="shortName">c. à s.</field>
-		<field name="name">petits trucs</field>
+		<field name="id"></field>
+		<field name="display">ℓ</field>
+		<field name="name">liter of milk</field>
+		<field name="weight">1030</field>
 	</row>
 	</table_data>
 	<table_data name="dish">

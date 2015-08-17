@@ -38,7 +38,8 @@ function load_bilan(where, dishId, url) {
             where.prepend(
                   '<tr data-id="' + id + '" class="ingredient">'
                 +   '<td>'                + name           + '</td>'
-                +   '<td class="weight">' + qty.toFixed(1) + ' ' + suff        + '</td>'
+                +   '<td class="weight" data-suffix=' + suff + '>'
+                        +  qty.toFixed(1) + ' ' + suff     + '</td>'
                 +   '<td>'                + proteinText    + ' ' + proteinUnit + '</td>'
                 +   '<td>'                + caloryText     + ' ' + caloryUnit  + '</td>'
                 +   '<td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
@@ -155,6 +156,7 @@ function save_and_remove_modified_quantities() {
         return;
 
     var quantity     = modifiedElement.val();
+    var suffix       = modifiedElement.parent().attr('data-suffix');
     var ingredientId = modifiedElement.parents('.ingredient').attr('data-id');
     var dishId       = $('#composition-dish').val();
 
@@ -168,7 +170,7 @@ function save_and_remove_modified_quantities() {
     var elem = modifiedElement.parent();
     handle_weight_update(elem);
 
-    elem.html(quantity + ' g');
+    elem.html(quantity + ' ' + suffix);
 }
 
 function hide_ingredient(ingredientId) {
@@ -200,7 +202,8 @@ function on_weight_click(where) {
     where.unbind('click');
     where.unbind('mouseenter').unbind('mouseleave');
     remove_button(where);
-    var val = where.text().replace(" g","");
+    var suffix = where.attr('data-suffix');
+    var val    = where.text().replace(suffix,"").trim();
     where.html('<input id="modified-quantity" class="form-control" type="text" value="' + val + '">');
     where.children('input').focus();
 }

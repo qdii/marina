@@ -31,7 +31,7 @@ $bilanId = "bilan";
 
 // icons to add/remove ingredients
 $plusIcon  = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
-$minusIcon = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+$trashIcon = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
 $copyIcon = '<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>';
 
 // the URL that permits loading the list
@@ -157,12 +157,15 @@ function fieldOpts($fieldId)
 <div class="container">
 
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-10">
             <?php echo Chosen::widget($dishChosenOpts); ?>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
             <button type="button" id="copy-dish" class="disabled btn btn-primary">
                 <?php echo $copyIcon ?>
+            </button>
+            <button type="button" id="delete-dish" class="disabled btn btn-danger">
+                <?php echo $trashIcon ?>
             </button>
         </div>
     </div>
@@ -175,7 +178,7 @@ function fieldOpts($fieldId)
 
         <thead>
             <th>Name</th>
-            <th>Weight</th>
+            <th>Quantity</th>
             <th>Proteins</th>
             <th>Energy</th>
             <th></th>

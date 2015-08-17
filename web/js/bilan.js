@@ -10,6 +10,7 @@ function load_bilan(where, dishId, url) {
         for ( var i = 0; i < nelements; i++ ) {
             var id   = data[i].id;
             var name = data[i].name;
+            var suff = data[i].display == null ? "g" : data[i].display;
 
             var qty      = parseFloat(data[i].quantity);
             total_qty  += qty;
@@ -37,7 +38,8 @@ function load_bilan(where, dishId, url) {
             where.prepend(
                   '<tr data-id="' + id + '" class="ingredient">'
                 +   '<td>'                + name           + '</td>'
-                +   '<td class="weight">' + qty.toFixed(1) + ' g</td>'
+                +   '<td class="weight" data-suffix=' + suff + '>'
+                        +  qty.toFixed(1) + ' ' + suff     + '</td>'
                 +   '<td>'                + proteinText    + ' ' + proteinUnit + '</td>'
                 +   '<td>'                + caloryText     + ' ' + caloryUnit  + '</td>'
                 +   '<td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
@@ -59,11 +61,12 @@ function load_bilan(where, dishId, url) {
 
         $('#composition-dish').val(dishId);
         handle_delete_composition($('.ingredient button'),$('#update-ingredient-form'))
-        handle_confirm_delete_composition();
+        handle_confirm_delete();
         handle_weight_update($(".weight"));
 
         // let an user copy a dish by enabling the copy button
         $('#copy-dish').removeClass('disabled');
+        $('#delete-dish').removeClass('disabled');
     });
 }
 
@@ -122,7 +125,21 @@ function handle_delete_composition(target, form) {
     });
 }
 
-function handle_confirm_delete_composition() {
+function handle_delete_dish() {
+    $('#delete-dish').click(function(){
+        var dishId       = $('#composition-dish').val();
+        var ingredientId = 0;
+        var quantity     = 0;
+
+        $('#update-dish input').val(dishId);
+        $('#update-ingr input').val(ingredientId);
+        $('#update-quantity input').val(quantity);
+
+        $(delete_ingr_modal).modal('show');
+    });
+}
+
+function handle_confirm_delete() {
     $('#submit-delete-compo').click(function(event) {
         event.preventDefault();
         var ingredientId = $('#update-ingr input').val();
@@ -139,6 +156,7 @@ function save_and_remove_modified_quantities() {
         return;
 
     var quantity     = modifiedElement.val();
+    var suffix       = modifiedElement.parent().attr('data-suffix');
     var ingredientId = modifiedElement.parents('.ingredient').attr('data-id');
     var dishId       = $('#composition-dish').val();
 
@@ -152,7 +170,7 @@ function save_and_remove_modified_quantities() {
     var elem = modifiedElement.parent();
     handle_weight_update(elem);
 
-    elem.html(quantity + ' g');
+    elem.html(quantity + ' ' + suffix);
 }
 
 function hide_ingredient(ingredientId) {
@@ -184,7 +202,8 @@ function on_weight_click(where) {
     where.unbind('click');
     where.unbind('mouseenter').unbind('mouseleave');
     remove_button(where);
-    var val = where.text().replace(" g","");
+    var suffix = where.attr('data-suffix');
+    var val    = where.text().replace(suffix,"").trim();
     where.html('<input id="modified-quantity" class="form-control" type="text" value="' + val + '">');
     where.children('input').focus();
 }

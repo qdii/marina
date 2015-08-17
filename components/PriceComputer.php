@@ -34,6 +34,7 @@ class PriceComputer
     public $items     = [];
 
     private $_unitsNameById = [];
+    private $_unitsById = [];
 
     private $_ingredients;
     private $_compositions;
@@ -54,7 +55,7 @@ class PriceComputer
      */
     public function __construct($ingredients, $compositions, $units, $dishes, $meals)
     {
-        $this->_unitsNameById = ArrayHelper::map($units, 'id', 'shortName');
+        $this->_unitsNameById = ArrayHelper::map($units, 'id', 'display');
         $this->_ingredients   = $ingredients;
         $this->_compositions  = $compositions;
         $this->_dishes        = $dishes;
@@ -62,6 +63,7 @@ class PriceComputer
 
         $this->_dishesById      = ArrayHelper::index($dishes, 'id');
         $this->_ingredientsById = ArrayHelper::index($ingredients, 'id');
+        $this->_unitsById       = ArrayHelper::index($units, 'id');
     }
 
     /**
@@ -104,6 +106,49 @@ class PriceComputer
     }
 
     /**
+     * If the item does not exist in the list, sets its quantity and price
+     * to 0
+     *
+     * @param integer $id The id of the ingredient to initialize
+     *
+     * @return void
+     */
+    private function _initItem($id)
+    {
+        if (isset($this->items[$id])) {
+            assert(count($this->items[$id]['name']) > 0);
+            assert($this->items[$id]['quantity'] > 0);
+            return;
+        }
+
+        $this->items[$id]['quantity'] = 0;
+        $this->items[$id]['weight']   = 0;
+    }
+
+    /**
+     * Increases the quantity of a given ingredient in the list
+     *
+     * @param Ingredient $ingr The id of the ingredient to accumulate
+     * @param mixed      $unit The unit in which the ingredient is shown or null
+     * @param float      $qty  How much of the ingredient to add (in $unit)
+     *
+     * @return void
+     */
+    private function _accumulateItem($ingr, $unit, $qty)
+    {
+        $id = $ingr->id;
+        assert(isset($this->items[$id]));
+
+        $weight = $unit == null ? $qty : $qty * $unit->weight;
+
+        $this->items[$id]['ingredient']  = $ingr;
+        $this->items[$id]['name']        = $ingr->name;
+        $this->items[$id]['unit']        = $unit;
+        $this->items[$id]['quantity']   += $qty;
+        $this->items[$id]['weight']     += $weight;
+    }
+
+    /**
      * Increases the local ingredient variable from a set of dishes
      *
      * @param array   $dishes   The set of dishes to include
@@ -120,21 +165,14 @@ class PriceComputer
                 continue;
             }
 
-            $ingredientId = $item->ingredient;
-            $ingredient   = $this->_ingredientsById[$ingredientId];
-            $quantity     = $item->quantity * $nbGuests;
+            $ingredient = $this->_ingredientsById[$item->ingredient];
+            $unitId     = $ingredient->unit;
+            $unit       = $unitId != null ?
+                $this->_unitsById[$ingredient->unit] : null;
+            $quantity   = $item->quantity * $nbGuests;
 
-            if ( !isset( $this->items[$ingredient->id]['quantity'] ) ) {
-                $this->items[$ingredient->id]['quantity'] = 0;
-            } else {
-                $quantity += $this->items[$ingredient->id]['quantity'];
-            }
-
-            $this->items[$ingredientId]['name']      = $ingredient->name;
-            $this->items[$ingredientId]['quantity']  = $quantity;
-            $this->items[$ingredientId]['price']     = $ingredient->price * $quantity;
-            $this->items[$ingredientId]['unitPrice'] = $ingredient->price;
-            $this->items[$ingredientId]['unitName']  = $this->_unitsNameById[$ingredient->unit];
+            $this->_initItem($item->ingredient);
+            $this->_accumulateItem($ingredient, $unit, $quantity);
         }
     }
 

@@ -259,17 +259,15 @@ ArrayHelper::multisort($priceComputer->items, 'name');
 <table class="table table-hover">
     <thead>
         <th>Name</th>
-        <th>Quantity (in g)</th>
-        <th>In unit</th>
-        <th>Unit</th>
+        <th>Weight</th>
+        <th>Quantity</th>
     </thead>
     <tbody>
         <?php foreach ($priceComputer->items as $it) { ?>
         <tr data-id="<?php echo $it['ingredient']->id ?>">
             <td><?php echo $it['name'] ?></td>
-            <td><?php echo $it['weight'] ?></td>
-            <td><?php echo $it['unit'] == null ? "" : $it['quantity']   ?></td>
-            <td><?php echo $it['unit'] == null ? "" : $it['unit']->name ?></td>
+            <td><?php echo $it['weight'] ?> g</td>
+            <td><?php echo $it['unit'] == null ? "" : ( $it['quantity'] . ' ' . $it['unit']->display ) ?></td>
         </tr>
         <?php } ?>
     </tbody>

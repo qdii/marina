@@ -178,7 +178,7 @@ function fieldOpts($fieldId)
 
         <thead>
             <th>Name</th>
-            <th>Weight</th>
+            <th>Quantity</th>
             <th>Proteins</th>
             <th>Energy</th>
             <th></th>

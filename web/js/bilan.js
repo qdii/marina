@@ -10,6 +10,7 @@ function load_bilan(where, dishId, url) {
         for ( var i = 0; i < nelements; i++ ) {
             var id   = data[i].id;
             var name = data[i].name;
+            var suff = data[i].display == null ? "g" : data[i].display;
 
             var qty      = parseFloat(data[i].quantity);
             total_qty  += qty;
@@ -37,7 +38,7 @@ function load_bilan(where, dishId, url) {
             where.prepend(
                   '<tr data-id="' + id + '" class="ingredient">'
                 +   '<td>'                + name           + '</td>'
-                +   '<td class="weight">' + qty.toFixed(1) + ' g</td>'
+                +   '<td class="weight">' + qty.toFixed(1) + ' ' + suff        + '</td>'
                 +   '<td>'                + proteinText    + ' ' + proteinUnit + '</td>'
                 +   '<td>'                + caloryText     + ' ' + caloryUnit  + '</td>'
                 +   '<td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'

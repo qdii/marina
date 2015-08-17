@@ -219,14 +219,18 @@ class AjaxController extends Controller
                 'ingredient.name',
                 'ingredient.id',
                 'ingredient.energy_kcal',
-                'ingredient.protein'
+                'ingredient.protein',
+                'unit.display',
             ]
         )
             ->from('composition')
-            ->join(
-                'left join',
+            ->leftJoin(
                 'ingredient',
                 'composition.ingredient = ingredient.id'
+            )
+            ->leftJoin(
+                'unit',
+                'ingredient.unit = unit.id'
             )
             ->where(['dish' => $id])
             ->addOrderBy(['ingredient.name' => SORT_DESC]);

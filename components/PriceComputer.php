@@ -121,8 +121,31 @@ class PriceComputer
             return;
         }
 
-        $this->items[$id]['quantity']     = 0;
-        $this->items[$id]['unitQuantity'] = 0;
+        $this->items[$id]['quantity'] = 0;
+        $this->items[$id]['weight']   = 0;
+    }
+
+    /**
+     * Increases the quantity of a given ingredient in the list
+     *
+     * @param Ingredient $ingr The id of the ingredient to accumulate
+     * @param mixed      $unit The unit in which the ingredient is shown or null
+     * @param float      $qty  How much of the ingredient to add (in $unit)
+     *
+     * @return void
+     */
+    private function _accumulateItem($ingr, $unit, $qty)
+    {
+        $id = $ingr->id;
+        assert(isset($this->items[$id]));
+
+        $weight = $unit == null ? $qty : $qty * $unit->weight;
+
+        $this->items[$id]['ingredient']  = $ingr;
+        $this->items[$id]['name']        = $ingr->name;
+        $this->items[$id]['unit']        = $unit;
+        $this->items[$id]['quantity']   += $qty;
+        $this->items[$id]['weight']     += $weight;
     }
 
     /**
@@ -142,34 +165,14 @@ class PriceComputer
                 continue;
             }
 
-            $ingredientId = $item->ingredient;
-            $ingredient   = $this->_ingredientsById[$ingredientId];
-            $quantity     = $item->quantity * $nbGuests;
-
-            $this->_initItem($ingredientId);
-
-            $quantity += $this->items[$ingredient->id]['quantity'];
-
-            $unit = $ingredient->unit ?
+            $ingredient = $this->_ingredientsById[$item->ingredient];
+            $unitId     = $ingredient->unit;
+            $unit       = $unitId != null ?
                 $this->_unitsById[$ingredient->unit] : null;
+            $quantity   = $item->quantity * $nbGuests;
 
-            $unitName = $unit ?
-                $this->_unitsNameById[$ingredient->unit] : "";
-
-            $quantityInGrams = $unit ?
-                $quantity * $unit->weight : $quantity;
-
-            $price = $ingredient->price * $quantityInGrams;
-            $name  = $ingredient->name;
-
-            $this->items[$ingredientId]['name']         = $name;
-            $this->items[$ingredientId]['quantity']     = $quantityInGrams;
-            $this->items[$ingredientId]['price']        = $price;
-            $this->items[$ingredientId]['unitPrice']    = $ingredient->price;
-            $this->items[$ingredientId]['unit']         = $ingredient->unit;
-            $this->items[$ingredientId]['unitName']     = $unitName;
-            $this->items[$ingredientId]['unitQuantity'] = $quantity;
-            $this->items[$ingredientId]['id']           = $ingredientId;
+            $this->_initItem($item->ingredient);
+            $this->_accumulateItem($ingredient, $unit, $quantity);
         }
     }
 

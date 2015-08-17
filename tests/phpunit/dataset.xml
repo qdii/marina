@@ -1851,7 +1851,7 @@
 	<row>
 		<field name="dish">1</field>
 		<field name="ingredient">1174</field>
-		<field name="quantity">52.000</field>
+		<field name="quantity">0.050</field>
 	</row>
 	<row>
 		<field name="dish">1</field>

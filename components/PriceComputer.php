@@ -34,6 +34,7 @@ class PriceComputer
     public $items     = [];
 
     private $_unitsNameById = [];
+    private $_unitsById = [];
 
     private $_ingredients;
     private $_compositions;
@@ -62,6 +63,7 @@ class PriceComputer
 
         $this->_dishesById      = ArrayHelper::index($dishes, 'id');
         $this->_ingredientsById = ArrayHelper::index($ingredients, 'id');
+        $this->_unitsById       = ArrayHelper::index($units, 'id');
     }
 
     /**
@@ -104,6 +106,26 @@ class PriceComputer
     }
 
     /**
+     * If the item does not exist in the list, sets its quantity and price
+     * to 0
+     *
+     * @param integer $id The id of the ingredient to initialize
+     *
+     * @return void
+     */
+    private function _initItem($id)
+    {
+        if (isset($this->items[$id])) {
+            assert(count($this->items[$id]['name']) > 0);
+            assert($this->items[$id]['quantity'] > 0);
+            return;
+        }
+
+        $this->items[$id]['quantity']     = 0;
+        $this->items[$id]['unitQuantity'] = 0;
+    }
+
+    /**
      * Increases the local ingredient variable from a set of dishes
      *
      * @param array   $dishes   The set of dishes to include
@@ -124,17 +146,30 @@ class PriceComputer
             $ingredient   = $this->_ingredientsById[$ingredientId];
             $quantity     = $item->quantity * $nbGuests;
 
-            if ( !isset( $this->items[$ingredient->id]['quantity'] ) ) {
-                $this->items[$ingredient->id]['quantity'] = 0;
-            } else {
-                $quantity += $this->items[$ingredient->id]['quantity'];
-            }
+            $this->_initItem($ingredientId);
 
-            $this->items[$ingredientId]['name']      = $ingredient->name;
-            $this->items[$ingredientId]['quantity']  = $quantity;
-            $this->items[$ingredientId]['price']     = $ingredient->price * $quantity;
-            $this->items[$ingredientId]['unitPrice'] = $ingredient->price;
-            $this->items[$ingredientId]['unitName']  = $this->_unitsNameById[$ingredient->unit];
+            $quantity += $this->items[$ingredient->id]['quantity'];
+
+            $unit = $ingredient->unit ?
+                $this->_unitsById[$ingredient->unit] : null;
+
+            $unitName = $unit ?
+                $this->_unitsNameById[$ingredient->unit] : "";
+
+            $quantityInGrams = $unit ?
+                $quantity * $unit->weight : $quantity;
+
+            $price = $ingredient->price * $quantityInGrams;
+            $name  = $ingredient->name;
+
+            $this->items[$ingredientId]['name']         = $name;
+            $this->items[$ingredientId]['quantity']     = $quantityInGrams;
+            $this->items[$ingredientId]['price']        = $price;
+            $this->items[$ingredientId]['unitPrice']    = $ingredient->price;
+            $this->items[$ingredientId]['unit']         = $ingredient->unit;
+            $this->items[$ingredientId]['unitName']     = $unitName;
+            $this->items[$ingredientId]['unitQuantity'] = $quantity;
+            $this->items[$ingredientId]['id']           = $ingredientId;
         }
     }
 

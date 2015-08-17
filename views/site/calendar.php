@@ -265,11 +265,11 @@ ArrayHelper::multisort($priceComputer->items, 'name');
     </thead>
     <tbody>
         <?php foreach ($priceComputer->items as $it) { ?>
-        <tr>
+        <tr data-id="<?php echo $it['id'] ?>">
             <td><?php echo $it['name'] ?></td>
             <td><?php echo $it['quantity'] ?></td>
-            <td><?php echo "" ?></td>
-            <td><?php echo "" ?></td>
+            <td><?php echo $it['unit'] ? $it['unitQuantity'] : ""?></td>
+            <td><?php echo $it['unitName'] ?></td>
         </tr>
         <?php } ?>
     </tbody>

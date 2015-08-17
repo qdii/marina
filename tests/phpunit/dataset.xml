@@ -1,10 +1,13 @@
-<?xml version="1.0"?>
-<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?> <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <database name="marina">
 	<table_data name="boat">
 	<row>
 		<field name="id">1</field>
 		<field name="name">CV24</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">CV25</field>
 	</row>
 	</table_data>
 	<table_data name="user">
@@ -88,19 +91,13 @@
 	</table_data>
 	<table_data name="unit">
 	<row>
-		<field name="id">0</field>
-		<field name="display"></field>
-		<field name="name">grams</field>
-		<field name="weight">NULL</field>
-	</row>
-	<row>
-		<field name="id"></field>
+		<field name="id">1</field>
 		<field name="display">ℓ</field>
 		<field name="name">liter of water</field>
 		<field name="weight">1000</field>
 	</row>
 	<row>
-		<field name="id"></field>
+		<field name="id">2</field>
 		<field name="display">ℓ</field>
 		<field name="name">liter of milk</field>
 		<field name="weight">1030</field>
@@ -285,86 +282,6 @@
 </table_data>
 	<table_data name="ingredient">
 	<row>
-		<field name="id">1009</field>
-		<field name="name">Cheese, cheddar</field>
-		<field name="price">1.000000</field>
-		<field name="duration">1</field>
-		<field name="unit">2</field>
-		<field name="sucrose">0.000</field>
-		<field name="glucose" xsi:nil="true" />
-		<field name="fructose" xsi:nil="true" />
-		<field name="water">37.100</field>
-		<field name="energy_kcal">406.000</field>
-		<field name="energy_kj">1698.000</field>
-		<field name="protein">24.040</field>
-		<field name="lipid">33.820</field>
-		<field name="fat">33.820</field>
-		<field name="ash">3.710</field>
-		<field name="carbohydrates">3.000</field>
-		<field name="sugars">0.280</field>
-		<field name="fiber">0.000</field>
-	</row>
-	<row>
-		<field name="id">1023</field>
-		<field name="name">Cheese, gruyere</field>
-		<field name="price">1.000000</field>
-		<field name="duration">1</field>
-		<field name="unit">2</field>
-		<field name="sucrose" xsi:nil="true" />
-		<field name="glucose" xsi:nil="true" />
-		<field name="fructose" xsi:nil="true" />
-		<field name="water">33.190</field>
-		<field name="energy_kcal">413.000</field>
-		<field name="energy_kj">1728.000</field>
-		<field name="protein">29.810</field>
-		<field name="lipid">32.340</field>
-		<field name="fat">32.340</field>
-		<field name="ash">4.300</field>
-		<field name="carbohydrates">6.000</field>
-		<field name="sugars" xsi:nil="true" />
-		<field name="fiber">0.000</field>
-	</row>
-	<row>
-		<field name="id">1055</field>
-		<field name="name">Cream, sour, reduced fat, cultured</field>
-		<field name="price">1.000000</field>
-		<field name="duration">1</field>
-		<field name="unit">2</field>
-		<field name="sucrose" xsi:nil="true" />
-		<field name="glucose" xsi:nil="true" />
-		<field name="fructose" xsi:nil="true" />
-		<field name="water">80.140</field>
-		<field name="energy_kcal">135.000</field>
-		<field name="energy_kj">563.000</field>
-		<field name="protein">2.940</field>
-		<field name="lipid">12.000</field>
-		<field name="fat">12.000</field>
-		<field name="ash">0.660</field>
-		<field name="carbohydrates">6.000</field>
-		<field name="sugars">0.160</field>
-		<field name="fiber">0.000</field>
-	</row>
-	<row>
-		<field name="id">1123</field>
-		<field name="name">Egg, whole, raw, fresh</field>
-		<field name="price">1.000000</field>
-		<field name="duration">1</field>
-		<field name="unit">2</field>
-		<field name="sucrose">0.000</field>
-		<field name="glucose">0.370</field>
-		<field name="fructose" xsi:nil="true" />
-		<field name="water">76.150</field>
-		<field name="energy_kcal">143.000</field>
-		<field name="energy_kj">599.000</field>
-		<field name="protein">12.560</field>
-		<field name="lipid">9.510</field>
-		<field name="fat">9.510</field>
-		<field name="ash">1.060</field>
-		<field name="carbohydrates">2.000</field>
-		<field name="sugars">0.370</field>
-		<field name="fiber">0.000</field>
-	</row>
-	<row>
 		<field name="id">1174</field>
 		<field name="name">Milk, reduced fat, fluid, 2% milkfat, without added vitamin A and vitamin D</field>
 		<field name="price">1.000000</field>
@@ -385,11 +302,91 @@
 		<field name="fiber">0.000</field>
 	</row>
 	<row>
+		<field name="id">1009</field>
+		<field name="name">Cheese, cheddar</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit" nil=""></field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">37.100</field>
+		<field name="energy_kcal">406.000</field>
+		<field name="energy_kj">1698.000</field>
+		<field name="protein">24.040</field>
+		<field name="lipid">33.820</field>
+		<field name="fat">33.820</field>
+		<field name="ash">3.710</field>
+		<field name="carbohydrates">3.000</field>
+		<field name="sugars">0.280</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">1023</field>
+		<field name="name">Cheese, gruyere</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit" nil=""></field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">33.190</field>
+		<field name="energy_kcal">413.000</field>
+		<field name="energy_kj">1728.000</field>
+		<field name="protein">29.810</field>
+		<field name="lipid">32.340</field>
+		<field name="fat">32.340</field>
+		<field name="ash">4.300</field>
+		<field name="carbohydrates">6.000</field>
+		<field name="sugars" xsi:nil="true" />
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">1055</field>
+		<field name="name">Cream, sour, reduced fat, cultured</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit" nil=""></field>
+		<field name="sucrose" xsi:nil="true" />
+		<field name="glucose" xsi:nil="true" />
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">80.140</field>
+		<field name="energy_kcal">135.000</field>
+		<field name="energy_kj">563.000</field>
+		<field name="protein">2.940</field>
+		<field name="lipid">12.000</field>
+		<field name="fat">12.000</field>
+		<field name="ash">0.660</field>
+		<field name="carbohydrates">6.000</field>
+		<field name="sugars">0.160</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
+		<field name="id">1123</field>
+		<field name="name">Egg, whole, raw, fresh</field>
+		<field name="price">1.000000</field>
+		<field name="duration">1</field>
+		<field name="unit" nil=""></field>
+		<field name="sucrose">0.000</field>
+		<field name="glucose">0.370</field>
+		<field name="fructose" xsi:nil="true" />
+		<field name="water">76.150</field>
+		<field name="energy_kcal">143.000</field>
+		<field name="energy_kj">599.000</field>
+		<field name="protein">12.560</field>
+		<field name="lipid">9.510</field>
+		<field name="fat">9.510</field>
+		<field name="ash">1.060</field>
+		<field name="carbohydrates">2.000</field>
+		<field name="sugars">0.370</field>
+		<field name="fiber">0.000</field>
+	</row>
+	<row>
 		<field name="id">2003</field>
 		<field name="name">Spices, basil, dried</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.020</field>
 		<field name="glucose">0.750</field>
 		<field name="fructose" xsi:nil="true" />
@@ -409,7 +406,7 @@
 		<field name="name">Spices, chili powder</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.760</field>
 		<field name="glucose">2.140</field>
 		<field name="fructose">4.290</field>
@@ -429,7 +426,7 @@
 		<field name="name">Spices, pepper, black</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.020</field>
 		<field name="glucose">0.240</field>
 		<field name="fructose">0.230</field>
@@ -449,7 +446,7 @@
 		<field name="name">Salt, table</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -469,7 +466,7 @@
 		<field name="name">Vinegar, balsamic</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.000</field>
 		<field name="glucose">7.570</field>
 		<field name="fructose">7.380</field>
@@ -489,7 +486,7 @@
 		<field name="name">Salad dressing, mayonnaise, regular</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.480</field>
 		<field name="glucose">0.040</field>
 		<field name="fructose">0.050</field>
@@ -509,7 +506,7 @@
 		<field name="name">Oil, olive, salad or cooking</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -529,7 +526,7 @@
 		<field name="name">Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -549,7 +546,7 @@
 		<field name="name">Chicken, broilers or fryers, drumstick, meat and skin, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -569,7 +566,7 @@
 		<field name="name">Chicken, broilers or fryers, thigh, meat and skin, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -589,7 +586,7 @@
 		<field name="name">Gravy, au jus, canned</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -609,7 +606,7 @@
 		<field name="name">Gravy, chicken, dry</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -629,7 +626,7 @@
 		<field name="name">Soup, stock, beef, home-prepared</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -649,7 +646,7 @@
 		<field name="name">Soup, stock, chicken, home-prepared</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -669,7 +666,7 @@
 		<field name="name">P REGO Pasta, Roasted Garlic and Herb Italian Sauce, ready-to-serve</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -689,7 +686,7 @@
 		<field name="name">Soup, tomato, dry, mix, prepared with water</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -709,7 +706,7 @@
 		<field name="name">SMART SOUP, Thai Coconut Curry</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -729,7 +726,7 @@
 		<field name="name">Gravy, instant beef, dry</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -749,7 +746,7 @@
 		<field name="name">Sauce, tomato chili sauce, bottled, with salt</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -769,7 +766,7 @@
 		<field name="name">Chorizo, pork and beef</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -789,7 +786,7 @@
 		<field name="name">Ham, sliced, packaged (96% fat free, water added)</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -809,7 +806,7 @@
 		<field name="name">Polish sausage, pork</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -829,7 +826,7 @@
 		<field name="name">OSCAR MAYER, Wieners (pork, turkey)</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -849,7 +846,7 @@
 		<field name="name">Meatballs, frozen, Italian style</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.480</field>
 		<field name="glucose">1.610</field>
 		<field name="fructose">0.210</field>
@@ -869,7 +866,7 @@
 		<field name="name">Cereals ready-to-eat, QUAKER, 100% Natural Granola, Oats, Wheat and Honey</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -889,7 +886,7 @@
 		<field name="name">Cereals ready-to-eat, QUAKER, QUAKER 100% Natural Granola with Oats, Wheat, Honey, and Raisins</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -909,7 +906,7 @@
 		<field name="name">Cereals, QUAKER, Instant Oatmeal, raisins, dates and walnuts, dry</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -929,7 +926,7 @@
 		<field name="name">Cereals ready-to-eat, RALSTON Corn Flakes</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">4.610</field>
 		<field name="glucose">1.480</field>
 		<field name="fructose">1.340</field>
@@ -949,7 +946,7 @@
 		<field name="name">Olives, pickled, canned or bottled, green</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -969,7 +966,7 @@
 		<field name="name">Bacon, pre-sliced, reduced/low sodium, unprepared</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.830</field>
 		<field name="glucose">0.000</field>
 		<field name="fructose" xsi:nil="true" />
@@ -989,7 +986,7 @@
 		<field name="name">Broccoli, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.100</field>
 		<field name="glucose">0.490</field>
 		<field name="fructose">0.680</field>
@@ -1009,7 +1006,7 @@
 		<field name="name">Carrots, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">3.590</field>
 		<field name="glucose">0.590</field>
 		<field name="fructose">0.550</field>
@@ -1029,7 +1026,7 @@
 		<field name="name">Corn, sweet, yellow, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.890</field>
 		<field name="glucose">3.430</field>
 		<field name="fructose">1.940</field>
@@ -1049,7 +1046,7 @@
 		<field name="name">Garlic, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1069,7 +1066,7 @@
 		<field name="name">Lettuce, green leaf, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.000</field>
 		<field name="glucose">0.360</field>
 		<field name="fructose">0.430</field>
@@ -1089,7 +1086,7 @@
 		<field name="name">Mushrooms, brown, italian, or crimini, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1109,7 +1106,7 @@
 		<field name="name">Onions, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.990</field>
 		<field name="glucose">1.970</field>
 		<field name="fructose">1.290</field>
@@ -1129,7 +1126,7 @@
 		<field name="name">Peppers, sweet, green, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.110</field>
 		<field name="glucose">1.160</field>
 		<field name="fructose">1.120</field>
@@ -1149,7 +1146,7 @@
 		<field name="name">Potatoes, flesh and skin, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.170</field>
 		<field name="glucose">0.330</field>
 		<field name="fructose">0.270</field>
@@ -1169,7 +1166,7 @@
 		<field name="name">Potatoes, mashed, dehydrated, flakes without milk, dry form</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.990</field>
 		<field name="glucose">0.890</field>
 		<field name="fructose">0.980</field>
@@ -1189,7 +1186,7 @@
 		<field name="name">Tomatoes, red, ripe, raw, year round average</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.000</field>
 		<field name="glucose">1.250</field>
 		<field name="fructose">1.370</field>
@@ -1209,7 +1206,7 @@
 		<field name="name">Vegetables, mixed, frozen, unprepared</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1229,7 +1226,7 @@
 		<field name="name">Peas and carrots, canned, no salt added, solids and liquids</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1249,7 +1246,7 @@
 		<field name="name">Peppers, hot chili, red, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1289,7 +1286,7 @@
 		<field name="name">Coffee, instant, regular, powder</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1309,7 +1306,7 @@
 		<field name="name">Tea, black, brewed, prepared with tap water</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1329,7 +1326,7 @@
 		<field name="name">Water, tap, drinking</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1349,7 +1346,7 @@
 		<field name="name">Fish, tuna, white, canned in oil, drained solids</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1369,7 +1366,7 @@
 		<field name="name">Beans, kidney, all types, mature seeds, canned</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">1.850</field>
 		<field name="glucose">0.000</field>
 		<field name="fructose" xsi:nil="true" />
@@ -1389,7 +1386,7 @@
 		<field name="name">Lentils, mature seeds, cooked, boiled, without salt</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1409,7 +1406,7 @@
 		<field name="name">Soy sauce made from soy (tamari)</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1429,7 +1426,7 @@
 		<field name="name">Bread, whole-wheat, prepared from recipe</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1449,7 +1446,7 @@
 		<field name="name">Rolls, dinner, wheat</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1469,7 +1466,7 @@
 		<field name="name">Rolls, hamburger or hotdog, plain</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.000</field>
 		<field name="glucose">1.920</field>
 		<field name="fructose">2.440</field>
@@ -1489,7 +1486,7 @@
 		<field name="name">Leavening agents, baking powder, low-sodium</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1509,7 +1506,7 @@
 		<field name="name">Leavening agents, yeast, baker's, compressed</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1529,7 +1526,7 @@
 		<field name="name">Candies, MARS SNACKFOOD US, MILKY WAY Caramels, milk chocolate covered</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1549,7 +1546,7 @@
 		<field name="name">Sugars, powdered</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1569,7 +1566,7 @@
 		<field name="name">Snacks, granola bars, soft, uncoated, chocolate chip</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">16.510</field>
 		<field name="glucose">5.160</field>
 		<field name="fructose">2.010</field>
@@ -1589,7 +1586,7 @@
 		<field name="name">Couscous, dry</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1609,7 +1606,7 @@
 		<field name="name">Rice, brown, medium-grain, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1629,7 +1626,7 @@
 		<field name="name">Spaghetti, whole-wheat, dry</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1649,7 +1646,7 @@
 		<field name="name">Wheat flours, bread, unenriched</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1669,7 +1666,7 @@
 		<field name="name">Noodles, egg, dry, unenriched</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.260</field>
 		<field name="glucose">0.100</field>
 		<field name="fructose">0.000</field>
@@ -1689,7 +1686,7 @@
 		<field name="name">Spaghetti, dry, unenriched</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.480</field>
 		<field name="glucose">0.120</field>
 		<field name="fructose">0.110</field>
@@ -1709,7 +1706,7 @@
 		<field name="name">Rice, white, medium-grain, raw, unenriched</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1729,7 +1726,7 @@
 		<field name="name">Beef, ground, 90% lean meat / 10% fat, raw</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1749,7 +1746,7 @@
 		<field name="name">Formulated bar, MARS SNACKFOOD US, SNICKERS MARATHON Chewy Chocolate Peanut Bar</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1769,7 +1766,7 @@
 		<field name="name">Tortillas, ready-to-bake or -fry, whole wheat</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1789,7 +1786,7 @@
 		<field name="name">Bread, naan (Indian bread), plain, commercially prepared, refrigerated</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose">0.000</field>
 		<field name="glucose">0.650</field>
 		<field name="fructose">0.850</field>
@@ -1809,7 +1806,7 @@
 		<field name="name">Candies, MARS SNACKFOOD US, TWIX chocolate fudge cookie bars</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -1829,7 +1826,7 @@
 		<field name="name">Cereals ready-to-eat, WEETABIX whole grain cereal</field>
 		<field name="price">1.000000</field>
 		<field name="duration">1</field>
-		<field name="unit">2</field>
+		<field name="unit" nil=""></field>
 		<field name="sucrose" xsi:nil="true" />
 		<field name="glucose" xsi:nil="true" />
 		<field name="fructose" xsi:nil="true" />
@@ -2859,6 +2856,12 @@
 		<field name="dateFinish">2020-07-01</field>
 		<field name="boat">1</field>
 	</row>
+    <row>
+		<field name="id">2</field>
+		<field name="dateStart">2015-07-01</field>
+		<field name="dateFinish">2020-07-01</field>
+		<field name="boat">2</field>
+	</row>
 </table_data>
 	<table_data name="meal">
 	<row>
@@ -3068,6 +3071,17 @@
 		<field name="drink">19</field>
 		<field name="cook">3</field>
 		<field name="date">2015-07-26 07:00:00</field>
+		<field name="cruise">1</field>
+	</row>
+	<row>
+		<field name="id">78</field>
+		<field name="nbGuests">1</field>
+		<field name="firstCourse">21</field>
+		<field name="secondCourse">31</field>
+		<field name="dessert">22</field>
+		<field name="drink">19</field>
+		<field name="cook">3</field>
+		<field name="date">2015-08-17 07:00:00</field>
 		<field name="cruise">1</field>
 	</row>
 	</table_data>

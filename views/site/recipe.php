@@ -175,6 +175,7 @@ function fieldOpts($fieldId)
 
 <div class="container">
 
+    <div class="page-header">
     <div class="row">
         <div class="col-md-10">
             <?php echo Chosen::widget($dishChosenOpts); ?>
@@ -187,6 +188,7 @@ function fieldOpts($fieldId)
                 <?php echo $trashIcon ?>
             </button>
         </div>
+    </div>
     </div>
 
     <div class="row">

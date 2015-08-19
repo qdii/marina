@@ -71,6 +71,12 @@ $updateFormOptions = [
     'action' => Url::toRoute('ajax/update-composition'),
 ];
 
+$deleteDishFormOpts = [
+    'id'     => 'delete-dish-form',
+    'method' => 'POST',
+    'action' => Url::toRoute('ajax/delete-dish'),
+];
+
 $copyFormOptions = [
     'id'     => 'new-dish-form',
     'method' => 'POST',
@@ -88,9 +94,14 @@ $confirmFormOpts = [
     'action' => Url::toRoute('ajax/update-composition'),
 ];
 
-$confirmModalOpts = [
+$deleteModalOpts = [
     'header' => 'Are you sure you want to delete this ingredient?',
     'id'     => 'delete-confirm-modal',
+];
+
+$deleteDishModalOpts = [
+    'header' => 'Are you sure you want to delete this dish?',
+    'id'     => 'delete-dish-confirm-modal',
 ];
 
 
@@ -131,6 +142,14 @@ $deleteButton
         'Delete', [
             'class' => 'btn btn-danger',
             'id'    => 'submit-delete-compo',
+        ]
+    );
+
+$deleteDishButton
+    = Html::button(
+        'Delete', [
+            'class' => 'btn btn-danger',
+            'id'    => 'submit-delete-dish-compo',
         ]
     );
 /**
@@ -215,6 +234,12 @@ function fieldOpts($fieldId)
             echo $updateForm->field($compoModel, 'quantity', fieldOpts('update-quantity'));
         ActiveForm::end();
     ?>
+
+    <?php $deleteDishForm = ActiveForm::begin($deleteDishFormOpts);
+            echo $deleteDishForm->field($dishModel, 'id', fieldOpts('delete-dish'));
+        ActiveForm::end();
+    ?>
+
 </div>
 
 <?php Modal::begin($copyModalOpts);
@@ -226,14 +251,19 @@ function fieldOpts($fieldId)
     ActiveForm::end();
 Modal::end() ?>
 
-<?php $deleteModal = Modal::begin($confirmModalOpts);
+<?php $deleteModal = Modal::begin($deleteModalOpts);
     echo $deleteButton;
+Modal::end() ?>
+
+<?php $deleteDishModal = Modal::begin($deleteDishModalOpts);
+    echo $deleteDishButton;
 Modal::end() ?>
 
 <?php $this->registerJs(
     'var url_recipe = "'          . Url::toRoute("site/recipe")          . '";' . "\n" .
     'var url_get_ingredients = "' . Url::toRoute("ajax/get-ingredients") .'";' . "\n" .
     'var delete_ingr_modal   = "#' . $deleteModal->getId() .'";' . "\n" .
+    'var delete_dish_modal   = "#' . $deleteDishModal->getId() .'";' . "\n" .
     'var current_dish = ' . $dish . ";\n" .
     'var update_ingr_form  = "#' . $updateForm->getId() . "\";\n",
     View::POS_BEGIN

@@ -135,7 +135,25 @@ function handle_delete_dish() {
         $('#update-ingr input').val(ingredientId);
         $('#update-quantity input').val(quantity);
 
-        $(delete_ingr_modal).modal('show');
+        $(delete_dish_modal).modal('show');
+    });
+}
+
+function handle_confirm_delete_dish() {
+    $('#submit-delete-dish-compo').click(function(event) {
+        event.preventDefault();
+        var dishId = $('#composition-dish').val();
+        $('#delete-dish input').val(dishId);
+        $(delete_dish_modal).modal('hide');
+
+        $('#delete-dish-form').ajaxSubmit({
+            'success': function() {
+                window.location.href = url_recipe;
+            },
+            'error': function() {},
+        });
+
+        return false;
     });
 }
 
@@ -231,3 +249,6 @@ if (current_dish != 0) {
     reload_bilan();
     $('#dish-id').attr('value', current_dish);
 }
+
+handle_delete_dish();
+handle_confirm_delete_dish();

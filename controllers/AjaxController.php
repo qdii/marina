@@ -75,6 +75,31 @@ class AjaxController extends Controller
     }
 
     /**
+     * Deletes an existing Dish
+     *
+     * @param integer $id The id of the dish to delete
+     *
+     * @return void
+     */
+    public function actionDeleteDish()
+    {
+        $post = Yii::$app->request->post();
+        $dish = Dish::findOne(['id' => $post['Dish']['id']]);
+
+
+        if ($dish === null) {
+            \Yii::$app->response->setStatusCode(400);
+            return;
+        }
+
+        // remove all compositions first
+        Composition::deleteAll(['dish' => $dish->id]);
+
+        // then remove the dish
+        $dish->delete();
+    }
+
+    /**
      * Returns attributes of an existing Meal
      *
      * @param integer $id The id of the meal to view

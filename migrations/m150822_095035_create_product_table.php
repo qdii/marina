@@ -53,10 +53,18 @@ class m150822_095035_create_product_table extends Migration
             'RESTRICT',
             'CASCADE'
         );
+
+        $this->addColumn(
+            'ingredient',
+            'weight',
+            'float'
+        );
     }
 
     public function safeDown()
     {
+        $this->dropColumn('ingredient', 'weight');
+
         $this->dropForeignKey(
             'proportion_fk_ingredient',
             'proportion'

@@ -1,0 +1,81 @@
+<?php
+
+use yii\db\Schema;
+use yii\db\Migration;
+
+class m150822_095035_create_product_table extends Migration
+{
+    public function safeUp()
+    {
+        $this->createTable('vendor', [
+            'id'   => $this->primaryKey(),
+            'name' => $this->string()->notNull(),
+        ], 'COLLATE = utf8_bin');
+
+        $this->createTable('product', [
+            'id'     => $this->primaryKey(),
+            'name'   => $this->string()->notNull(),
+            'vendor' => $this->integer(),
+        ], 'COLLATE = utf8_bin');
+
+        $this->createTable('proportion', [
+            'ingredient' => $this->integer(),
+            'product'    => $this->integer(),
+            'proportion' => $this->float()->notNull(),
+        ], 'COLLATE = utf8_bin');
+
+        $this->addForeignKey(
+            'product_fk_vendor',
+            'product',
+            'vendor',
+            'vendor',
+            'id',
+            'RESTRICT',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'proportion_fk_product',
+            'proportion',
+            'product',
+            'product',
+            'id',
+            'RESTRICT',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'proportion_fk_ingredient',
+            'proportion',
+            'ingredient',
+            'ingredient',
+            'id',
+            'RESTRICT',
+            'CASCADE'
+        );
+    }
+
+    public function safeDown()
+    {
+        $this->dropForeignKey(
+            'proportion_fk_ingredient',
+            'proportion'
+        );
+
+        $this->dropForeignKey(
+            'proportion_fk_product',
+            'proportion'
+        );
+
+        $this->dropForeignKey(
+            'product_fk_vendor',
+            'product'
+        );
+
+        $this->dropTable('proportion');
+        $this->dropTable('product');
+        $this->dropTable('vendor');
+
+        return true;
+    }
+}

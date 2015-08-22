@@ -13,15 +13,17 @@ class m150822_095035_create_product_table extends Migration
         ], 'COLLATE = utf8_bin');
 
         $this->createTable('product', [
-            'id'     => $this->primaryKey(),
-            'name'   => $this->string()->notNull(),
-            'vendor' => $this->integer(),
+            'id'       => $this->primaryKey(),
+            'name'     => $this->string()->notNull(),
+            'vendor'   => $this->integer(),
+            'unit'     => $this->integer(),
+            'quantity' => $this->integer()->notNull(),
         ], 'COLLATE = utf8_bin');
 
         $this->createTable('proportion', [
             'ingredient' => $this->integer(),
             'product'    => $this->integer(),
-            'proportion' => $this->float()->notNull(),
+            'weight'     => $this->float()->notNull(),
         ], 'COLLATE = utf8_bin');
 
         $this->addForeignKey(
@@ -29,6 +31,16 @@ class m150822_095035_create_product_table extends Migration
             'product',
             'vendor',
             'vendor',
+            'id',
+            'RESTRICT',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'product_fk_unit',
+            'product',
+            'unit',
+            'unit',
             'id',
             'RESTRICT',
             'CASCADE'
@@ -77,6 +89,11 @@ class m150822_095035_create_product_table extends Migration
 
         $this->dropForeignKey(
             'product_fk_vendor',
+            'product'
+        );
+
+        $this->dropForeignKey(
+            'product_fk_unit',
             'product'
         );
 

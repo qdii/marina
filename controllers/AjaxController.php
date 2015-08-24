@@ -132,26 +132,9 @@ class AjaxController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        $query = new \yii\db\Query;
-        $query->select(
-            [
-                'composition.quantity',
-                'ingredient.name',
-                'ingredient.id',
-                'ingredient.energy_kcal',
-                'ingredient.protein'
-            ]
-        )
-            ->from('composition')
-            ->join(
-                'left join',
-                'ingredient',
-                'composition.ingredient = ingredient.id'
-            )
-            ->where(['dish' => $id])
-            ->addOrderBy(['ingredient.name' => SORT_DESC]);
+        $compositionHelper = new \app\components\CompositionHelper();
 
-        return $query->all();
+        return $compositionHelper->getInformation($id);
     }
 
     /**

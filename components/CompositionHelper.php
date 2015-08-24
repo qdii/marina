@@ -90,4 +90,52 @@ class CompositionHelper
 
         return $nrows == count($srcCompos);
     }
+
+    /**
+     * Returns informations about a certain dish
+     *
+     * @param integer $dishId The id of an existing dish
+     *
+     * @return array Information about that dish
+     */
+    public function getInformation($dishId)
+    {
+        $query = new \yii\db\Query;
+        $query->select(
+            [
+                'composition.quantity',
+                'ingredient.name',
+                'ingredient.id',
+                '(composition.quantity * ingredient.energy_kcal) / 100.0 as energy_kcal',
+                '(composition.quantity * ingredient.protein / 100.0) as protein',
+            ]
+        )
+            ->from('composition')
+            ->join(
+                'left join',
+                'ingredient',
+                'composition.ingredient = ingredient.id'
+            )
+            ->where(['dish' => $dishId])
+            ->addOrderBy(['ingredient.name' => SORT_DESC]);
+
+        $totals = new \yii\db\Query;
+        $totals->select(
+            [
+                'SUM(composition.quantity) as total_qty',
+                'SUM(composition.quantity * ingredient.energy_kcal) / 100.0 as total_cal',
+                'SUM(composition.quantity * ingredient.protein) / 100.0 as total_prot',
+            ]
+        )
+            ->from('composition')
+            ->join(
+                'left join',
+                'ingredient',
+                'composition.ingredient = ingredient.id'
+            )
+            ->where(['dish' => $dishId]);
+
+
+        return array_merge($query->all(), $totals->all());
+    }
 }

@@ -3,45 +3,46 @@ function load_bilan(where, dishId, url) {
     $.get(url, dataId, function(data) {
         $('#total').remove();
         $('.ingredient').remove();
-        nelements = data.length;
         var total_qty  = 0;
         var total_prot = 0;
         var total_cal  = 0;
-        for ( var i = 0; i < nelements; i++ ) {
+        for ( var i = 0; i < data.length; i++ ) {
+            if (data[i].total_qty != undefined)
+            {
+                total_qty  = parseFloat(data[i].total_qty);
+                total_prot = parseFloat(data[i].total_prot);
+                total_cal  = parseFloat(data[i].total_cal);
+                continue;
+            }
+
             var id   = data[i].id;
             var name = data[i].name;
             var suff = data[i].display == null ? "g" : data[i].display;
-
-            var qty      = parseFloat(data[i].quantity);
-            total_qty  += qty;
+            var qty  = parseFloat(data[i].quantity).toFixed(1);
 
             var proteinText = "unknown";
             var proteinUnit = "";
             if (data[i].protein != undefined) {
-                var protUnit  = parseFloat(data[i].protein);
-                var prot      = protUnit / 100.0 * qty;
-                proteinUnit   = "g";
-                total_prot   += prot;
-                proteinText   = prot.toFixed(1);
+                var prot    = parseFloat(data[i].protein);
+                proteinUnit = "g";
+                proteinText = prot.toFixed(1);
             }
 
             var caloryText = "unknown";
             var caloryUnit = "";
             if (data[i].energy_kcal != undefined) {
-                var calUnit  = parseFloat(data[i].energy_kcal);
-                var cal      = calUnit / 100.0 * qty;
-                caloryUnit   = "kcal";
-                total_cal   += cal;
-                caloryText   = cal.toFixed(1);
+                var cal    = parseFloat(data[i].energy_kcal);
+                caloryUnit = "kcal";
+                caloryText = cal.toFixed(1);
             }
 
             where.prepend(
                   '<tr data-id="' + id + '" class="ingredient">'
-                +   '<td>'                + name           + '</td>'
+                +   '<td>'                + name        + '</td>'
                 +   '<td class="weight" data-suffix=' + suff + '>'
-                        +  qty.toFixed(1) + ' ' + suff     + '</td>'
-                +   '<td>'                + proteinText    + ' ' + proteinUnit + '</td>'
-                +   '<td>'                + caloryText     + ' ' + caloryUnit  + '</td>'
+                        + qty         + ' ' + suff + '</td>'
+                +   '<td>'                + proteinText + ' ' + proteinUnit + '</td>'
+                +   '<td>'                + caloryText  + ' ' + caloryUnit  + '</td>'
                 +   '<td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
                 + '</tr>'
             );

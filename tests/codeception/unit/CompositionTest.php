@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../../vendor/yiisoft/yii2/Yii.php';
-
 use \app\SiteController;
 use \app\components\CompositionHelper;
 use \app\models\Composition;
@@ -11,7 +8,7 @@ use \app\models\Composition;
  * Unit test for the class Price Compute
  */
 
-class SiteControllerTest extends PHPUnit_Extensions_Database_TestCase
+class SiteControllerTest extends \Codeception\TestCase\Test
 {
     public function testUpdateComposition()
     {
@@ -117,41 +114,6 @@ class SiteControllerTest extends PHPUnit_Extensions_Database_TestCase
                 $this->assertEquals($cerealsProt, $row['protein'], '', 0.01);
             }
         }
-    }
-
-    /**
-     * Establishes a connection to the database
-     *
-     * @return mixed A mysql connection
-     */
-    public function getConnection()
-    {
-        $db   = include __DIR__ . '/../../config/db.php';
-        $pdo  = new PDO($db['dsn'], $db['username'], $db['password']);
-        $conn = $this->createDefaultDBConnection($pdo, ':memory:');
-
-        return $conn;
-    }
-
-    /**
-     * Returns an objectified database
-     *
-     * @return DataSet A dataset of the base
-     */
-    public function getDataSet()
-    {
-        return $this->createMySQLXMLDataSet( __DIR__ . '/dataset.xml');
-    }
-
-    protected function getSetUpOperation() {
-        /* If you want cascading truncates, false otherwise.
-         * If unsure choose false. */
-        $cascadeTruncates = true;
-
-        return new \PHPUnit_Extensions_Database_Operation_Composite(array(
-            new TruncateOperation($cascadeTruncates),
-            \PHPUnit_Extensions_Database_Operation_Factory::INSERT()
-        ));
     }
 
     /**

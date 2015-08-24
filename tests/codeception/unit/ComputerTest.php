@@ -1,32 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../../vendor/yiisoft/yii2/Yii.php';
-
 use \app\components\PriceComputer;
 
 /**
  * Unit test for the class Price Compute
  */
 
-/**
- * Disables foreign key checks temporarily.
- *
- * @return void
- */
-class TruncateOperation extends \PHPUnit_Extensions_Database_Operation_Truncate
-{
-    public function execute(
-        \PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection,
-        \PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet
-    ) {
-        $connection->getConnection()->query("SET foreign_key_checks = 0");
-        parent::execute($connection, $dataSet);
-        $connection->getConnection()->query("SET foreign_key_checks = 1");
-    }
-}
-
-class PriceComputerTest extends PHPUnit_Extensions_Database_TestCase
+class PriceComputerTest extends \Codeception\TestCase\Test
 {
     /**
      * Checks if the energy is computed correctly
@@ -99,41 +79,5 @@ class PriceComputerTest extends PHPUnit_Extensions_Database_TestCase
 
         // there should be two ingredients : tea and coffee
         $this->assertEquals(2, count($items));
-    }
-
-    /**
-     * Establishes a connection to the database
-     *
-     * @return mixed A mysql connection
-     */
-    public function getConnection()
-    {
-        $db   = include __DIR__ . '/../../config/db.php';
-        $pdo  = new PDO($db['dsn'], $db['username'], $db['password']);
-        $conn = $this->createDefaultDBConnection($pdo, ':memory:');
-
-        return $conn;
-    }
-
-    /**
-     * Returns an objectified database
-     *
-     * @return DataSet A dataset of the base
-     */
-    public function getDataSet()
-    {
-        return $this->createMySQLXMLDataSet( __DIR__ . '/dataset.xml');
-    }
-
-
-    protected function getSetUpOperation() {
-        /* If you want cascading truncates, false otherwise.
-         * If unsure choose false. */
-        $cascadeTruncates = true;
-
-        return new \PHPUnit_Extensions_Database_Operation_Composite(array(
-            new TruncateOperation($cascadeTruncates),
-            \PHPUnit_Extensions_Database_Operation_Factory::INSERT()
-        ));
     }
 }

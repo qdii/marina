@@ -89,6 +89,7 @@ class CompositionHelper
             ->execute();
 
         return $nrows == count($srcCompos);
+    }
 
     /**
      * Returns informations about a certain dish

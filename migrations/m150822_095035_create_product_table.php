@@ -8,18 +8,19 @@ class m150822_095035_create_product_table extends Migration
     public function safeUp()
     {
         $this->createTable('fraction', [
-            'ingredient' => $this->integer(),
+                'ingredient' => $this->integer(),
                 'product'    => $this->integer(),
                 'fraction'   => $this->float(),
             ], 'COLLATE = utf8_bin');
+        $this->createIndex('fraction_idx', 'fraction', ['ingredient', 'product']);
 
         $this->createTable('vendor', [
-            'id'   => $this->primaryKey(),
+                'id'   => $this->primaryKey(),
                 'name' => $this->string()->notNull(),
             ], 'COLLATE = utf8_bin');
 
         $this->createTable('product', [
-            'id'       => $this->primaryKey(),
+                'id'       => $this->primaryKey(),
                 'name'     => $this->string()->notNull(),
                 'vendor'   => $this->integer(),
                 'unit'     => $this->integer(),
@@ -28,10 +29,12 @@ class m150822_095035_create_product_table extends Migration
             ], 'COLLATE = utf8_bin');
 
         $this->createTable('proportion', [
-            'ingredient' => $this->integer(),
+                'ingredient' => $this->integer(),
                 'product'    => $this->integer(),
                 'weight'     => $this->float()->notNull(),
             ], 'COLLATE = utf8_bin');
+
+        $this->createIndex('proportion_idx', 'proportion', ['ingredient', 'product']);
 
         $this->addForeignKey(
             'product_fk_vendor',
@@ -644,6 +647,9 @@ class m150822_095035_create_product_table extends Migration
             'product_fk_unit',
             'product'
         );
+
+        $this->dropIndex('proportion_idx', 'proportion');
+        $this->dropIndex('fraction_idx', 'fraction');
 
         $this->dropTable('proportion');
         $this->dropTable('product');

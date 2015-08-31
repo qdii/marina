@@ -10,11 +10,18 @@ use \app\models\Composition;
 
 class SiteControllerTest extends \Codeception\TestCase\Test
 {
+    public function fixtures()
+    {
+        return [
+            'compositions' => CompositionFixture::className()
+        ];
+    }
+
     public function testUpdateComposition()
     {
         $helper = new CompositionHelper;
 
-        $ncompositions = $this->getConnection()->getRowCount('composition');
+        $ncompositions = count($this->compositions);
         $oldValue = Composition::findOne(['dish'=>1,'ingredient'=>19336])->quantity;
         $newValue = $oldValue + 2.0;
         $updated = $helper->updateDelete(1, 19336, $newValue);
@@ -27,7 +34,7 @@ class SiteControllerTest extends \Codeception\TestCase\Test
         // an update of an existing composition should not change the number of items
         $this->assertEquals(
             $ncompositions,
-            $this->getConnection()->getRowCount('composition')
+            Composition::findAll()->count()
         );
 
         // now delete it (i.e. set its quantity to 0)
@@ -39,7 +46,7 @@ class SiteControllerTest extends \Codeception\TestCase\Test
         // deleting a composition should leave us with one less row
         $this->assertEquals(
             $ncompositions - 1,
-            $this->getConnection()->getRowCount('composition')
+            Composition::findAll()->count()
         );
 
         $this->assertNull(Composition::findOne(['dish'=>1,'ingredient'=>19336]));
@@ -125,15 +132,15 @@ class SiteControllerTest extends \Codeception\TestCase\Test
     {
         $helper = new CompositionHelper;
 
-        $ncompositions = $this->getConnection()->getRowCount('composition');
-        $ndish         = $this->getConnection()->getRowCount('dish');
+        $ncompositions = Composition::findAll()->count();
+        $ndish         = Dish::findAll()->count();
 
         $dish = new \app\models\Dish;
         $dish->name = "whatever";
         $dish->type = "firstCourse";
         $dish->insert();
 
-        $this->assertEquals($ndish + 1, $this->getConnection()->getRowCount('dish'));
+        $this->assertEquals($ndish + 1, Dish::findAll()->count());
 
         $cloned = $helper->cloneDish(9, $dish->id);
         $this->assertTrue($cloned);
@@ -142,7 +149,7 @@ class SiteControllerTest extends \Codeception\TestCase\Test
         // to dish 9 in the table "composition"
         $this->assertEquals(
             $ncompositions + 5,
-            $this->getConnection()->getRowCount('composition')
+            Composition::findAll()->count()
         );
     }
 }

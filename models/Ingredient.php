@@ -30,8 +30,10 @@ use Yii;
  * @property Composition[] $compositions
  * @property Dish[] $dishes
  * @property Fraction[] $fractions
+ * @property Product[] $products
  * @property Unit $unit0
  * @property Proportion[] $proportions
+ * @property Product[] $products0
  */
 class Ingredient extends \yii\db\ActiveRecord
 {
@@ -111,6 +113,14 @@ class Ingredient extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'product'])->viaTable('fraction', ['ingredient' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUnit0()
     {
         return $this->hasOne(Unit::className(), ['id' => 'unit']);
@@ -122,5 +132,13 @@ class Ingredient extends \yii\db\ActiveRecord
     public function getProportions()
     {
         return $this->hasMany(Proportion::className(), ['ingredient' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts0()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'product'])->viaTable('proportion', ['ingredient' => 'id']);
     }
 }

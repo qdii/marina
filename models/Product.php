@@ -15,9 +15,11 @@ use Yii;
  * @property double $weight
  *
  * @property Fraction[] $fractions
+ * @property Ingredient[] $ingredients
  * @property Unit $unit0
  * @property Vendor $vendor0
  * @property Proportion[] $proportions
+ * @property Ingredient[] $ingredients0
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -68,6 +70,14 @@ class Product extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getIngredients()
+    {
+        return $this->hasMany(Ingredient::className(), ['id' => 'ingredient'])->viaTable('fraction', ['product' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUnit0()
     {
         return $this->hasOne(Unit::className(), ['id' => 'unit']);
@@ -87,5 +97,13 @@ class Product extends \yii\db\ActiveRecord
     public function getProportions()
     {
         return $this->hasMany(Proportion::className(), ['product' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIngredients0()
+    {
+        return $this->hasMany(Ingredient::className(), ['id' => 'ingredient'])->viaTable('proportion', ['product' => 'id']);
     }
 }

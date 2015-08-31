@@ -5,23 +5,23 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "fraction".
+ * This is the model class for table "proportion".
  *
  * @property integer $ingredient
  * @property integer $product
- * @property double $fraction
+ * @property double $weight
  *
  * @property Ingredient $ingredient0
  * @property Product $product0
  */
-class Fraction extends \yii\db\ActiveRecord
+class Proportion extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'fraction';
+        return 'proportion';
     }
 
     /**
@@ -30,9 +30,9 @@ class Fraction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ingredient', 'product'], 'required'],
+            [['ingredient', 'product', 'weight'], 'required'],
             [['ingredient', 'product'], 'integer'],
-            [['fraction'], 'number']
+            [['weight'], 'number']
         ];
     }
 
@@ -44,7 +44,7 @@ class Fraction extends \yii\db\ActiveRecord
         return [
             'ingredient' => Yii::t('app', 'Ingredient'),
             'product' => Yii::t('app', 'Product'),
-            'fraction' => Yii::t('app', 'Fraction'),
+            'weight' => Yii::t('app', 'Weight'),
         ];
     }
 

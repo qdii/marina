@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Ingredient;
+use app\models\Vendor;
 
 /**
- * IngredientSearch represents the model behind the search form about `app\models\Ingredient`.
+ * VendorSearch represents the model behind the search form about `app\models\Vendor`.
  */
-class IngredientSearch extends Ingredient
+class VendorSearch extends Vendor
 {
     /**
      * @inheritdoc
@@ -18,9 +18,8 @@ class IngredientSearch extends Ingredient
     public function rules()
     {
         return [
-            [['id', 'duration', 'unit'], 'integer'],
+            [['id'], 'integer'],
             [['name'], 'safe'],
-            [['price', 'sucrose', 'glucose', 'fructose', 'water', 'energy_kcal', 'energy_kj', 'protein', 'lipid', 'fat', 'ash', 'carbohydrates', 'sugars', 'fiber', 'weight'], 'number'],
         ];
     }
 
@@ -42,7 +41,7 @@ class IngredientSearch extends Ingredient
      */
     public function search($params)
     {
-        $query = Ingredient::find();
+        $query = Vendor::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,23 +57,6 @@ class IngredientSearch extends Ingredient
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'price' => $this->price,
-            'duration' => $this->duration,
-            'unit' => $this->unit,
-            'sucrose' => $this->sucrose,
-            'glucose' => $this->glucose,
-            'fructose' => $this->fructose,
-            'water' => $this->water,
-            'energy_kcal' => $this->energy_kcal,
-            'energy_kj' => $this->energy_kj,
-            'protein' => $this->protein,
-            'lipid' => $this->lipid,
-            'fat' => $this->fat,
-            'ash' => $this->ash,
-            'carbohydrates' => $this->carbohydrates,
-            'sugars' => $this->sugars,
-            'fiber' => $this->fiber,
-            'weight' => $this->weight,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

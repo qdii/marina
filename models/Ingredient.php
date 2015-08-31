@@ -25,10 +25,15 @@ use Yii;
  * @property string $carbohydrates
  * @property string $sugars
  * @property string $fiber
+ * @property double $weight
  *
  * @property Composition[] $compositions
  * @property Dish[] $dishes
+ * @property Fraction[] $fractions
+ * @property Product[] $products
  * @property Unit $unit0
+ * @property Proportion[] $proportions
+ * @property Product[] $products0
  */
 class Ingredient extends \yii\db\ActiveRecord
 {
@@ -47,7 +52,7 @@ class Ingredient extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'price', 'duration'], 'required'],
-            [['price', 'sucrose', 'glucose', 'fructose', 'water', 'energy_kcal', 'energy_kj', 'protein', 'lipid', 'fat', 'ash', 'carbohydrates', 'sugars', 'fiber'], 'number'],
+            [['price', 'sucrose', 'glucose', 'fructose', 'water', 'energy_kcal', 'energy_kj', 'protein', 'lipid', 'fat', 'ash', 'carbohydrates', 'sugars', 'fiber', 'weight'], 'number'],
             [['duration', 'unit'], 'integer'],
             [['name'], 'string', 'max' => 128]
         ];
@@ -77,6 +82,7 @@ class Ingredient extends \yii\db\ActiveRecord
             'carbohydrates' => Yii::t('app', 'carbohydrates in g per 100g'),
             'sugars' => Yii::t('app', 'total sugars in g per 100g'),
             'fiber' => Yii::t('app', 'fiber total dietary in g per 100g'),
+            'weight' => Yii::t('app', 'Weight'),
         ];
     }
 
@@ -99,8 +105,40 @@ class Ingredient extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getFractions()
+    {
+        return $this->hasMany(Fraction::className(), ['ingredient' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'product'])->viaTable('fraction', ['ingredient' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUnit0()
     {
         return $this->hasOne(Unit::className(), ['id' => 'unit']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProportions()
+    {
+        return $this->hasMany(Proportion::className(), ['ingredient' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts0()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'product'])->viaTable('proportion', ['ingredient' => 'id']);
     }
 }

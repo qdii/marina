@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Unit;
+use app\models\Proportion;
 
 /**
- * UnitSearch represents the model behind the search form about `app\models\Unit`.
+ * ProportionSearch represents the model behind the search form about `app\models\Proportion`.
  */
-class UnitSearch extends Unit
+class ProportionSearch extends Proportion
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class UnitSearch extends Unit
     public function rules()
     {
         return [
-            [['id', 'weight'], 'integer'],
-            [['shortName', 'name'], 'safe'],
+            [['ingredient', 'product'], 'integer'],
+            [['weight'], 'number'],
         ];
     }
 
@@ -41,7 +41,7 @@ class UnitSearch extends Unit
      */
     public function search($params)
     {
-        $query = Unit::find();
+        $query = Proportion::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,12 +56,10 @@ class UnitSearch extends Unit
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'ingredient' => $this->ingredient,
+            'product' => $this->product,
             'weight' => $this->weight,
         ]);
-
-        $query->andFilterWhere(['like', 'shortName', $this->shortName])
-            ->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

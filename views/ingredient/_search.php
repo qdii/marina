@@ -51,6 +51,8 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'fiber') ?>
 
+    <?php // echo $form->field($model, 'weight') ?>
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>

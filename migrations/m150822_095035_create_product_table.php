@@ -12,7 +12,7 @@ class m150822_095035_create_product_table extends Migration
                 'product'    => $this->integer(),
                 'fraction'   => $this->float(),
             ], 'COLLATE = utf8_bin');
-        $this->createIndex('fraction_idx', 'fraction', ['ingredient', 'product']);
+        $this->addPrimaryKey('fraction_pkey', 'fraction', ['ingredient', 'product']);
 
         $this->createTable('vendor', [
                 'id'   => $this->primaryKey(),
@@ -34,7 +34,7 @@ class m150822_095035_create_product_table extends Migration
                 'weight'     => $this->float()->notNull(),
             ], 'COLLATE = utf8_bin');
 
-        $this->createIndex('proportion_idx', 'proportion', ['ingredient', 'product']);
+        $this->addPrimaryKey('proportion_pkey', 'proportion', ['ingredient', 'product']);
 
         $this->addForeignKey(
             'product_fk_vendor',
@@ -648,8 +648,8 @@ class m150822_095035_create_product_table extends Migration
             'product'
         );
 
-        $this->dropIndex('proportion_idx', 'proportion');
-        $this->dropIndex('fraction_idx', 'fraction');
+        $this->dropPrimaryKey('proportion_pkey', 'proportion');
+        $this->dropPrimaryKey('fraction_pkey', 'fraction');
 
         $this->dropTable('proportion');
         $this->dropTable('product');

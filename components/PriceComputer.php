@@ -55,7 +55,7 @@ class PriceComputer
      */
     public function __construct($ingredients, $compositions, $units, $dishes, $meals)
     {
-        $this->_unitsNameById = ArrayHelper::map($units, 'id', 'display');
+        $this->_unitsNameById = ArrayHelper::map($units, 'id', 'shortName');
         $this->_ingredients   = $ingredients;
         $this->_compositions  = $compositions;
         $this->_dishes        = $dishes;

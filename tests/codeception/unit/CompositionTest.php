@@ -23,13 +23,16 @@ class SiteControllerTest extends \Codeception\TestCase\Test
         $helper = new CompositionHelper;
 
         $ncompositions = Composition::find()->count();
-        $compo = Composition::findOne(['dish'=>1,'ingredient'=>19336]);
+
+        $compo      = Composition::find()->one();
+        $ingredient = $compo->ingredient;
+        $dish       = $compo->dish;
 
         $this->assertNotNull($compo);
 
         $oldValue = $compo->quantity;
         $newValue = $oldValue + 2.0;
-        $updated = $helper->updateDelete(1, 19336, $newValue);
+        $updated = $helper->updateDelete($dish, $ingredient, $newValue);
 
         // update should work as the composition exists
         $this->assertTrue($updated);
@@ -43,7 +46,7 @@ class SiteControllerTest extends \Codeception\TestCase\Test
         );
 
         // now delete it (i.e. set its quantity to 0)
-        $deleted  = $helper->updateDelete(1, 19336, 0);
+        $deleted  = $helper->updateDelete($dish, $ingredient, 0);
 
         // deleting an existing element should work
         $this->assertTrue($deleted);
@@ -54,7 +57,14 @@ class SiteControllerTest extends \Codeception\TestCase\Test
             Composition::find()->count()
         );
 
-        $this->assertNull(Composition::findOne(['dish'=>1,'ingredient'=>19336]));
+        $this->assertNull(
+            Composition::findOne(
+                [
+                    'dish'       => $dish,
+                    'ingredient' => $ingredient
+                ]
+            )
+        );
     }
 
     /**

@@ -3,6 +3,7 @@
 use \app\SiteController;
 use \app\components\CompositionHelper;
 use \app\models\Composition;
+use \app\models\Dish;
 
 /**
  * Unit test for the class Price Compute
@@ -34,7 +35,7 @@ class SiteControllerTest extends \Codeception\TestCase\Test
         // an update of an existing composition should not change the number of items
         $this->assertEquals(
             $ncompositions,
-            Composition::findAll()->count()
+            Composition::find()->count()
         );
 
         // now delete it (i.e. set its quantity to 0)
@@ -46,7 +47,7 @@ class SiteControllerTest extends \Codeception\TestCase\Test
         // deleting a composition should leave us with one less row
         $this->assertEquals(
             $ncompositions - 1,
-            Composition::findAll()->count()
+            Composition::find()->count()
         );
 
         $this->assertNull(Composition::findOne(['dish'=>1,'ingredient'=>19336]));
@@ -132,15 +133,15 @@ class SiteControllerTest extends \Codeception\TestCase\Test
     {
         $helper = new CompositionHelper;
 
-        $ncompositions = Composition::findAll()->count();
-        $ndish         = Dish::findAll()->count();
+        $ncompositions = Composition::find()->count();
+        $ndish         = Dish::find()->count();
 
         $dish = new \app\models\Dish;
         $dish->name = "whatever";
         $dish->type = "firstCourse";
         $dish->insert();
 
-        $this->assertEquals($ndish + 1, Dish::findAll()->count());
+        $this->assertEquals($ndish + 1, Dish::find()->count());
 
         $cloned = $helper->cloneDish(9, $dish->id);
         $this->assertTrue($cloned);
@@ -149,7 +150,7 @@ class SiteControllerTest extends \Codeception\TestCase\Test
         // to dish 9 in the table "composition"
         $this->assertEquals(
             $ncompositions + 5,
-            Composition::findAll()->count()
+            Composition::find()->count()
         );
     }
 }

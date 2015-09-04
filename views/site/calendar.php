@@ -270,14 +270,14 @@ ArrayHelper::multisort($list, 'name');
 ?>
 <table class="table table-hover">
     <thead>
-        <th>Name</th>
         <th>Quantity</th>
+        <th>Name</th>
     </thead>
     <tbody>
         <?php foreach ($list as $id => $item) { ?>
         <tr data-id="<?php echo $id ?>">
-            <td><?php echo $item['name'] ?></td>
             <td><?php echo $item['qty'] ?></td>
+            <td><?php echo $item['name'] ?></td>
         </tr>
         <?php } ?>
     </tbody>

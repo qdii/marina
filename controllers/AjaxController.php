@@ -228,7 +228,7 @@ class AjaxController extends Controller
                 'ingredient.id',
                 'ingredient.energy_kcal',
                 'ingredient.protein',
-                'unit.display',
+                'unit.shortName',
             ]
         )
             ->from('composition')

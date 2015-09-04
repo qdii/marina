@@ -22,8 +22,12 @@ class SiteControllerTest extends \Codeception\TestCase\Test
     {
         $helper = new CompositionHelper;
 
-        $ncompositions = count($this->compositions);
-        $oldValue = Composition::findOne(['dish'=>1,'ingredient'=>19336])->quantity;
+        $ncompositions = Composition::find()->count();
+        $compo = Composition::findOne(['dish'=>1,'ingredient'=>19336]);
+
+        $this->assertNotNull($compo);
+
+        $oldValue = $compo->quantity;
         $newValue = $oldValue + 2.0;
         $updated = $helper->updateDelete(1, 19336, $newValue);
 

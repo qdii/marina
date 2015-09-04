@@ -11,6 +11,7 @@ use app\models\Dish;
 use app\models\Boat;
 use app\models\User;
 use app\models\Meal;
+use app\models\Product;
 use app\models\Composition;
 use dosamigos\datetimepicker\DateTimePicker;
 use kartik\widgets\TouchSpin;
@@ -255,19 +256,28 @@ $priceComputer->addMeals($meals);
 // sort the list of ingredients by alphabetic order
 ArrayHelper::multisort($priceComputer->items, 'name');
 
+$picker = new \app\components\ProductPicker;
+$ingrList = [];
+foreach ($priceComputer->items as $it) {
+    $ingrList[] = [
+        'id' => $it['ingredient']->id,
+        'qty' => $it['quantity']
+    ];
+}
+$list = $picker->getShoppingListFromIngredientList($ingrList, 1 /* tesco */);
+ArrayHelper::multisort($list, 'name');
+
 ?>
 <table class="table table-hover">
     <thead>
         <th>Name</th>
-        <th>Weight</th>
         <th>Quantity</th>
     </thead>
     <tbody>
-        <?php foreach ($priceComputer->items as $it) { ?>
-        <tr data-id="<?php echo $it['ingredient']->id ?>">
-            <td><?php echo $it['name'] ?></td>
-            <td><?php echo $it['weight'] ?> g</td>
-            <td><?php echo $it['unit'] == null ? "" : ( $it['quantity'] . ' ' . $it['unit']->display ) ?></td>
+        <?php foreach ($list as $id => $item) { ?>
+        <tr data-id="<?php echo $id ?>">
+            <td><?php echo $item['name'] ?></td>
+            <td><?php echo $item['qty'] ?></td>
         </tr>
         <?php } ?>
     </tbody>

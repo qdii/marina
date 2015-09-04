@@ -83,6 +83,44 @@ class ProductPicker
     }
 
     /**
+     * Computes a shopping list from an ingredient list based on the
+     * products offered by a given vendor
+     *
+     * @param array $ingrList A [ingredient, quantity] list
+     * @param int   $vendor   A vendor id
+     *
+     * @return array An array [ product_id => foo ], where foo is an
+     * array containing a 'name' and a 'qty'.
+     *
+     */
+    public function getShoppingListFromIngredientList($ingrList, $vendor)
+    {
+        $productList = [];
+        foreach ( $ingrList as $item ) {
+            $ingrId  = $item['id'];
+            $ingrQty = $item['qty'];
+
+            $products = $this->pickProduct($ingrId, $vendor);
+            foreach ( $products as $product ) {
+                $prodId  = $product->id;
+                if (!isset($productList[$prodId])) {
+                    $productList[$prodId]['name'] = $product->name;
+                    $productList[$prodId]['qty']    = 0;
+                }
+                $prodQty = $this->getAmountOfProduct(
+                    $ingrId,
+                    $prodId,
+                    $ingrQty,
+                    null
+                );
+                $productList[$prodId]['qty'] += $prodQty;
+            }
+        }
+
+        return $productList;
+    }
+
+    /**
      * Converts a given quantity of something in a given unit into the
      * quantity in grams
      *

@@ -26,6 +26,8 @@ class PriceComputerTest extends \Codeception\TestCase\Test
 
         // take a meal that has only ONE dish: tea and coffee
         $meal = \app\models\Meal::findOne(['id' => 57]);
+        $this->assertNotNull($meal);
+
         $dishes = $computer->getDishesFromMeals([ $meal ]);
 
         foreach ( $dishes as $dish ) {

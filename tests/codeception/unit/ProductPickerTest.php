@@ -2,7 +2,7 @@
 
 use \app\components\ProductPicker;
 
-class ProductPickerTest extends \Codeception\TestCase\Test
+class ProductPickerTest extends \yii\codeception\DbTestCase
 {
     public function testOneProduct()
     {

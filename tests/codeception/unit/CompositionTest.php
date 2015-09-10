@@ -99,7 +99,7 @@ class SiteControllerTest extends \Codeception\TestCase\Test
      * Tests that the correct information is returned
      * by the CompositionHelper component for cereals and milk
      */
-    public function testGetInformationCerealsMilk()
+    public function testGetInformationCake()
     {
         $helper = new CompositionHelper;
 

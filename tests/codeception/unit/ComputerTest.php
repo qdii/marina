@@ -1,13 +1,30 @@
 <?php
 
+use \yii\helpers\ArrayHelper;
 use \app\components\PriceComputer;
+use \app\tests\codeception\fixtures\CompositionFixture;
+use \app\tests\codeception\fixtures\DishFixture;
+use \app\tests\codeception\fixtures\MealFixture;
+use \app\tests\codeception\fixtures\IngredientFixture;
+use \app\tests\codeception\fixtures\UnitFixture;
 
 /**
  * Unit test for the class Price Compute
  */
 
-class PriceComputerTest extends \Codeception\TestCase\Test
+class PriceComputerTest extends \yii\codeception\DbTestCase
 {
+    public function fixtures()
+    {
+        return [
+            'compositions' => CompositionFixture::className(),
+            'ingredients'  => IngredientFixture::className(),
+            'dishes'       => DishFixture::className(),
+            'units'        => UnitFixture::className(),
+            'meals'        => MealFixture::className(),
+        ];
+    }
+
     /**
      * Checks if the energy is computed correctly
      *
@@ -15,17 +32,19 @@ class PriceComputerTest extends \Codeception\TestCase\Test
      */
     public function testEnergy()
     {
+        $meals = $this->getFixture('meals');
+        $mealsById = ArrayHelper::index($meals, 'id');
         // the object we want to test
         $computer = new PriceComputer(
-            \app\models\Ingredient::find()->all(),
-            \app\models\Composition::find()->all(),
-            \app\models\Unit::find()->all(),
-            \app\models\Dish::find()->all(),
-            \app\models\Meal::find()->all()
+            $this->getFixture('ingredients'),
+            $this->getFixture('compositions'),
+            $this->getFixture('units'),
+            $this->getFixture('dishes'),
+            $meals
         );
 
         // take a meal that has only ONE dish: tea and coffee
-        $meal = \app\models\Meal::findOne(['id' => 57]);
+        $meal = $mealsById[57];
         $this->assertNotNull($meal);
 
         $dishes = $computer->getDishesFromMeals([ $meal ]);

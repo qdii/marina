@@ -11,4 +11,6 @@ use yii\codeception\BasePage;
 class RecipePage extends BasePage
 {
     public $route = 'site/recipe';
+
+    public $selectionBread = '/html/body/div[1]/div/div[1]/div[1]/div/div[1]/div/div/ul/li[2]';
 }

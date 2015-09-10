@@ -89,10 +89,10 @@ class PriceComputer
     {
         $dishes = [];
         foreach ( $meals as $meal ) {
-            $dishes[] = $this->_dishesById[ $meal->firstCourse  ];
-            $dishes[] = $this->_dishesById[ $meal->secondCourse ];
-            $dishes[] = $this->_dishesById[ $meal->dessert      ];
-            $dishes[] = $this->_dishesById[ $meal->drink        ];
+            $dishes[] = $this->_dishesById[ $meal['firstCourse']  ];
+            $dishes[] = $this->_dishesById[ $meal['secondCourse'] ];
+            $dishes[] = $this->_dishesById[ $meal['dessert']      ];
+            $dishes[] = $this->_dishesById[ $meal['drink']        ];
         }
 
         return $dishes;
@@ -100,7 +100,7 @@ class PriceComputer
 
     public function addMeal(\app\models\Meal $meal)
     {
-        $nbGuests = $meal->nbGuests;
+        $nbGuests = $meal['nbGuests'];
 
         $this->_addDishes($this->_getDishesFromMeal($meal), $nbGuests);
     }
@@ -128,21 +128,21 @@ class PriceComputer
     /**
      * Increases the quantity of a given ingredient in the list
      *
-     * @param Ingredient $ingr The id of the ingredient to accumulate
-     * @param mixed      $unit The unit in which the ingredient is shown or null
-     * @param float      $qty  How much of the ingredient to add (in $unit)
+     * @param array  $ingredient The id of the ingredient to accumulate
+     * @param mixed  $unit       The unit in which the ingredient is shown or null
+     * @param float  $qty        How much of the ingredient to add (in $unit)
      *
      * @return void
      */
-    private function _accumulateItem($ingr, $unit, $qty)
+    private function _accumulateItem($ingredient, $unit, $qty)
     {
-        $id = $ingr->id;
+        $id = $ingredient['id'];
         assert(isset($this->items[$id]));
 
-        $weight = $unit == null ? $qty : $qty * $unit->weight;
+        $weight = $unit == null ? $qty : $qty * $unit['weight'];
 
-        $this->items[$id]['ingredient']  = $ingr;
-        $this->items[$id]['name']        = $ingr->name;
+        $this->items[$id]['ingredient']  = $ingredient;
+        $this->items[$id]['name']        = $ingredient['name'];
         $this->items[$id]['unit']        = $unit;
         $this->items[$id]['quantity']   += $qty;
         $this->items[$id]['weight']     += $weight;
@@ -161,24 +161,23 @@ class PriceComputer
         $dishIds = ArrayHelper::getColumn($dishes, 'id');
 
         foreach ( $this->_compositions as $item ) {
-            if (!in_array($item->dish, $dishIds)) {
+            if (!in_array($item['dish'], $dishIds)) {
                 continue;
             }
 
-            $ingredient = $this->_ingredientsById[$item->ingredient];
-            $unitId     = $ingredient->unit;
-            $unit       = $unitId != null ?
-                $this->_unitsById[$ingredient->unit] : null;
-            $quantity   = $item->quantity * $nbGuests;
+            $ingredient = $this->_ingredientsById[$item['ingredient']];
+            $unitId     = $ingredient['unit'];
+            $unit       = $unitId != null ?  $this->_unitsById[$ingredient['unit']] : null;
+            $quantity   = $item['quantity'] * $nbGuests;
 
-            $this->_initItem($item->ingredient);
+            $this->_initItem($item['ingredient']);
             $this->_accumulateItem($ingredient, $unit, $quantity);
         }
     }
 
     public function addMeals( $meals )
     {
-        array_walk( $meals, function( $m ) { $this->addMeal( $m ); } );
+        array_walk($meals, function($m) { $this->addMeal($m); });
     }
 
     public function price()

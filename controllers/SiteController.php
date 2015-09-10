@@ -205,4 +205,9 @@ class SiteController extends Controller
     {
         return $this->render('list-ingredients');
     }
+
+    public function actionCookbook()
+    {
+        return $this->render('cookbook');
+    }
 }

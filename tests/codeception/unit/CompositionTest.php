@@ -4,12 +4,13 @@ use \app\SiteController;
 use \app\components\CompositionHelper;
 use \app\models\Composition;
 use \app\models\Dish;
+use \app\tests\codeception\fixtures\CompositionFixture;
 
 /**
  * Unit test for the class Price Compute
  */
 
-class SiteControllerTest extends \Codeception\TestCase\Test
+class SiteControllerTest extends \yii\codeception\DbTestCase
 {
     public function fixtures()
     {

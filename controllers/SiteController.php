@@ -205,4 +205,17 @@ class SiteController extends Controller
     {
         return $this->render('list-ingredients');
     }
+
+    public function actionCookbook()
+    {
+        $boats   = \app\models\Boat::find()->all();
+        $vendors = \app\models\Vendor::find()->all();
+
+        $params = [
+            'boats'   => $boats,
+            'vendors' => $vendors,
+        ];
+
+        return $this->render('cookbook', $params);
+    }
 }

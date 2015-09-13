@@ -15,6 +15,7 @@ namespace app\components;
 use app\models\Product;
 use app\models\Proportion;
 use app\models\Fraction;
+use yii\helpers\ArrayHelper;
 
 /**
  * Selects products based on a list of ingredients
@@ -46,6 +47,108 @@ class ProductPicker
             ->rightJoin('fraction', 'fraction.product = product.id')
             ->where(['fraction.ingredient' => $ingred, 'product.vendor' => $vendor]);
         return $product->all();
+    }
+
+    /**
+     * Returns the products together with the quantities associated to
+     * the given ingredient.
+     *
+     * @param int $ingred The id of the ingredient to find a product for
+     * @param int $qty    The amount of ingredient in grams
+     * @param int $vendor The id of the vendor where the product will be sought 
+     *
+     * @return array [ 'id' => 'qty' ] where id is a product id, and quantity
+     *         is a quantity of product in grams
+     */
+    public function selectProducts($ingred, $qty, $vendor)
+    {
+        assert(is_int($ingred));
+        assert(is_int($qty));
+        assert(is_int($vendor));
+
+        $products = $this->pickProduct($ingred, $vendor);
+        $list = [];
+        $portions = $this->_getPortions(
+            $ingred,
+            ArrayHelper::getColumn($products, 'id')
+        );
+        foreach ( $products as $product ) {
+            $portion    = $this->_getProportionAndFraction($ingred, $product->id, $portions);
+            $proportion = $portion['proportion'];
+            $fraction   = $portion['fraction'];
+
+            $qtyProduct = $qty * $fraction / $proportion;
+            $list[$product->id] = $qtyProduct;
+        }
+
+        return $list;
+    }
+
+    /**
+     * Returns the fraction and the proportion from a portion list
+     *
+     * @param int   $ingred   The id of an ingredient
+     * @param int   $product  The id of a product
+     * @param array $portions The portion list
+     *
+     * @return The fraction and proportion of the couple (ingredient, product)
+     */
+    private function _getProportionAndFraction($ingred, $product, $portions)
+    {
+        $ret = [];
+        foreach ($portions as $portion) {
+            if ($portion['ingredient'] != $ingred) {
+                continue;
+            }
+
+            if ($portion['product'] != $product) {
+                continue;
+            }
+
+            $proportion = $portion['weight'] === null ? 0 : $portion['weight'];
+            $fraction   = $portion['fraction'] === null ? 1 : $portion['fraction'];
+
+            $ret['proportion'] = $proportion;
+            $ret['fraction']   = $fraction;
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Return the proportions and fractions for different ingredient/products
+     *
+     * @param int   $ingred   The id of an ingredient
+     * @param array $products An array of product ids
+     *
+     * @return array [ 'ingredient', 'product', 'proportion', 'fraction' ];
+     */
+    private function _getPortions($ingred, $products)
+    {
+        assert(is_int($ingred));
+        assert(is_array($products));
+
+        $query = new \yii\db\Query;
+        $query->select(
+            [
+                'proportion.weight',
+                'fraction.fraction',
+                'proportion.ingredient',
+                'proportion.product',
+            ]
+        )
+            ->from('proportion')
+            ->join(
+                'natural right join',
+                'fraction'
+            )
+            ->where(
+                [
+                    'proportion.ingredient' => $ingred,
+                    'proportion.product'    => $products
+                ]
+            );
+        return $query->all();
     }
 
     /**

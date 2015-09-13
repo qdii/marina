@@ -94,4 +94,27 @@ class ProductPickerTest extends \yii\codeception\DbTestCase
         );
         $this->assertEquals(4, $everydayPacks);
     }
+
+    public function testSelectProducts()
+    {
+        $picker = new ProductPicker;
+
+        // ingredient
+        $tomatoes = 11529;
+        $qty      = 2000;
+
+        // products
+        $vineTomatoes     = 23; // on the vine
+        $everydayTomatoes = 75; // normal
+
+        // vendor
+        $tesco = 1;
+
+        $list = $picker->selectProducts($tomatoes, $qty, $tesco);
+        $this->assertNotEmpty($list);
+        $this->assertArrayHasKey($vineTomatoes, $list);
+        $this->assertArrayHasKey($everydayTomatoes, $list);
+        $this->assertEquals(0.75 * $qty / 400.0, $list[$everydayTomatoes]);
+        $this->assertEquals(0.25 * $qty / 70.0, $list[$vineTomatoes]);
+    }
 }

@@ -195,7 +195,7 @@ function fieldOpts($fieldId)
         </div>
     </div>
 
-    <div class="panel panel-success">
+    <div class="panel panel-success hidden">
         <div class="panel-heading">Ingredients</div>
         <div class="panel-body">
             <div class="row">

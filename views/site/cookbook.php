@@ -30,7 +30,11 @@ $boatSelector = [
   'clientEvents' =>
   [
       'change' => 'function(ev, params) {
-          window.ckbook.boat_id = params.selected;
+          if (params === undefined) {
+             window.ckbook.boat_id = 0;
+          } else {
+             window.ckbook.boat_id = params.selected;
+          }
           window.ckbook.refresh_list();
         }'
   ]
@@ -45,7 +49,11 @@ $vendorSelector = [
   'clientEvents' =>
   [
       'change' => 'function(ev, params) {
-          window.ckbook.vendor_id = params.selected;
+          if (params === undefined) {
+             window.ckbook.vendor_id = 0;
+          } else {
+             window.ckbook.vendor_id = params.selected;
+          }
           window.ckbook.refresh_list();
         }'
   ]

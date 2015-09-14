@@ -7,8 +7,9 @@ var cookbook = {
 
     write_recipe: function(tbody, list) {
         $.each(list, function(i, data) {
-            var qty = data.qty.toFixed(3);
-            tbody.append('<tr><td>' + qty + '</td><td>' + data.name + '</td></tr>');
+            var qty = data.qty.toFixed(4);
+            var qtyNoZeroes = parseFloat(qty);
+            tbody.append('<tr><td>' + qtyNoZeroes + '</td><td>' + data.name + '</td></tr>');
         });
     },
 
@@ -43,11 +44,13 @@ var cookbook = {
     },
 
     refresh_list: function() {
-        if (this.vendor_id === undefined) {
+        this.remove_list();
+
+        if (this.vendor_id === undefined || this.vendor_id === 0) {
             return;
         }
 
-        if (this.boat_id === undefined) {
+        if (this.boat_id === undefined || this.boat_id === 0) {
             return;
         }
 
@@ -58,6 +61,12 @@ var cookbook = {
         };
 
         $.getJSON(this.url, data, function(data) { window.ckbook.write_list(data); } );
+    },
+
+    remove_list: function() {
+        $('#recipe-container').children().hide('slow', function(){
+            $('#recipe-container').empty();
+        });
     },
 };
 

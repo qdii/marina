@@ -32,6 +32,22 @@ use \yii\helpers\ArrayHelper;
  */
 class CompositionHelper
 {
+    // cache ['id' => 'products'];
+    private $_productsById;
+
+    public function _getProduct($id)
+    {
+        if (array_key_exists($id, $this->_productsById)) {
+            return $this->_productsById[$id];
+        }
+        return Product::findOne($id);
+    }
+
+    public function __construct($products = [])
+    {
+        $this->_productsById = ArrayHelper::index($products, 'id');
+    }
+
     /**
      * Updates or delete a composition. Does not create one if it does not exist
      *
@@ -190,7 +206,7 @@ class CompositionHelper
                 $vendor->id
             );
             foreach ($products as $id => $qty) {
-                $product = Product::findOne(['id' => $id]);
+                $product = $this->_getProduct($id);
                 $list[] = [
                     'qty' => $qty,
                     'name' => $product->name

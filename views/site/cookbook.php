@@ -16,13 +16,24 @@ use \skeeks\widget\chosen\Chosen;
 use \yii\helpers\ArrayHelper;
 use \yii\widgets\ActiveForm;
 use \kartik\widgets\TouchSpin;
+use \yii\helpers\Url;
+use \yii\web\View;
 
+\app\assets\CookbookAsset::register($this);
+
+$boatSelectorId = 'boat-name';
 $boatSelector = [
-  'id'          => 'boat-chosen',
   'model'       => new \app\models\Boat,
   'attribute'   => 'name',
   'placeholder' => 'Choose a boat',
-  'items'       => ArrayHelper::map($boats, 'id', 'name')
+  'items'       => ArrayHelper::map($boats, 'id', 'name'),
+  'clientEvents' =>
+  [
+      'change' => 'function(ev, params) {
+          window.ckbook.boat_id = params.selected;
+          window.ckbook.refresh_list();
+        }'
+  ]
 ];
 
 $vendorSelector = [
@@ -30,9 +41,21 @@ $vendorSelector = [
   'model'       => new \app\models\Vendor,
   'attribute'   => 'name',
   'placeholder' => 'Choose a shop',
-  'items'       => ArrayHelper::map($vendors, 'id', 'name')
+  'items'       => ArrayHelper::map($vendors, 'id', 'name'),
+  'clientEvents' =>
+  [
+      'change' => 'function(ev, params) {
+          window.ckbook.vendor_id = params.selected;
+          window.ckbook.refresh_list();
+        }'
+  ]
 ];
 
+$this->registerJs(
+    "var cookbook_url = '" . Url::toRoute("ajax/get-cookbook") . "';\n"  .
+    "var boat_selector = '$boatSelectorId';\n",
+    View::POS_BEGIN
+);
 
 $touchSpin = [
   'name'  => 'nb-guests',
@@ -40,6 +63,13 @@ $touchSpin = [
       'placeholder' => 'Nb of guests'
   ],
   'class' => 'form-control',
+  'pluginEvents' =>
+  [
+    'change' => 'function(ev,params) {
+      window.ckbook.guests = 3;
+      window.ckbook.refresh_list();
+    }'
+  ]
 ];
 
 $this->title = 'Cookbook';
@@ -58,9 +88,22 @@ $this->title = 'Cookbook';
       <div class='col-lg-3'><?php echo Chosen::widget($boatSelector) ?></div>
       <div class='col-lg-3'><?php echo Chosen::widget($vendorSelector) ?></div>
       <div class='col-lg-2'><?php echo Touchspin::widget($touchSpin) ?></div>
-      </div>
     </div>
   </div>
 </div>
 
+<div id='recipe-container'>
+</div>
 
+<div id="recipe-template" style="display:none;">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr><th>Quantity</th><th>Product</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>

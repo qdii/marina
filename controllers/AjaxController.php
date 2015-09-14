@@ -272,4 +272,31 @@ class AjaxController extends Controller
 
         return $dish->id;
     }
+
+    /**
+     * Returns the data for a cookbook
+     *
+     * @param int $boatId   The id of the boat the cookbook is for
+     * @param int $vendorId The shop the products are to be bought in
+     * @param int $guests   The number of guests
+     *
+     * @return string A json array with information for the cookbook
+     */
+    public function actionGetCookbook($boatId, $vendorId, $guests)
+    {
+        $boat   = \app\models\Boat::findOne(['id' => $boatId]);
+        if ($boat === null) {
+            return "";
+        }
+
+        $vendor = \app\models\Vendor::findOne(['id' => $vendorId]);
+        if ($vendor === null) {
+            return "";
+        }
+
+        $helper = new CompositionHelper;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $helper->getCookbook($boat, $vendor, $guests);
+    }
 }

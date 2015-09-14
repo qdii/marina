@@ -63,7 +63,7 @@ class ProductPicker
     public function selectProducts($ingred, $qty, $vendor)
     {
         assert(is_int($ingred));
-        assert(is_int($qty));
+        assert(is_float($qty));
         assert(is_int($vendor));
 
         $products = $this->pickProduct($ingred, $vendor);

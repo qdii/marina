@@ -14,6 +14,8 @@
 namespace app\components;
 
 use \app\models\Composition;
+use \app\models\Ingredient;
+use \app\models\Product;
 use \yii\helpers\ArrayHelper;
 
 /**
@@ -137,5 +139,54 @@ class CompositionHelper
 
 
         return array_merge($query->all(), $totals->all());
+    }
+
+    public function getCookbook($boat, $vendor, $nbGuests) {
+        $cruises = $boat->getCruises()->all();
+
+        $meals = [];
+        foreach ( $cruises as $cruise ) {
+            $meals[] = $cruise->getMeals()->all();
+        }
+
+        $dishes = [];
+        foreach ( $meals[0] as $meal ) {
+            $dishes[] = $meal->getFirstCourse0()->one();
+            $dishes[] = $meal->getSecondCourse0()->one();
+            $dishes[] = $meal->getDessert0()->one();
+            $dishes[] = $meal->getDrink0()->one();
+        }
+
+        $cookbook = [];
+        foreach ( $dishes as $dish ) {
+            $cookbook[] = [
+                'name' => $dish->name,
+                'items' => $this->_getRecipeItemsForDish($dish, $vendor)
+            ];
+        }
+
+        return $cookbook;
+    }
+
+    private function _getRecipeItemsForDish($dish, $vendor)
+    {
+        $helper = new ProductPicker;
+        $compos = $dish->getCompositions()->all();
+        $list = [];
+        foreach ($compos as $compo) {
+            $products = $helper->selectProducts(
+                $compo->ingredient,
+                floatval($compo->quantity),
+                $vendor->id
+            );
+            foreach ($products as $id => $qty) {
+                $product = Product::findOne(['id' => $id]);
+                $list[] = [
+                    'qty' => $qty,
+                    'name' => $product->name
+                ];
+            }
+        }
+        return $list;
     }
 }

@@ -74,7 +74,7 @@ $touchSpin = [
   'pluginEvents' =>
   [
     'change' => 'function(ev,params) {
-      window.ckbook.guests = 3;
+      window.ckbook.guests = parseInt($(this).val());
       window.ckbook.refresh_list();
     }'
   ]

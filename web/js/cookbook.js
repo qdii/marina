@@ -54,6 +54,10 @@ var cookbook = {
             return;
         }
 
+        if (this.guests === undefined || this.guests === 0) {
+            return;
+        }
+
         var data = {
             vendorId : this.vendor_id,
             boatId   : this.boat_id,

@@ -169,7 +169,7 @@ class CompositionHelper
             if (!$found) {
                 $cookbook[] = [
                     'name'  => $dish->name,
-                    'items' => $this->_getRecipeItemsForDish($dish, $vendor),
+                    'items' => $this->_getRecipeItemsForDish($dish, $vendor, $nbGuests),
                     'count' => 1
                 ];
             }
@@ -178,7 +178,7 @@ class CompositionHelper
         return $cookbook;
     }
 
-    private function _getRecipeItemsForDish($dish, $vendor)
+    private function _getRecipeItemsForDish($dish, $vendor, $nbGuests)
     {
         $helper = new ProductPicker;
         $compos = $dish->getCompositions()->all();
@@ -186,7 +186,7 @@ class CompositionHelper
         foreach ($compos as $compo) {
             $products = $helper->selectProducts(
                 $compo->ingredient,
-                floatval($compo->quantity),
+                floatval($compo->quantity) * $nbGuests,
                 $vendor->id
             );
             foreach ($products as $id => $qty) {

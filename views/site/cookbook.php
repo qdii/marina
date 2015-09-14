@@ -66,6 +66,7 @@ $this->registerJs(
 );
 
 $touchSpin = [
+  'id' => 'nb-guests-touchspin',
   'name'  => 'nb-guests',
   'options' => [
       'placeholder' => 'Nb of guests'

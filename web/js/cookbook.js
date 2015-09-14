@@ -76,3 +76,13 @@ var cookbook = {
 
 var ckbook = Object.create(cookbook);
 ckbook.url = window.cookbook_url;
+
+// initializes the touchspin
+$('#nb-guests-touchspin').val(1);
+
+// initializes the vendor selector
+$('#vendor-name').val(0);
+$('#vendor-name').trigger('chosen:updated');
+
+$('#boat-name').val(0);
+$('#boat-name').trigger('chosen:updated');

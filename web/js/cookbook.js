@@ -22,8 +22,15 @@ var cookbook = {
             var new_recipe = $('#recipe-template').clone();
             new_recipe.removeAttr('id');
 
+            // writing the badge (how many times the meal appears)
+            var title = val.name;
+            if (val.count > 1) {
+                title += ' <span class="badge">' + val.count + '</span>';
+            }
+
             // writing the recipe title in the heading
-            new_recipe.find('.panel-heading').text(val.name);
+            new_recipe.find('.panel-heading').html(title);
+
 
             // writing the ingredient list in the body
             var tbody = new_recipe.find('tbody');

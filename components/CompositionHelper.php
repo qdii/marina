@@ -159,10 +159,20 @@ class CompositionHelper
 
         $cookbook = [];
         foreach ( $dishes as $dish ) {
-            $cookbook[] = [
-                'name' => $dish->name,
-                'items' => $this->_getRecipeItemsForDish($dish, $vendor)
-            ];
+            $found = false;
+            foreach ( $cookbook as &$recipe ) {
+                if ($recipe['name'] == $dish->name) {
+                    $found = true;
+                    $recipe['count']++;
+                }
+            }
+            if (!$found) {
+                $cookbook[] = [
+                    'name'  => $dish->name,
+                    'items' => $this->_getRecipeItemsForDish($dish, $vendor),
+                    'count' => 1
+                ];
+            }
         }
 
         return $cookbook;

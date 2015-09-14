@@ -173,59 +173,67 @@ function fieldOpts($fieldId)
 
 ?>
 
-<div class="container">
-
     <div class="page-header">
-    <div class="row">
-        <div class="col-md-10">
-            <?php echo Chosen::widget($dishChosenOpts); ?>
-        </div>
-        <div class="col-md-2">
-            <button type="button" id="copy-dish" class="disabled btn btn-primary">
-                <?php echo $copyIcon ?>
-            </button>
-            <button type="button" id="delete-dish" class="disabled btn btn-danger">
-                <?php echo $trashIcon ?>
-            </button>
-        </div>
+        <h1><?php echo $this->title; ?></h1>
     </div>
-    </div>
-
-    <div class="row">
-        <div id="<?php echo $bilanId ?>" class="col-md-12">
-        <?php $form = ActiveForm::begin($formOptions);
-        echo Html::beginTag("table", $tableOptions);
-        ?>
-
-        <thead>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>Proteins</th>
-            <th>Energy</th>
-            <th></th>
-        </thead>
-
-        <tbody>
-            <tr id="new-ingredient">
-                <td data-id="0"> <?php echo $form->field($compoModel, 'ingredient', $inline)->widget(Chosen::className(), $ingredientChosenOpts); ?> </td>
-                <td><?php echo $form->field($compoModel, 'quantity', $inline); ?></td>
-                <td></td>
-                <td><?php echo Html::activeHiddenInput($compoModel, 'dish'); ?></td>
-                <td><?php echo $submitNewIngredientButton ?></td>
-            </tr>
-
-            <tr class="list-group-item-success" id="total"»
-                <td><?php echo Html::tag("td", Html::tag('strong', 'Total')); ?></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-        </table>
+    <div class="panel panel-info">
+        <div class="panel-heading">Search</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <?php echo Chosen::widget($dishChosenOpts); ?>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="copy-dish" class="disabled btn btn-primary">
+                        <?php echo $copyIcon ?>
+                    </button>
+                    <button type="button" id="delete-dish" class="disabled btn btn-danger">
+                        <?php echo $trashIcon ?>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">Ingredients</div>
+        <div class="panel-body">
+            <div class="row">
+                <div id="<?php echo $bilanId ?>" class="col-md-12">
+                <?php $form = ActiveForm::begin($formOptions);
+                echo Html::beginTag("table", $tableOptions);
+                ?>
+
+                <thead>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Proteins</th>
+                    <th>Energy</th>
+                    <th></th>
+                </thead>
+
+                <tbody>
+                    <tr id="new-ingredient">
+                        <td data-id="0"> <?php echo $form->field($compoModel, 'ingredient', $inline)->widget(Chosen::className(), $ingredientChosenOpts); ?> </td>
+                        <td><?php echo $form->field($compoModel, 'quantity', $inline); ?></td>
+                        <td></td>
+                        <td><?php echo Html::activeHiddenInput($compoModel, 'dish'); ?></td>
+                        <td><?php echo $submitNewIngredientButton ?></td>
+                    </tr>
+
+                    <tr class="list-group-item-success" id="total"»
+                        <td><?php echo Html::tag("td", Html::tag('strong', 'Total')); ?></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <?php ActiveForm::end(); ?>
 

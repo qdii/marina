@@ -101,7 +101,7 @@ class ProductPickerTest extends \yii\codeception\DbTestCase
 
         // ingredient
         $tomatoes = 11529;
-        $qty      = 2000;
+        $qty      = 2000.0;
 
         // products
         $vineTomatoes     = 23; // on the vine

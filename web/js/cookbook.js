@@ -7,7 +7,8 @@ var cookbook = {
 
     write_recipe: function(tbody, list) {
         $.each(list, function(i, data) {
-            tbody.append('<tr><td>' + data.qty + '</td><td>' + data.name + '</td></tr>');
+            var qty = data.qty.toFixed(3);
+            tbody.append('<tr><td>' + qty + '</td><td>' + data.name + '</td></tr>');
         });
     },
 

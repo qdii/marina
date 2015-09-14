@@ -20,6 +20,8 @@ use \app\models\Dish;
 use \app\models\Cruise;
 use \app\models\Meal;
 use \app\models\Boat;
+use \app\models\Proportion;
+use \app\models\Fraction;
 use \yii\helpers\ArrayHelper;
 
 /**
@@ -41,6 +43,9 @@ class CompositionHelper
     private $_cruisesById;
     private $_mealsById;
     private $_dishesById;
+    private $_proportions;
+    private $_fractions;
+    private $_compositions;
 
     public function _getProduct($id)
     {
@@ -51,21 +56,29 @@ class CompositionHelper
     }
 
     public function __construct(
-        $products = [],
-        $cruises  = [],
-        $meals    = [],
-        $dishes   = []
+        $products    = [],
+        $cruises     = [],
+        $meals       = [],
+        $dishes      = [],
+        $proportions = [],
+        $fractions   = [],
+        $compositions= []
     ) {
-
         if (empty($products)) { $products = Product::find()->all(); }
         if (empty($cruises))  { $cruises  = Cruise::find()->all();  }
         if (empty($meals))    { $meals    = Meal::find()->all();    }
         if (empty($dishes))   { $dishes   = Dish::find()->all();    }
+        if (empty($proportions)) { $proportions = Proportion::find()->all(); }
+        if (empty($fractions))   { $fractions   = Fraction::find()->all(); }
+        if (empty($compositions)) { $compositions = Composition::find()->all(); }
 
         $this->_productsById = ArrayHelper::index($products, 'id');
         $this->_cruisesById  = ArrayHelper::index($cruises, 'id');
         $this->_mealsById    = ArrayHelper::index($meals, 'id');
         $this->_dishesById   = ArrayHelper::index($dishes, 'id');
+        $this->_proportions  = $proportions;
+        $this->_fractions    = $fractions;
+        $this->_compositions = $compositions;
     }
 
     /**
@@ -223,10 +236,31 @@ class CompositionHelper
         return $cookbook;
     }
 
+    private function _getCompositionFromDish($dishId)
+    {
+        $compositions = [];
+        foreach($this->_compositions as $composition) {
+            if ($composition->dish != $dishId) {
+                continue;
+            }
+            $compositions[] = $composition;
+        }
+        return $compositions;
+    }
+
     private function _getRecipeItemsForDish($dish, $vendor, $nbGuests)
     {
-        $helper = new ProductPicker;
-        $compos = $dish->getCompositions()->all();
+        $helper = new ProductPicker(
+            array_values($this->_productsById),
+            array_values($this->_cruisesById),
+            array_values($this->_mealsById),
+            array_values($this->_dishesById),
+            $this->_proportions,
+            $this->_fractions
+        );
+
+        $compos = $this->_getCompositionFromDish($dish->id);
+
         $list = [];
         foreach ($compos as $compo) {
             $products = $helper->selectProducts(

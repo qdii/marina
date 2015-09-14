@@ -78,7 +78,7 @@ var ckbook = Object.create(cookbook);
 ckbook.url = window.cookbook_url;
 
 // initializes the touchspin
-$('#nb-guests-touchspin').val(1);
+$('#nb-guests-touchspin').val(0);
 
 // initializes the vendor selector
 $('#vendor-name').val(0);

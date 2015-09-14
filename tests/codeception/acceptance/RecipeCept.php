@@ -12,11 +12,9 @@ $I->dontSee('Quantity');
 $I->dontSee('Proteins');
 
 $I->click('Choose a dish');
-$I->click($recipe->selectionBread);
+$I->click($recipe->selectionCrepes);
 $I->see('Energy');
 $I->see('Name');
 $I->see('Quantity');
 $I->see('Proteins');
-
-$I->wait(5);
 

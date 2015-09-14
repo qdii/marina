@@ -16,6 +16,10 @@ namespace app\components;
 use \app\models\Composition;
 use \app\models\Ingredient;
 use \app\models\Product;
+use \app\models\Dish;
+use \app\models\Cruise;
+use \app\models\Meal;
+use \app\models\Boat;
 use \yii\helpers\ArrayHelper;
 
 /**
@@ -34,6 +38,9 @@ class CompositionHelper
 {
     // cache ['id' => 'products'];
     private $_productsById;
+    private $_cruisesById;
+    private $_mealsById;
+    private $_dishesById;
 
     public function _getProduct($id)
     {
@@ -43,9 +50,22 @@ class CompositionHelper
         return Product::findOne($id);
     }
 
-    public function __construct($products = [])
-    {
+    public function __construct(
+        $products = [],
+        $cruises  = [],
+        $meals    = [],
+        $dishes   = []
+    ) {
+
+        if (empty($products)) { $products = Product::find()->all(); }
+        if (empty($cruises))  { $cruises  = Cruise::find()->all();  }
+        if (empty($meals))    { $meals    = Meal::find()->all();    }
+        if (empty($dishes))   { $dishes   = Dish::find()->all();    }
+
         $this->_productsById = ArrayHelper::index($products, 'id');
+        $this->_cruisesById  = ArrayHelper::index($cruises, 'id');
+        $this->_mealsById    = ArrayHelper::index($meals, 'id');
+        $this->_dishesById   = ArrayHelper::index($dishes, 'id');
     }
 
     /**
@@ -157,20 +177,29 @@ class CompositionHelper
         return array_merge($query->all(), $totals->all());
     }
 
-    public function getCookbook($boat, $vendor, $nbGuests) {
-        $cruises = $boat->getCruises()->all();
+    public function getCookbook($boat, $vendor, $nbGuests)
+    {
+        $cruises = [];
+        foreach ( array_values($this->_cruisesById) as $cruise ) {
+            if ($cruise->boat == $boat->id) {
+                $cruises[] = $cruise;
+            }
+        }
+        $cruiseIds = ArrayHelper::getColumn($cruises, 'id');
 
         $meals = [];
-        foreach ( $cruises as $cruise ) {
-            $meals[] = $cruise->getMeals()->all();
+        foreach ( array_values($this->_mealsById) as $meal ) {
+            if (in_array($meal->cruise, $cruiseIds)) {
+                $meals[] = $meal;
+            }
         }
 
         $dishes = [];
-        foreach ( $meals[0] as $meal ) {
-            $dishes[] = $meal->getFirstCourse0()->one();
-            $dishes[] = $meal->getSecondCourse0()->one();
-            $dishes[] = $meal->getDessert0()->one();
-            $dishes[] = $meal->getDrink0()->one();
+        foreach ( $meals as $meal ) {
+            $dishes[] = $this->_dishesById[$meal->firstCourse];
+            $dishes[] = $this->_dishesById[$meal->secondCourse];
+            $dishes[] = $this->_dishesById[$meal->dessert];
+            $dishes[] = $this->_dishesById[$meal->drink];
         }
 
         $cookbook = [];

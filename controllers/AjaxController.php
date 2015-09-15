@@ -210,6 +210,30 @@ class AjaxController extends Controller
     }
 
     /**
+     * Return fullcalendar events
+     *
+     * @param int $id The id of a boat
+     *
+     * @return array An array of fullcalendar events
+     */
+    public function actionGetMealsFromBoat($id = 0)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $boat = Boat::findOne(['id' => $id]);
+        if ($boat === null) {
+            return [];
+        }
+
+        $cruises = $boat->getCruises()->all();
+        if (empty($cruises)) {
+            return [];
+        }
+
+        return $this->actionGetMeals($cruises[0]->id);
+    }
+
+    /**
      * Returns information about a given dish
      *
      * @param int $id The id of the dish

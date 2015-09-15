@@ -8,7 +8,7 @@ use \skeeks\widget\chosen\Chosen;
 use \yii2fullcalendar\yii2fullcalendar;
 $this->title = 'Calendar';
 
-//\app\assets\CalendarAsset::register($this);
+\app\assets\CalendarAsset::register($this);
 
 $boatSelector = [
   'model'       => new Boat,
@@ -19,7 +19,6 @@ $boatSelector = [
 ];
 
 $calendarOptions = [
-    'ajaxEvents' => Url::toRoute(['ajax/get-meals', 'id' => 0]),
     'header' =>
     [
         'center' => 'title',
@@ -40,7 +39,12 @@ $calendarOptions = [
         'displayEventStart' => false,
         'timeFormat'        => '',
         'columnFormat'      => 'dddd',
-        'eventAfterRender'  => new JsExpression( "function(event,el) { element.html(event.title); }" ),
+        'eventAfterRender'  => new JsExpression( "function(event,el) { el.html(event.title); }" ),
+        'events'            =>
+        [
+            'url'  => Url::toRoute(['ajax/get-meals-from-boat']),
+            'data' => new JsExpression( "function() { return { id: window.cal.get_boat_id() }; }" )
+        ]
     ],
 ];
 

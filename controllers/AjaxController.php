@@ -352,7 +352,9 @@ class AjaxController extends Controller
         $priceComputer->addMeals($meals);
 
         if ($vendorId == 0) {
-            return $priceComputer->items;
+            $result = $priceComputer->items;
+            ArrayHelper::multisort($result, 'name');
+            return $result;
         }
 
         $productPicker = new ProductPicker(
@@ -383,6 +385,7 @@ class AjaxController extends Controller
                 'name'     => $product['name']
             ];
         }
+        ArrayHelper::multisort($result, 'name');
         return $result;
     }
     /**

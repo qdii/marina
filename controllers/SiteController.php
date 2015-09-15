@@ -14,6 +14,7 @@ use app\models\Unit;
 use app\models\Dish;
 use app\models\Boat;
 use app\models\Meal;
+use app\models\Vendor;
 use app\models\Composition;
 use app\components\EventMaker;
 
@@ -85,52 +86,14 @@ class SiteController extends Controller
 
     public function actionCalendar($id = 1)
     {
-        $users = User::find()->all();
-        $units = Unit::find()->all();
-
-        $boats    = Boat::find()->all();
-        $boatById = ArrayHelper::index($boats, 'id');
-        $boat     = null;
-        if (key_exists($id, $boatById)) {
-            $boat = $boatById[$id];
-        }
-
-        $cruises    = Cruise::find()->all();
-        $cruiseById = ArrayHelper::index($cruises, 'id');
-        $cruise     = null;
-        foreach ( $cruises as $cr ) {
-            if ($cr->boat == $id) {
-                $cruise = $cr;
-                break;
-            }
-        }
-
-        $meals        = [];
-        if ($cruise !== null) {
-            $meals = Meal::findAll(['cruise' => $cruise->id]);
-        }
-
-        $dishes       = Dish::find()->all();
-        $dishIds      = ArrayHelper::getColumn($dishes, 'id');
-        $compositions = Composition::findAll(['dish' => $dishIds]);
-        $ingrIds      = ArrayHelper::getColumn($compositions, 'ingredient');
-        $ingredients  = Ingredient::findAll(['id' => $ingrIds]);
-
-        $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
+        $vendors = Vendor::find()->all();
+        $boats   = Boat::find()->all();
 
         $params = [
-            'users'        => $users,
-            'units'        => $units,
-            'dishes'       => $dishes,
-            'meals'        => $meals,
-            'types'        => $types,
             'boats'        => $boats,
-            'boat'         => $boat,
-            'cruises'      => $cruises,
-            'cruise'       => $cruise,
-            'compositions' => $compositions,
-            'ingredients'  => $ingredients,
-            ];
+            'vendors'      => $vendors,
+        ];
+
         return $this->render('calendar', $params);
     }
 
@@ -199,11 +162,6 @@ class SiteController extends Controller
 
 
         $this->redirect(['site/calendar', 'id' => $boatId]);
-    }
-
-    public function actionListIngredients()
-    {
-        return $this->render('list-ingredients');
     }
 
     public function actionCookbook()

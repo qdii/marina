@@ -15,8 +15,13 @@ use app\models\Dish;
 use app\models\Boat;
 use app\models\Meal;
 use app\models\Composition;
+use app\models\Product;
+use app\models\Proportion;
+use app\models\Fraction;
 use app\components\EventMaker;
 use app\components\CompositionHelper;
+use app\components\PriceComputer;
+use app\components\ProductPicker;
 
 class AjaxController extends Controller
 {
@@ -210,6 +215,30 @@ class AjaxController extends Controller
     }
 
     /**
+     * Return fullcalendar events
+     *
+     * @param int $id The id of a boat
+     *
+     * @return array An array of fullcalendar events
+     */
+    public function actionGetMealsFromBoat($id = 0)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $boat = Boat::findOne(['id' => $id]);
+        if ($boat === null) {
+            return [];
+        }
+
+        $cruises = $boat->getCruises()->all();
+        if (empty($cruises)) {
+            return [];
+        }
+
+        return $this->actionGetMeals($cruises[0]->id);
+    }
+
+    /**
      * Returns information about a given dish
      *
      * @param int $id The id of the dish
@@ -298,5 +327,70 @@ class AjaxController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         return $helper->getCookbook($boat, $vendor, $guests);
+    }
+
+    /**
+     * Returns an ingredient list for the given cruise
+     */
+    public function actionGetIngredientList($cruiseId, $vendorId)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $ingredients  = Ingredient::find()->all();
+        $compositions = Composition::find()->all();
+        $units        = Unit::find()->all();
+        $dishes       = Dish::find()->all();
+        $cruise = Cruise::findOne(['id' => $cruiseId]);
+        $meals = $cruise->getMeals()->where(['cruise' => $cruiseId])->all();
+        $priceComputer = new PriceComputer(
+            $ingredients,
+            $compositions,
+            $units,
+            $dishes,
+            $meals
+        );
+        $priceComputer->addMeals($meals);
+
+        if ($vendorId == 0) {
+            return $priceComputer->items;
+        }
+
+        $productPicker = new ProductPicker(
+            Product::find()->all(),
+            Cruise::find()->all(),
+            $meals,
+            $dishes,
+            Proportion::find()->all(),
+            Fraction::find()->all()
+        );
+
+        $ingredientList = [];
+        foreach ( $priceComputer->items as $id => $item ) {
+            $ingredientList[] = [
+                'id' => $id,
+                'name' => $item['name'],
+                'qty' => $item['quantity']
+            ];
+        }
+        $productList = $productPicker->getShoppingListFromIngredientList(
+            $ingredientList, $vendorId
+        );
+
+        $result = [];
+        foreach ( $productList as $id => $product ) {
+            $result[$id] = [
+                'quantity' => $product['qty'],
+                'name'     => $product['name']
+            ];
+        }
+        return $result;
+    }
+    /**
+     * Returns an ingredient list for the given boat
+     */
+    public function actionGetIngredientListFromBoat($boatId, $vendorId)
+    {
+        $cruise = Cruise::findOne(['boat' => $boatId]);
+        return $this->actionGetIngredientList($cruise->id, intval($vendorId));
     }
 }

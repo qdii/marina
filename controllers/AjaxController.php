@@ -15,9 +15,13 @@ use app\models\Dish;
 use app\models\Boat;
 use app\models\Meal;
 use app\models\Composition;
+use app\models\Product;
+use app\models\Proportion;
+use app\models\Fraction;
 use app\components\EventMaker;
 use app\components\CompositionHelper;
 use app\components\PriceComputer;
+use app\components\ProductPicker;
 
 class AjaxController extends Controller
 {
@@ -328,27 +332,65 @@ class AjaxController extends Controller
     /**
      * Returns an ingredient list for the given cruise
      */
-    public function actionGetIngredientList($cruiseId)
+    public function actionGetIngredientList($cruiseId, $vendorId)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $ingredients  = Ingredient::find()->all();
+        $compositions = Composition::find()->all();
+        $units        = Unit::find()->all();
+        $dishes       = Dish::find()->all();
         $cruise = Cruise::findOne(['id' => $cruiseId]);
         $meals = $cruise->getMeals()->where(['cruise' => $cruiseId])->all();
         $priceComputer = new PriceComputer(
-            Ingredient::find()->all(),
-            Composition::find()->all(),
-            Unit::find()->all(),
-            Dish::find()->all(),
+            $ingredients,
+            $compositions,
+            $units,
+            $dishes,
             $meals
         );
         $priceComputer->addMeals($meals);
-        return $priceComputer->items;
+
+        if ($vendorId == 0) {
+            return $priceComputer->items;
+        }
+
+        $productPicker = new ProductPicker(
+            Product::find()->all(),
+            Cruise::find()->all(),
+            $meals,
+            $dishes,
+            Proportion::find()->all(),
+            Fraction::find()->all()
+        );
+
+        $ingredientList = [];
+        foreach ( $priceComputer->items as $id => $item ) {
+            $ingredientList[] = [
+                'id' => $id,
+                'name' => $item['name'],
+                'qty' => $item['quantity']
+            ];
+        }
+        $productList = $productPicker->getShoppingListFromIngredientList(
+            $ingredientList, $vendorId
+        );
+
+        $result = [];
+        foreach ( $productList as $id => $product ) {
+            $result[$id] = [
+                'quantity' => $product['qty'],
+                'name'     => $product['name']
+            ];
+        }
+        return $result;
     }
     /**
      * Returns an ingredient list for the given boat
      */
-    public function actionGetIngredientListFromBoat($boatId)
+    public function actionGetIngredientListFromBoat($boatId, $vendorId)
     {
         $cruise = Cruise::findOne(['boat' => $boatId]);
-        return $this->actionGetIngredientList($cruise->id);
+        return $this->actionGetIngredientList($cruise->id, intval($vendorId));
     }
 }

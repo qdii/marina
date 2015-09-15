@@ -14,6 +14,20 @@ var calendarProto = {
         $('#boat-name').trigger('chosen:updated');
     },
 
+    get_vendor_id: function() {
+        var id = $('#vendor-name').val();
+        if ( id === "" || id === undefined ) {
+            return 0;
+        }
+
+        return id;
+    },
+
+    set_vendor_id: function(id) {
+        $('#vendor-name').val(id);
+        $('#vendor-name').trigger('chosen:updated');
+    },
+
     refresh_calendar: function() {
         $('.fullcalendar').fullCalendar('refetchEvents');
     },
@@ -33,21 +47,18 @@ var calendarProto = {
     },
 
     refresh_shopping_list: function() {
-        var boat_id = this.get_boat_id();
-        if (boat_id === 0) {
-            this.hide_shopping_list();
-        } else {
-            this.show_shopping_list();
-        }
-
-        this.clear_shopping_list();
+        var boat_id   = this.get_boat_id();
+        var vendor_id = this.get_vendor_id();
+        $('#shopping-list tbody').empty();
 
         var params = {
-            boatId: boat_id
+            boatId:   boat_id,
+            vendorId: vendor_id
         };
 
         $.getJSON(window.fetch_ingredient_list_url, params, function(data) {
             window.cal.write_shopping_list(data);
+            window.cal.show_shopping_list();
         });
     },
 
@@ -74,4 +85,5 @@ var calendarProto = {
 
 var cal = Object.create(calendarProto);
 cal.set_boat_id(0);
+cal.set_vendor_id(0);
 cal.hide_shopping_list();

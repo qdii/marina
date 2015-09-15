@@ -75,10 +75,7 @@ $this->registerJs(
     Search
   </div>
   <div class="panel-body">
-    <div class="row">
-      <div class='col-lg-3'><?php echo Chosen::widget($boatSelector) ?></div>
-      <div class='col-lg-3'><?php echo Chosen::widget($vendorSelector) ?></div>
-    </div>
+    <?php echo Chosen::widget($boatSelector) ?>
   </div>
 </div>
 
@@ -96,12 +93,12 @@ $this->registerJs(
     Shopping list
   </div>
   <div class="panel-body">
+    <?php echo Chosen::widget($vendorSelector) ?>
     <table class="table">
       <thead>
         <tr><th>Quantity</th><th>Name</th></tr>
       </thead>
-      <tbody>
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 </div>

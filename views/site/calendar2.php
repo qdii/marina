@@ -1,9 +1,11 @@
 <?php
 
 use \app\models\Boat;
+use \app\models\Vendor;
 use \yii\helpers\ArrayHelper;
 use \yii\helpers\Url;
 use \yii\web\JsExpression;
+use \yii\web\View;
 use \skeeks\widget\chosen\Chosen;
 use \yii2fullcalendar\yii2fullcalendar;
 $this->title = 'Calendar';
@@ -16,6 +18,15 @@ $boatSelector = [
   'placeholder' => 'Choose a boat',
   'items'       => ArrayHelper::map($boats, 'id', 'name'),
   'clientEvents' => [ 'change' => 'function(ev, p) { window.cal.on_boat_change(p); }' ]
+];
+
+$vendorSelector = [
+  'id'          => 'vendor-chosen',
+  'model'       => new Vendor,
+  'attribute'   => 'name',
+  'placeholder' => 'Choose a shop',
+  'items'       => ArrayHelper::map($vendors, 'id', 'name'),
+  'clientEvents' => [ 'change' => 'function(ev, p) { window.cal.on_vendor_change(p); }' ]
 ];
 
 $calendarOptions = [
@@ -48,6 +59,11 @@ $calendarOptions = [
     ],
 ];
 
+$this->registerJs(
+    "var fetch_ingredient_list_url = '" . Url::toRoute("ajax/get-ingredient-list-from-boat") . "';\n",
+    View::POS_BEGIN
+);
+
 ?>
 
 <div class="page-header">
@@ -61,6 +77,7 @@ $calendarOptions = [
   <div class="panel-body">
     <div class="row">
       <div class='col-lg-3'><?php echo Chosen::widget($boatSelector) ?></div>
+      <div class='col-lg-3'><?php echo Chosen::widget($vendorSelector) ?></div>
     </div>
   </div>
 </div>
@@ -74,10 +91,17 @@ $calendarOptions = [
   </div>
 </div>
 
-<div class="panel panel-success">
+<div class="panel panel-success" id="shopping-list">
   <div class="panel-heading">
     Shopping list
   </div>
   <div class="panel-body">
+    <table class="table">
+      <thead>
+        <tr><th>Quantity</th><th>Name</th></tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </div>
 </div>

@@ -17,6 +17,7 @@ use app\models\Meal;
 use app\models\Composition;
 use app\components\EventMaker;
 use app\components\CompositionHelper;
+use app\components\PriceComputer;
 
 class AjaxController extends Controller
 {
@@ -322,5 +323,32 @@ class AjaxController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         return $helper->getCookbook($boat, $vendor, $guests);
+    }
+
+    /**
+     * Returns an ingredient list for the given cruise
+     */
+    public function actionGetIngredientList($cruiseId)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $cruise = Cruise::findOne(['id' => $cruiseId]);
+        $meals = $cruise->getMeals()->where(['cruise' => $cruiseId])->all();
+        $priceComputer = new PriceComputer(
+            Ingredient::find()->all(),
+            Composition::find()->all(),
+            Unit::find()->all(),
+            Dish::find()->all(),
+            $meals
+        );
+        $priceComputer->addMeals($meals);
+        return $priceComputer->items;
+    }
+    /**
+     * Returns an ingredient list for the given boat
+     */
+    public function actionGetIngredientListFromBoat($boatId)
+    {
+        $cruise = Cruise::findOne(['boat' => $boatId]);
+        return $this->actionGetIngredientList($cruise->id);
     }
 }

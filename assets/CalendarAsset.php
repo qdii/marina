@@ -9,10 +9,10 @@ use yii\web\AssetBundle;
  */
 class CalendarAsset extends AssetBundle
 {
-    public $sourcePath = '@webroot/js';
+    public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $js = [
-        'calendar.js'
+        'js/calendar.js'
     ];
     public $depends = [
         'yii\web\JqueryAsset',
@@ -20,5 +20,7 @@ class CalendarAsset extends AssetBundle
     public $jsOptions = [
         \yii\web\View::POS_LOAD,
     ];
-
+    public $css = [
+        'css/calendar.css'
+    ];
 }

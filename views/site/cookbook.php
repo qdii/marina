@@ -85,7 +85,7 @@ $this->title = 'Cookbook';
 ?>
 
 <div class="page-header">
-  <h1>Cookbook</h1>
+<h1><?php echo $this->title ?></h1>
 </div>
 
 <div class="panel panel-info">

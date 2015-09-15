@@ -94,7 +94,7 @@ class SiteController extends Controller
             'vendors'      => $vendors,
         ];
 
-        return $this->render('calendar2', $params);
+        return $this->render('calendar', $params);
     }
 
     /**

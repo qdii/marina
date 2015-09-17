@@ -61,14 +61,13 @@ class AjaxController extends Controller
     /**
      * Deletes an existing Meal
      *
-     * @param integer $boatId The id of the meal to delete
+     * @param integer $mealId The id of the meal to delete
      *
      * @return void
      */
-    public function actionDeleteMeal($boatId)
+    public function actionDeleteMeal($mealId)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $meal = \app\models\Meal::find()->where([ "id" => $boatId ])->one();
+        $meal = \app\models\Meal::find()->where([ "id" => $mealId ])->one();
         $meal->delete();
     }
 

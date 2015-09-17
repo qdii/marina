@@ -2,15 +2,23 @@
 
 use \app\models\Boat;
 use \app\models\Vendor;
+use \app\models\Dish;
 use \yii\helpers\ArrayHelper;
 use \yii\helpers\Url;
 use \yii\web\JsExpression;
 use \yii\web\View;
 use \skeeks\widget\chosen\Chosen;
 use \yii2fullcalendar\yii2fullcalendar;
+use \yii\bootstrap\Modal;
+
 $this->title = 'Calendar';
 
 \app\assets\CalendarAsset::register($this);
+
+$mealPanel = [
+    'header' => 'Meal editor',
+    'size'   => Modal::SIZE_SMALL
+];
 
 $boatSelector = [
   'model'       => new Boat,
@@ -61,16 +69,14 @@ $calendarOptions = [
     ],
 ];
 
-$this->registerJs(
-    "var fetch_ingredient_list_url = '" . Url::toRoute("ajax/get-ingredient-list-from-boat") . "';\n",
-    View::POS_BEGIN
-);
-
 ?>
 
 <div class="page-header">
   <h1><?php echo $this->title ?></h1>
 </div>
+
+<?php $modal = Modal::begin($mealPanel); $modalId = $modal->id; ?>
+<?php Modal::end(); ?>
 
 <div class="panel panel-info">
   <div class="panel-heading">
@@ -104,3 +110,12 @@ $this->registerJs(
     </table>
   </div>
 </div>
+
+<?php
+$this->registerJs(
+    "var fetch_ingredient_list_url = '" . Url::toRoute("ajax/get-ingredient-list-from-boat") . "';\n" .
+    "var meal_dialog_id = '#$modalId';\n",
+    View::POS_BEGIN
+);
+?>
+

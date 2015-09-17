@@ -42,10 +42,6 @@ var calendarProto = {
         this.refresh_shopping_list();
     },
 
-    on_event_click: function(event, jsEvent, view) {
-        console.log('event click');
-    },
-
     refresh_shopping_list: function() {
         var boat_id   = this.get_boat_id();
         var vendor_id = this.get_vendor_id();
@@ -83,9 +79,11 @@ var calendarProto = {
     },
 
     new_event: function() {
+        $(window.meal_dialog_id).modal('show');
     },
 
     modify_event: function() {
+        $(window.meal_dialog_id).modal('show');
     }
 };
 

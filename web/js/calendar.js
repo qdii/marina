@@ -180,12 +180,16 @@ var calendarProto = {
     },
 
     on_click_save: function() {
-        if (this.get_meal_id() == 0) {
+        if (this.get_meal_id() === 0) {
             this.set_form_url(window.new_meal_url);
         } else {
             this.set_form_url(
                 window.update_meal_url + '&mealId=' + this.get_meal_id()
             );
+        }
+
+        if ($(window.meal_form_id).yiiActiveForm('submitForm') !== true) {
+            return;
         }
 
         $(window.meal_form_id).ajaxSubmit({

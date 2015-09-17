@@ -91,7 +91,26 @@ $spinOpts = [
     ]
 ];
 
-$userOpts = [ 'items' => ArrayHelper::map($users, 'id', 'username') ];
+$userOpts = [
+    'items' => ArrayHelper::map($users, 'id', 'username'),
+    'placeholder' => 'Pick a cook'
+];
+$firstCourseOpts = [
+    'items'       => $firstCourses,
+    'placeholder' => 'Pick a dish'
+];
+$secondCourseOpts = [
+    'items'       => $secondCourses,
+    'placeholder' => 'Pick a dish'
+];
+$dessertOpts = [
+    'items' => $desserts,
+    'placeholder' => 'Pick a dessert',
+];
+$drinkOpts = [
+    'items' => $drinks,
+    'placeholder' => 'Pick a drink',
+];
 
 ?>
 
@@ -115,16 +134,16 @@ $userOpts = [ 'items' => ArrayHelper::map($users, 'id', 'username') ];
     </div>
     <div class="row">
       <div class="col-lg-3">
-        <?php echo $form->field($mdl, 'firstCourse')->widget(Chosen::classname(), $firstCourses); ?>
+        <?php echo $form->field($mdl, 'firstCourse')->widget(Chosen::classname(), $firstCourseOpts); ?>
       </div>
       <div class="col-lg-3">
-        <?php echo $form->field($mdl, 'secondCourse')->widget(Chosen::classname(), $secondCourses); ?>
+        <?php echo $form->field($mdl, 'secondCourse')->widget(Chosen::classname(), $secondCourseOpts); ?>
       </div>
       <div class="col-lg-3">
-        <?php echo $form->field($mdl, 'dessert')->widget(Chosen::classname(), $desserts); ?>
+        <?php echo $form->field($mdl, 'dessert')->widget(Chosen::classname(), $dessertOpts); ?>
       </div>
       <div class="col-lg-3">
-        <?php echo $form->field($mdl, 'drink')->widget(Chosen::classname(), $drinks); ?>
+        <?php echo $form->field($mdl, 'drink')->widget(Chosen::classname(), $drinkOpts); ?>
       </div>
     </div>
     <?php echo $form->field($mdl, 'cruise', [ 'options' => [ 'class' => 'hidden' ]]); ?>

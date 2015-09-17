@@ -109,10 +109,10 @@ class SiteController extends Controller
             'vendors'       => $vendors,
             'dishes'        => $dishes,
             'users'         => $users,
-            'firstCourses'  => ['items' => ArrayHelper::map($firstCourses, 'id', 'name') ],
-            'secondCourses' => ['items' => ArrayHelper::map($secondCourses, 'id', 'name') ],
-            'desserts'      => ['items' => ArrayHelper::map($desserts, 'id', 'name') ],
-            'drinks'        => ['items' => ArrayHelper::map($drinks, 'id', 'name') ],
+            'firstCourses'  => ArrayHelper::map($firstCourses, 'id', 'name'),
+            'secondCourses' => ArrayHelper::map($secondCourses, 'id', 'name'),
+            'desserts'      => ArrayHelper::map($desserts, 'id', 'name'),
+            'drinks'        => ArrayHelper::map($drinks, 'id', 'name'),
         ];
 
 

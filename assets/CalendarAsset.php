@@ -16,6 +16,7 @@ class CalendarAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\JqueryAsset',
+        'app\assets\JqueryFormAsset'
     ];
     public $jsOptions = [
         \yii\web\View::POS_LOAD,

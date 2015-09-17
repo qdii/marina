@@ -1,4 +1,4 @@
-/*jslint browser: true*/ /*global  $*/
+/*jslint browser: true*/ /*global $*/ /*global moment*/
 var calendarProto = {
     get_boat_id: function() {
         var id = $('#boat-name').val();
@@ -78,12 +78,127 @@ var calendarProto = {
         $('#shopping-list').show('slow');
     },
 
-    new_event: function() {
+    new_event: function(date) {
+        this.hide_delete_button();
+        this.enable_save_button();
+        $('#meal-id').val(0);
+        this.set_cook(0);
+        this.set_date(date);
+        this.set_first_course(0);
+        this.set_second_course(0);
+        this.set_dessert(0);
+        this.set_drink(0);
+        this.set_cruise(0);
+
         $(window.meal_dialog_id).modal('show');
     },
 
-    modify_event: function() {
-        $(window.meal_dialog_id).modal('show');
+    get_meal_id: function() {
+        return $('#meal-id').val();
+    },
+
+    modify_event: function(meal_id) {
+        $('#meal-id').val(meal_id);
+        this.disable_save_button();
+        this.show_delete_button();
+
+        var data = {
+            id: meal_id
+        };
+
+        $.getJSON(window.get_meal_url, data, function(data) {
+            window.cal.set_cook(data.cook);
+            window.cal.set_date(data.date);
+            window.cal.set_first_course(data.firstCourse);
+            window.cal.set_second_course(data.secondCourse);
+            window.cal.set_dessert(data.dessert);
+            window.cal.set_drink(data.drink);
+            window.cal.set_cruise(data.cruise);
+
+            window.cal.enable_save_button();
+            $(window.meal_dialog_id).modal('show');
+        });
+    },
+
+    hide_delete_button: function() {
+        $('#btn-delete-meal').hide();
+    },
+
+    show_delete_button: function() {
+        $('#btn-delete-meal').show();
+    },
+
+    set_cook: function(id) {
+        $('#meal-cook').val(id);
+        $('#meal-cook').trigger('chosen:updated');
+    },
+
+    set_cruise: function(id) {
+        $('#meal-cruise').val(id);
+        $('#meal-cruise').trigger('chosen:updated');
+    },
+
+    set_first_course: function(id) {
+        $('#meal-firstcourse').val(id);
+        $('#meal-firstcourse').trigger('chosen:updated');
+    },
+
+    set_second_course: function(id) {
+        $('#meal-secondcourse').val(id);
+        $('#meal-secondcourse').trigger('chosen:updated');
+    },
+
+    set_dessert: function(id) {
+        $('#meal-dessert').val(id);
+        $('#meal-dessert').trigger('chosen:updated');
+    },
+
+    set_drink: function(id) {
+        $('#meal-drink').val(id);
+        $('#meal-drink').trigger('chosen:updated');
+    },
+
+    set_date: function(date) {
+        var fulldate=moment(date,'YYYY-MM-DD HH-mm');
+        var day=fulldate.format('YYYY-MM-DD HH:mm');
+        $('#meal-date').val(day);
+    },
+
+    disable_save_button: function() {
+        $('#btn-save-meal').prop('disabled', true);
+    },
+
+    enable_save_button: function() {
+        $('#btn-save-meal').prop('disabled', false);
+    },
+
+    set_form_url: function(url) {
+        $(window.meal_form_id).attr('action', url);
+    },
+
+    on_click_save: function() {
+        var url = this.get_boat_id() === 0 ? window.new_meal_url : window.update_meal_url;
+        this.set_form_url(url + '&mealId=' + this.get_meal_id());
+        $(window.meal_form_id).ajaxSubmit({
+            type: 'post',
+            success: function() {
+                $(window.meal_dialog_id).modal('hide');
+                window.cal.refresh_calendar();
+                window.cal.refresh_shopping_list();
+            }
+        });
+    },
+
+    on_click_delete: function() {
+        this.set_form_url(window.delete_meal_url + '&mealId=' + this.get_meal_id());
+        $(window.meal_form_id).ajaxSubmit({
+            type: 'post',
+            success: function() {
+                $(window.meal_dialog_id).modal('hide');
+                window.cal.refresh_calendar();
+                window.cal.refresh_shopping_list();
+            }
+        });
     }
 };
 
@@ -91,3 +206,6 @@ var cal = Object.create(calendarProto);
 cal.set_boat_id(0);
 cal.set_vendor_id(0);
 cal.hide_shopping_list();
+
+$('#btn-save-meal').click(function(){ cal.on_click_save(); });
+$('#btn-delete-meal').click(function(){ cal.on_click_delete(); });

@@ -50,19 +50,12 @@ class AjaxController extends Controller
      *
      * @return void
      */
-    public function actionUpdateMeal($id)
+    public function actionUpdateMeal($mealId)
     {
-        $boatId = 0;
-        if (($model = \app\models\Meal::findOne($id)) !== null) {
+        if (($model = \app\models\Meal::findOne($mealId)) !== null) {
             $model->load(Yii::$app->request->post());
-            $cruise = $model->getCruise0()->one();
-            $boat   = $cruise->getBoat0()->one();
-            $boatId = $boat->id;
-
             $model->save();
         }
-
-        $this->redirect(['site/calendar', 'id' => $boatId]);
     }
 
     /**
@@ -118,7 +111,7 @@ class AjaxController extends Controller
         if ($meal == null)
             return;
 
-        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date", "backgroundColor" ] );
+        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date", "backgroundColor", "cruise" ] );
     }
 
     public function actionUser($id)

@@ -72,14 +72,14 @@ $calendarOptions = [ 'header' =>
             'url'  => Url::toRoute(['ajax/get-meals-from-boat']),
             'data' => new JsExpression( "function() { return { id: window.cal.get_boat_id() }; }" )
         ],
-        'dayClick'   => new JsExpression("function() { return window.cal.new_event(); }"),
-        'eventClick' => new JsExpression("function() { return window.cal.modify_event(); }")
+        'dayClick'   => new JsExpression("function(when) { return window.cal.new_event(when); }"),
+        'eventClick' => new JsExpression("function(ev) { return window.cal.modify_event(ev.id); }")
     ],
 ];
 
 $mealForm = [
-  'method' => 'get',
-  'action' => ['ajax/modify-event']
+  'method' => 'post',
+  'action' => '#',
 ];
 
 $dateOpts = [ 'pluginOptions' => [ 'weekStart' => 1 ] ];
@@ -101,7 +101,7 @@ $userOpts = [ 'items' => ArrayHelper::map($users, 'id', 'username') ];
 
 <?php $modal = Modal::begin($mealPanel); $modalId = $modal->id;
   $mdl = new Meal;
-  $form = ActiveForm::begin($mealForm); ?>
+  $form = ActiveForm::begin($mealForm); $formId = $form->id?>
     <div class="row">
       <div class="col-lg-6">
         <?php echo $form->field($mdl, 'date')->widget(DateTimePicker::classname(), $dateOpts); ?>
@@ -128,7 +128,7 @@ $userOpts = [ 'items' => ArrayHelper::map($users, 'id', 'username') ];
       </div>
     </div>
     <?php echo $form->field($mdl, 'cruise', [ 'options' => [ 'class' => 'hidden' ]]); ?>
-    <?php echo Html::hiddenInput('meal-id', '0');
+    <?php echo Html::hiddenInput('mealId', '0', [ 'id' => 'meal-id' ]);
   ActiveForm::end();
 Modal::end(); ?>
 
@@ -168,7 +168,12 @@ Modal::end(); ?>
 <?php
 $this->registerJs(
     "var fetch_ingredient_list_url = '" . Url::toRoute("ajax/get-ingredient-list-from-boat") . "';\n" .
-    "var meal_dialog_id = '#$modalId';\n",
+    "var get_meal_url = '" . Url::toRoute("ajax/get-meal") . "';\n" .
+    "var update_meal_url = '" . Url::toRoute("ajax/update-meal") . "';\n" .
+    "var new_meal_url = '" . Url::toRoute("site/new-meal") . "';\n" .
+    "var delete_meal_url = '" . Url::toRoute("site/delete-meal") . "';\n" .
+    "var meal_dialog_id = '#$modalId';\n" .
+    "var meal_form_id = '#$formId';\n",
     View::POS_BEGIN
 );
 ?>

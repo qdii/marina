@@ -61,15 +61,29 @@ class AjaxController extends Controller
     /**
      * Deletes an existing Meal
      *
-     * @param integer $id The id of the meal to delete
+     * @param integer $boatId The id of the meal to delete
      *
      * @return void
      */
-    public function actionDeleteMeal($id)
+    public function actionDeleteMeal($boatId)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $meal = \app\models\Meal::find()->where( [ "id" => $id ] )->one();
+        $meal = \app\models\Meal::find()->where([ "id" => $boatId ])->one();
         $meal->delete();
+    }
+
+    /**
+     * Registers a new meal in the database
+     *
+     * @return void
+     */
+    public function actionNewMeal()
+    {
+        $model = new \app\models\Meal();
+        if ($model->load(Yii::$app->request->post())) {
+            assert($model->validate());
+            $model->save();
+        }
     }
 
     /**
@@ -388,5 +402,12 @@ class AjaxController extends Controller
     {
         $cruise = Cruise::findOne(['boat' => $boatId]);
         return $this->actionGetIngredientList($cruise->id, intval($vendorId));
+    }
+
+    public function actionGetCruiseFromBoat($boatId)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $cruise = Cruise::findOne(['boat' => $boatId]);
+        return $cruise->id;
     }
 }

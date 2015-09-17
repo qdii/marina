@@ -80,6 +80,12 @@ var calendarProto = {
 
     show_shopping_list: function() {
         $('#shopping-list').show('slow');
+    },
+
+    new_event: function() {
+    },
+
+    modify_event: function() {
     }
 };
 

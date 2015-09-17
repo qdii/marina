@@ -55,7 +55,9 @@ $calendarOptions = [
         [
             'url'  => Url::toRoute(['ajax/get-meals-from-boat']),
             'data' => new JsExpression( "function() { return { id: window.cal.get_boat_id() }; }" )
-        ]
+        ],
+        'dayClick'   => new JsExpression("function() { return window.cal.new_event(); }"),
+        'eventClick' => new JsExpression("function() { return window.cal.modify_event(); }")
     ],
 ];
 

@@ -12,6 +12,7 @@ use \yii\web\View;
 use \skeeks\widget\chosen\Chosen;
 use \yii2fullcalendar\yii2fullcalendar;
 use \yii\bootstrap\Modal;
+use \yii\bootstrap\Button;
 use \yii\widgets\ActiveForm;
 use \kartik\datetime\DateTimePicker;
 use \kartik\widgets\TouchSpin;
@@ -22,7 +23,10 @@ $this->title = 'Calendar';
 
 $mealPanel = [
     'header' => 'Meal editor',
-    'size'   => Modal::SIZE_LARGE
+    'size'   => Modal::SIZE_LARGE,
+    'footer' =>
+    Button::widget(['label' => 'Save', 'options' => ['class' => 'btn-success'], 'id' => 'btn-save-meal']) .
+    Button::widget(['label' => 'Delete', 'options' => ['class' => 'btn-danger'], 'id' => 'btn-delete-meal'])
 ];
 
 $boatSelector = [

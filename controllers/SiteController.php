@@ -145,46 +145,6 @@ class SiteController extends Controller
     }
 
 
-    /**
-     * Registers a new meal in the database
-     *
-     * @return void
-     */
-    public function actionNewMeal()
-    {
-        $model = new \app\models\Meal();
-        if ($model->load(Yii::$app->request->post())) {
-            assert($model->validate());
-            $model->save();
-        }
-
-        $cruise = $model->getCruise0()->one();
-        $boat   = $cruise->getBoat0()->one();
-
-        $this->redirect(['site/calendar', 'id' => $boat->id]);
-    }
-
-    /**
-     * Deletes an existing Meal
-     *
-     * @param integer $id The id of the meal to delete
-     *
-     * @return void
-     */
-    public function actionDeleteMeal($id)
-    {
-        $boatId = 0;
-        if (($model = \app\models\Meal::findOne($id)) !== null) {
-            $cruise = $model->getCruise0()->one();
-            $boat   = $cruise->getBoat0()->one();
-            $boatId = $boat->id;
-
-            $model->delete();
-        }
-
-
-        $this->redirect(['site/calendar', 'id' => $boatId]);
-    }
 
     public function actionCookbook()
     {

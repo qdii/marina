@@ -170,8 +170,9 @@ $this->registerJs(
     "var fetch_ingredient_list_url = '" . Url::toRoute("ajax/get-ingredient-list-from-boat") . "';\n" .
     "var get_meal_url = '" . Url::toRoute("ajax/get-meal") . "';\n" .
     "var update_meal_url = '" . Url::toRoute("ajax/update-meal") . "';\n" .
-    "var new_meal_url = '" . Url::toRoute("site/new-meal") . "';\n" .
-    "var delete_meal_url = '" . Url::toRoute("site/delete-meal") . "';\n" .
+    "var new_meal_url = '" . Url::toRoute("ajax/new-meal") . "';\n" .
+    "var delete_meal_url = '" . Url::toRoute("ajax/delete-meal") . "';\n" .
+    "var get_cruise_url = '" . Url::toRoute("ajax/get-cruise-from-boat") . "';\n" .
     "var meal_dialog_id = '#$modalId';\n" .
     "var meal_form_id = '#$formId';\n",
     View::POS_BEGIN

@@ -1,5 +1,7 @@
 /*jslint browser: true*/ /*global $*/ /*global moment*/
 var calendarProto = {
+    cruise: 0,
+
     get_boat_id: function() {
         var id = $('#boat-name').val();
         if ( id === "" ) {
@@ -33,6 +35,7 @@ var calendarProto = {
     },
 
     on_boat_change: function() {
+        this.update_cruise();
         this.refresh_calendar();
         this.refresh_shopping_list();
     },
@@ -88,7 +91,7 @@ var calendarProto = {
         this.set_second_course(0);
         this.set_dessert(0);
         this.set_drink(0);
-        this.set_cruise(0);
+        this.set_cruise(this.get_cruise());
 
         $(window.meal_dialog_id).modal('show');
     },
@@ -177,8 +180,14 @@ var calendarProto = {
     },
 
     on_click_save: function() {
-        var url = this.get_boat_id() === 0 ? window.new_meal_url : window.update_meal_url;
-        this.set_form_url(url + '&mealId=' + this.get_meal_id());
+        if (this.get_meal_id() == 0) {
+            this.set_form_url(window.new_meal_url);
+        } else {
+            this.set_form_url(
+                window.update_meal_url + '&mealId=' + this.get_meal_id()
+            );
+        }
+
         $(window.meal_form_id).ajaxSubmit({
             type: 'post',
             success: function() {
@@ -199,6 +208,19 @@ var calendarProto = {
                 window.cal.refresh_shopping_list();
             }
         });
+    },
+
+    update_cruise: function() {
+        var params = {
+            boatId: this.get_boat_id()
+        };
+        $.getJSON(window.get_cruise_url, params, function(data) {
+            window.cal.cruise = data;
+        });
+    },
+
+    get_cruise: function() {
+        return this.cruise;
     }
 };
 

@@ -92,16 +92,16 @@ class SiteController extends Controller
         $users   = User::find()->all();
 
         $firstCourses = array_filter($dishes, function($dish) {
-            return $dish->type = 'firstCourse';
+            return $dish->type === 'firstCourse';
         });
         $secondCourses = array_filter($dishes, function($dish) {
-            return $dish->type = 'secondCourse';
+            return $dish->type === 'secondCourse';
         });
         $desserts = array_filter($dishes, function($dish) {
-            return $dish->type = 'dessert';
+            return $dish->type === 'dessert';
         });
         $drinks = array_filter($dishes, function($dish) {
-            return $dish->type = 'drink';
+            return $dish->type === 'drink';
         });
 
         $params = [

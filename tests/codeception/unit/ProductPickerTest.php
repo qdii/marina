@@ -117,4 +117,24 @@ class ProductPickerTest extends \yii\codeception\DbTestCase
         $this->assertEquals(0.75 * $qty / 400.0, $list[$everydayTomatoes]);
         $this->assertEquals(0.25 * $qty / 70.0, $list[$vineTomatoes]);
     }
+
+    public function testNoDuplicates()
+    {
+        $picker = new ProductPicker;
+
+        // vendor
+        $tesco = 1;
+
+        // ingredient
+        $milk = 1212;
+        $ingreds = [];
+
+        // try with twice the same ingredient
+        $ingreds[] = [ 'id' => $milk, 'qty' => 500 ];
+        $ingreds[] = [ 'id' => $milk, 'qty' => 400 ];
+
+        $products = $picker->getShoppingListFromIngredientList($ingreds, $tesco);
+        $this->assertNotEmpty($products);
+        $this->assertCount(1, $products);
+    }
 }

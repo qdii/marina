@@ -25,8 +25,8 @@ $mealPanel = [
     'header' => 'Meal editor',
     'size'   => Modal::SIZE_LARGE,
     'footer' =>
-    Button::widget(['label' => 'Save', 'options' => ['class' => 'btn-success'], 'id' => 'btn-save-meal']) .
-    Button::widget(['label' => 'Delete', 'options' => ['class' => 'btn-danger'], 'id' => 'btn-delete-meal'])
+    Button::widget(['label' => 'Save', 'options' => ['class' => 'btn-success', 'type' => 'button'], 'id' => 'btn-save-meal']) .
+    Button::widget(['label' => 'Delete', 'options' => ['class' => 'btn-danger', 'type' => 'button'],'id' => 'btn-delete-meal'])
 ];
 
 $boatSelector = [
@@ -82,7 +82,11 @@ $mealForm = [
   'action' => '#',
 ];
 
-$dateOpts = [ 'pluginOptions' => [ 'weekStart' => 1 ] ];
+$dateOpts = [
+    'pluginOptions' => [ 'weekStart' => 1 ],
+    'removeButton' => false,
+];
+
 $spinOpts = [
     'pluginOptions' => [
         'initval' => 1,

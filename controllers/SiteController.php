@@ -119,33 +119,6 @@ class SiteController extends Controller
         return $this->render('calendar', $params);
     }
 
-    /**
-     * Adds a new boat to the database
-     *
-     * @return void
-     */
-    public function actionNewBoat()
-    {
-        $model = new \app\models\Boat();
-        if ($model->load(Yii::$app->request->post())) {
-            assert($model->validate());
-            $model->save();
-        }
-        $boatId = $model->id;
-
-        // hack: create a new cruise here
-        $cruise             = new \app\models\Cruise();
-
-        $cruise->boat       = $boatId;
-        $cruise->dateStart  = "2015-01-01";
-        $cruise->dateFinish = "2020-01-01";
-        $cruise->save();
-
-        $this->redirect(['site/calendar', 'id' => $boatId]);
-    }
-
-
-
     public function actionCookbook()
     {
         $boats   = \app\models\Boat::find()->all();

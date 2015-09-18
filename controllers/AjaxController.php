@@ -134,20 +134,6 @@ class AjaxController extends Controller
         return $user->getAttributes( [ "username" , "id" ] );
     }
 
-    public function actionListIngredients()
-    {
-        return $this->render('list-ingredients');
-    }
-
-    public function actionManyColumnListDish($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $compositionHelper = new \app\components\CompositionHelper();
-
-        return $compositionHelper->getInformation($id);
-    }
-
     /**
      * Insert composition in the database
      *

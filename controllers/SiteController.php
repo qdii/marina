@@ -248,7 +248,7 @@ class SiteController extends Controller
         } else {
             $authHelper = new \app\components\AuthHelper();
             $authHelper->createNewUserAndAuthenticate(
-                $attributes['email'],
+                $email,
                 $email,
                 $src,
                 (string)$id

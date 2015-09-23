@@ -38,7 +38,14 @@ AppAsset::register($this);
                 'items' => [
                     ['label' => 'Cookbook', 'url' => ['/site/cookbook']],
                     ['label' => 'Recipe', 'url' => ['/site/recipe']],
-                    ['label' => 'Calendar', 'url' => ['/site/calendar']]
+                    ['label' => 'Calendar', 'url' => ['/site/calendar']],
+                    Yii::$app->user->isGuest ?
+                        ['label' => 'Login', 'url' => ['/site/login']] :
+                        [
+                            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                            'url' => ['/site/logout'],
+                            'linkOptions' => ['data-method' => 'post']
+                        ],
                 ],
             ]);
             NavBar::end();

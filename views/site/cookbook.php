@@ -14,7 +14,6 @@
 
 use \skeeks\widget\chosen\Chosen;
 use \yii\helpers\ArrayHelper;
-use \yii\widgets\ActiveForm;
 use \kartik\widgets\TouchSpin;
 use \yii\helpers\Url;
 use \yii\web\View;

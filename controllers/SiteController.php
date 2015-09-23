@@ -22,25 +22,51 @@ class SiteController extends Controller
 {
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
+        $behaviors = [];
+        $rules = [
+            [
+                'actions' => ['logout'],
+                'allow' => true,
+                'roles' => ['@'],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
+            [
+                'actions' => ['login'],
+                'allow' => true,
+                'roles' => ['?'],
+            ],
+            [
+                'actions' => ['enter'],
+                'allow' => true,
+                'roles' => ['?'],
+            ],
+            [
+                'allow' => true,
+                'roles' => ['@'],
             ],
         ];
+
+        // bypass login rule
+        if (defined(YII_ENV_TEST)) {
+            $rules[] = [
+                'actions' => ['bypass'],
+                'allow' => true,
+                'roles' => ['?'],
+            ];
+        }
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => $rules,
+        ];
+
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'logout' => ['post'],
+            ],
+        ];
+
+        return $behaviors;
     }
 
     public function actions()
@@ -52,6 +78,10 @@ class SiteController extends Controller
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'successCallback'],
             ],
         ];
     }
@@ -130,5 +160,62 @@ class SiteController extends Controller
         ];
 
         return $this->render('cookbook', $params);
+    }
+
+    public function actionLogin()
+    {
+        return $this->render('login');
+    }
+
+    public function actionLogout()
+    {
+        // logs out the user
+        Yii::$app->user->logout();
+
+        return $this->redirect(['login']);
+    }
+
+    /**
+     * Checks an user's password and proceeds to login if correct
+     *
+     * @return void
+     */
+    public function actionEnter()
+    {
+        $loginForm = new \app\models\LoginForm();
+        if (!$loginForm->load(Yii::$app->request->post())) {
+            return;
+        }
+
+        $identity = User::findOne(['username' => $loginForm->username]);
+        if ($identity === null) {
+            return;
+        }
+
+        if ($identity->password != $loginForm->password) {
+            return;
+        }
+
+        // logs in the user
+        Yii::$app->user->login($identity);
+
+        // redirects him to the index
+        $this->redirect(['site/index']);
+    }
+
+    public function successCallback($client)
+    {
+        $attributes = $client->getUserAttributes();
+        // user login or signup comes here
+    }
+
+    /**
+     * Bypass login
+     */
+    public function actionBypass()
+    {
+        if (!YII_DEBUG) {
+            throw new \yii\web\NotFoundHttpException;
+        }
     }
 }

@@ -234,7 +234,7 @@ class SiteController extends Controller
 
         // if the user is NOT logged-in but has a session
         if ($auth) { // login
-            $user = $auth->user;
+            $user = User::findOne(['id' => $auth->user]);
             Yii::$app->user->login($user);
             return;
         }

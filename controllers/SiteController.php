@@ -30,12 +30,7 @@ class SiteController extends Controller
                 'roles' => ['@'],
             ],
             [
-                'actions' => ['login'],
-                'allow' => true,
-                'roles' => ['?'],
-            ],
-            [
-                'actions' => ['enter'],
+                'actions' => ['login', 'enter'],
                 'allow' => true,
                 'roles' => ['?'],
             ],
@@ -172,7 +167,7 @@ class SiteController extends Controller
         // logs out the user
         Yii::$app->user->logout();
 
-        return $this->redirect(['login']);
+        $this->redirect(['login']);
     }
 
     /**
@@ -184,12 +179,12 @@ class SiteController extends Controller
     {
         $loginForm = new \app\models\LoginForm();
         if (!$loginForm->load(Yii::$app->request->post())) {
-            return;
+            return $this->render("invalid-password");
         }
 
         $identity = User::findOne(['username' => $loginForm->username]);
         if ($identity === null) {
-            return;
+            return $this->render("invalid-password");
         }
 
         $validPassword = Yii::$app->getSecurity()->validatePassword(
@@ -198,7 +193,7 @@ class SiteController extends Controller
         );
 
         if (!$validPassword) {
-            return;
+            return $this->render("invalid-password");
         }
 
         // logs in the user

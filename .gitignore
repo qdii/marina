@@ -41,4 +41,5 @@ web/assets/
 # shouldn't be in version control so that we can distinguish dev/prod
 index.php
 
-tests/_output/*composer.lock
+tests/_output/*
+composer.lock

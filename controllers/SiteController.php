@@ -213,7 +213,7 @@ class SiteController extends Controller
 
         $auth = Auth::find()->where([
             'src'   => $src,
-            'srcid' => $id,
+            'srcid' => (string)$id,
         ])->one();
 
         // if the user is already logged in

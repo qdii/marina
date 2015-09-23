@@ -44,3 +44,4 @@ index.php
 tests/_output/*
 composer.lock
 config/facebook_client_secret.php
+config/facebook_client_id.php

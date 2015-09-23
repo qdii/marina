@@ -63,6 +63,6 @@ class AuthHelper
         }
 
         $transaction->commit();
-        return true;
+        return $user;
     }
 }

@@ -247,12 +247,17 @@ class SiteController extends Controller
                 // ['client' => $client->getTitle()]),
         } else {
             $authHelper = new \app\components\AuthHelper();
-            $authHelper->createNewUserAndAuthenticate(
+            $user = $authHelper->createNewUserAndAuthenticate(
                 $email,
                 $email,
                 $src,
                 (string)$id
             );
+            if ($user === null) {
+                return;
+            }
+
+            Yii::$app->user->login($user);
         }
     }
 

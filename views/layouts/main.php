@@ -9,6 +9,9 @@ use app\assets\AppAsset;
 /* @var $content string */
 
 AppAsset::register($this);
+
+$logoutIcon = '<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>';
+$loginIcon = '<span class="glyphicon glyphicon-log-in" ria-hidden="true"></span>';
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -34,15 +37,16 @@ AppAsset::register($this);
                 ],
             ]);
             echo Nav::widget([
+                'encodeLabels' => false,
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Cookbook', 'url' => ['/site/cookbook']],
                     ['label' => 'Recipe', 'url' => ['/site/recipe']],
                     ['label' => 'Calendar', 'url' => ['/site/calendar']],
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
+                        ['label' => $loginIcon, 'url' => ['/site/login']] :
                         [
-                            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                            'label' => Yii::$app->user->identity->username . ' ' . $logoutIcon,
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']
                         ],

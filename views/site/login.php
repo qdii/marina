@@ -7,6 +7,9 @@ use \app\models\LoginForm;
 use \yii\bootstrap\ActiveForm;
 use \yii\bootstrap\Button;
 
+\yii\bootstrap\BootstrapAsset::register($this);
+\app\assets\LoginAsset::register($this);
+
 $this->title = 'Login';
 $loginMdl    = new LoginForm;
 $loginForm        = [
@@ -41,7 +44,17 @@ $loginForm        = [
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6 well">
-        <?php echo AuthChoice::widget(['baseAuthUrl' => ['site/auth']]); ?>
+        <div class="col-md-8">
+            <?php $authChoices = AuthChoice::begin(['baseAuthUrl' => ['site/auth']]);
+            foreach($authChoices->getClients() as $key => $client) {
+                if (true || $key == 'facebook') {
+                    $authChoices->clientLink(
+                        $client, '<i class="fa fa-facebook"></i> Login with facebook', [ 'class' => 'btn btn-block btn-social btn-facebook' ]
+                    );
+                }
+            }
+            AuthChoice::end(); ?>
+        </div>
     </div>
 </div>
 

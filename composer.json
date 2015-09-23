@@ -26,7 +26,8 @@
         "kartik-v/yii2-widgets": "^3.4",
         "bower-asset/jquery-form": "^3.51",
         "triplepoint/php-units-of-measure": "^2.0",
-        "yiisoft/yii2-authclient": "^2.0"
+        "yiisoft/yii2-authclient": "^2.0",
+        "bower-asset/bootstrap-social": "^4.10"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

@@ -43,7 +43,7 @@ $config = [
             'clients' => [
                 'facebook' => [
                     'class' => 'yii\authclient\clients\Facebook',
-                    'clientId' => '155725054587634',
+                    'clientId' => require __DIR__ . '/facebook_client_id.php',
                     'clientSecret' => require __DIR__ . '/facebook_client_secret.php',
                 ],
             ],

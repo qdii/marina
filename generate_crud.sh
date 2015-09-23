@@ -1,5 +1,5 @@
 base_dir="$(pwd)"
-for i in boat composition cruise dish ingredient meal unit product fraction proportion vendor
+for i in boat composition cruise dish ingredient meal unit product fraction proportion vendor auth
 do
     capitalized_name=$(echo $i | sed 's/./\U&\E/')
     echo Creating CRUD for: $i

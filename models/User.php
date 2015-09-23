@@ -12,6 +12,7 @@ use Yii;
  * @property string $password
  * @property string $authKey
  * @property string $accessToken
+ * @property string $email
  *
  * @property Service[] $services
  */
@@ -32,8 +33,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'authKey', 'accessToken'], 'required'],
-            [['username', 'password', 'authKey', 'accessToken'], 'string', 'max' => 256]
+            [['username', 'password', 'accessToken', 'email'], 'required'],
+            [['username', 'password', 'authKey', 'accessToken', 'email'], 'string', 'max' => 256]
         ];
     }
 
@@ -48,6 +49,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'password' => 'Password',
             'authKey' => 'Auth Key',
             'accessToken' => 'Access Token',
+            'email' => 'Email',
         ];
     }
 
@@ -75,7 +77,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['access_token' => $token]);
+        return static::findOne(['accessToken' => $token]);
     }
 
     /**
@@ -91,7 +93,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->auth_key;
+        return $this->authKey;
     }
 
     /**
@@ -107,7 +109,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->auth_key = \Yii::$app->security->generateRandomString();
+                $this->authKey = \Yii::$app->security->generateRandomString();
             }
             return true;
         }

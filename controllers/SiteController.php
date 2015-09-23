@@ -15,6 +15,7 @@ use app\models\Dish;
 use app\models\Boat;
 use app\models\Meal;
 use app\models\Vendor;
+use app\models\Auth;
 use app\models\Composition;
 use app\components\EventMaker;
 
@@ -76,7 +77,7 @@ class SiteController extends Controller
             ],
             'auth' => [
                 'class' => 'yii\authclient\AuthAction',
-                'successCallback' => [$this, 'successCallback'],
+                'successCallback' => [$this, 'authSuccess'],
             ],
         ];
     }
@@ -203,10 +204,56 @@ class SiteController extends Controller
         $this->redirect(['site/index']);
     }
 
-    public function successCallback($client)
+    public function authSuccess($client)
     {
         $attributes = $client->getUserAttributes();
-        // user login or signup comes here
+        $email = $attributes['email'];
+        $id    = $attributes['id'];
+        $src   = $client->getId();
+
+        $auth = Auth::find()->where([
+            'src'   => $src,
+            'srcid' => $id,
+        ])->one();
+
+        // if the user is already logged in
+        if (!Yii::$app->user->isGuest) {
+            if ($auth) {
+                return;
+            }
+
+            // create a new entry in Auth
+            $auth = new Auth([
+                'user'  => Yii::$app->user->id,
+                'src'   => $src,
+                'srcid' => $id,
+            ]);
+            $auth->save();
+            return;
+        }
+
+        // if the user is NOT logged-in but has a session
+        if ($auth) { // login
+            $user = $auth->user;
+            Yii::$app->user->login($user);
+            return;
+        }
+
+        // if the user is NOT logged-in and DOES NOT have a session
+        if (User::find()->where(['email' => $email])->exists()) {
+                // TODO treat that case:
+                // User with the same email as in {client} account already exists
+                // but isn't linked to it. Login using email first to link it.",
+                // ['client' => $client->getTitle()]),
+        } else {
+            $authHelper = new \app\components\AuthHelper();
+            $authHelper->createNewUserAndAuthenticate(
+                $attributes['login'],
+                $email,
+                $src,
+                (string)$id
+            );
+        }
     }
 
     /**

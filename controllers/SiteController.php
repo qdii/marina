@@ -192,7 +192,12 @@ class SiteController extends Controller
             return;
         }
 
-        if ($identity->password != $loginForm->password) {
+        $validPassword = Yii::$app->getSecurity()->validatePassword(
+            $loginForm->password,
+            $identity->password
+        );
+
+        if (!$validPassword) {
             return;
         }
 

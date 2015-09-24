@@ -31,7 +31,7 @@ class SiteController extends Controller
                 'roles' => ['@'],
             ],
             [
-                'actions' => ['login', 'enter', 'auth', 'captcha'],
+                'actions' => ['login', 'enter', 'auth', 'captcha', 'register'],
                 'allow' => true,
                 'roles' => ['?'],
             ],
@@ -267,12 +267,40 @@ class SiteController extends Controller
     }
 
     /**
-     * Bypass login
+     * Registers a new user
+     *
+     * @return void
      */
-    public function actionBypass()
+    public function actionRegister()
     {
-        if (!YII_DEBUG) {
-            throw new \yii\web\NotFoundHttpException;
+        $signupForm = new \app\models\SignupForm();
+        if (!$signupForm->load(Yii::$app->request->post())) {
+            return $this->render("invalid-password");
         }
+
+        $email = $signupForm->email;
+        $pwd   = $signupForm->password;
+        $name  = $signupForm->username;
+
+        if (User::find()->where(['username' => $name])->exists()) {
+            throw new \Exception('Username already taken');
+        }
+
+        if (User::find()->where(['email' => $email])->exists()) {
+            throw new \Exception('Email already taken');
+        }
+
+        $user = new User([
+            'username'    => $name,
+            'email'       => $email,
+            'accessToken' => \Yii::$app->security->generateRandomString(12),
+            'password'    => Yii::$app->security->generatePasswordHash($pwd)
+        ]);
+
+        if (!$user->save()) {
+            throw new \Exception('Cannot register user');
+        }
+
+        Yii::$app->user->login($user);
     }
 }

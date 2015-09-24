@@ -60,7 +60,7 @@ $captchaOpts = [
     <div class="col-md-6">
         <ul class="nav nav-pills" style="padding-bottom: 15px;">
             <li id="login-tab" class="active"><a href="#">Login</a></li>
-            <li id="signup-tab"><a href="#">Signup</a></li/>
+            <li id="signup-tab"><a href="#">Sign up</a></li/>
         </ul>
         <div class="well">
             <?php $form = ActiveForm::begin($loginForm);

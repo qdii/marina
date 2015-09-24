@@ -275,20 +275,18 @@ class SiteController extends Controller
     {
         $signupForm = new \app\models\SignupForm();
         if (!$signupForm->load(Yii::$app->request->post())) {
-            return $this->render("invalid-password");
+            return;
+        }
+
+        if (!$signupForm->validate()) {
+            foreach ($signupForm->getErrors() as $attr) {
+                throw new \Exception($attr[0]);
+            }
         }
 
         $email = $signupForm->email;
         $pwd   = $signupForm->password;
         $name  = $signupForm->username;
-
-        if (User::find()->where(['username' => $name])->exists()) {
-            throw new \Exception('Username already taken');
-        }
-
-        if (User::find()->where(['email' => $email])->exists()) {
-            throw new \Exception('Email already taken');
-        }
 
         $user = new User([
             'username'    => $name,

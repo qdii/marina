@@ -6,6 +6,7 @@ use \yii\helpers\Html;
 use \app\models\LoginForm;
 use \yii\bootstrap\ActiveForm;
 use \yii\bootstrap\Button;
+use \yii\captcha\Captcha;
 
 \yii\bootstrap\BootstrapAsset::register($this);
 \app\assets\LoginAsset::register($this);
@@ -25,6 +26,10 @@ $loginForm        = [
         ],
     ]
 ];
+
+$captchaOpts = [
+    'template' => '<div style="padding-bottom: 15px">{image}</div><div>{input}</div>'
+    ];
 ?>
 
 <div class="page-header">
@@ -37,6 +42,7 @@ $loginForm        = [
         <?php $form = ActiveForm::begin($loginForm);
         echo $form->field($loginMdl, 'username');
         echo $form->field($loginMdl, 'password');
+        echo $form->field($loginMdl, 'captcha')->widget(Captcha::className(), $captchaOpts);
         echo Button::widget(['label' => 'Login', 'options' => ['class' => 'btn-success']]);
         ActiveForm::end(); ?>
     </div>

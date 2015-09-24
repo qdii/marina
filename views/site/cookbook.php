@@ -87,31 +87,41 @@ $this->title = 'Cookbook';
 <h1><?php echo $this->title ?></h1>
 </div>
 
-<div class="panel panel-info">
-  <div class="panel-heading">
-    Settings
-  </div>
-  <div class="panel-body">
-    <div class="row">
-      <div class='col-lg-3'><?php echo Chosen::widget($boatSelector) ?></div>
-      <div class='col-lg-3'><?php echo Chosen::widget($vendorSelector) ?></div>
-      <div class='col-lg-2'><?php echo Touchspin::widget($touchSpin) ?></div>
+<div class="row">
+  <div class="col-lg-9" role="main">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        Settings
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class='col-lg-3'><?php echo Chosen::widget($boatSelector) ?></div>
+          <div class='col-lg-3'><?php echo Chosen::widget($vendorSelector) ?></div>
+          <div class='col-lg-2'><?php echo Touchspin::widget($touchSpin) ?></div>
+        </div>
+      </div>
+    </div>
+
+    <div id='recipe-container'>
+    </div>
+
+    <div id="recipe-template" style="display:none;">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+        </div>
+        <table class="table table-hover">
+          <thead>
+            <tr><th>Quantity</th><th>Product</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
-
-<div id='recipe-container'>
-</div>
-
-<div id="recipe-template" style="display:none;">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-    </div>
-    <table class="table table-hover">
-      <thead>
-        <tr><th>Quantity</th><th>Product</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+  <div class="col-lg-3" role="complimentary">
+    <nav>
+      <ul id="recipe-nav" class="nav">
+      </ul>
+    </nav>
   </div>
 </div>

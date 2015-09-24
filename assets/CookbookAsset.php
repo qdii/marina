@@ -9,10 +9,13 @@ use yii\web\AssetBundle;
  */
 class CookbookAsset extends AssetBundle
 {
-    public $sourcePath = '@webroot/js';
+    public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $js = [
-        'cookbook.js'
+        'js/cookbook.js'
+    ];
+    public $css = [
+        'css/cookbook.css'
     ];
     public $depends = [
         'yii\web\JqueryAsset',

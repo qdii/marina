@@ -31,8 +31,12 @@ var cookbook = {
             }
 
             // writing the recipe title in the heading
-            new_recipe.find('.panel-heading').html(title);
+            var header = new_recipe.find('.panel-heading');
+            header.attr('id', 'recipe-' + i);
+            header.html(title);
 
+            // add to the side bar
+            window.ckbook.add_recipe_to_nav(i, title);
 
             // writing the ingredient list in the body
             var tbody = new_recipe.find('tbody');
@@ -71,6 +75,16 @@ var cookbook = {
         $('#recipe-container').children().hide('slow', function(){
             $('#recipe-container').empty();
         });
+    },
+
+    clean_nav: function() {
+        $('#recipe-nav').empty();
+    },
+
+    add_recipe_to_nav: function(id, title) {
+        $('#recipe-nav').append(
+            '<li><a class="side-recipe" href="#recipe-' + id + '">' + title + '</a></li>'
+        );
     },
 };
 

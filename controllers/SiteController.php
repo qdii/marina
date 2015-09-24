@@ -41,15 +41,6 @@ class SiteController extends Controller
             ],
         ];
 
-        // bypass login rule
-        if (defined(YII_ENV_TEST)) {
-            $rules[] = [
-                'actions' => ['bypass'],
-                'allow' => true,
-                'roles' => ['?'],
-            ];
-        }
-
         $behaviors['access'] = [
             'class' => AccessControl::className(),
             'rules' => $rules,
@@ -284,9 +275,9 @@ class SiteController extends Controller
             }
         }
 
-        $email = $signupForm->email;
-        $pwd   = $signupForm->password;
-        $name  = $signupForm->username;
+        $email = Html::encode($signupForm->email);
+        $pwd   = Html::encode($signupForm->password);
+        $name  = Html::encode($signupForm->username);
 
         $user = new User([
             'username'    => $name,

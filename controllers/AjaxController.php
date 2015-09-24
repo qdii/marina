@@ -27,7 +27,20 @@ class AjaxController extends Controller
 {
     public function behaviors()
     {
-        return [];
+        $behaviors = [];
+        $rules = [
+            [
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ];
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => $rules,
+        ];
+
+        return $behaviors;
     }
 
     public function actions()

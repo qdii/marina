@@ -208,12 +208,12 @@ class SiteController extends Controller
     {
         $attributes = $client->getUserAttributes();
         $email = $attributes['email'];
-        $id    = $attributes['id'];
+        $id    = (string)$attributes['id'];
         $src   = $client->getId();
 
         $auth = Auth::find()->where([
             'src'   => $src,
-            'srcid' => (string)$id,
+            'srcid' => $id,
         ])->one();
 
         // if the user is already logged in
@@ -235,30 +235,35 @@ class SiteController extends Controller
         // if the user is NOT logged-in but has a session
         if ($auth) { // login
             $user = User::findOne(['id' => $auth->user]);
+            if (!$user) {
+                throw new \Exception('Cannot log user in');
+            }
             Yii::$app->user->login($user);
             return;
         }
 
         // if the user is NOT logged-in and DOES NOT have a session
-        if (User::find()->where(['email' => $email])->exists()) {
-                // TODO treat that case:
-                // User with the same email as in {client} account already exists
-                // but isn't linked to it. Login using email first to link it.",
-                // ['client' => $client->getTitle()]),
+        $user = User::findOne(['email' => $email]);
+        if ($user) {
+            $auth = new Auth([
+                'user'  => $user->id,
+                'src'   => $src,
+                'srcid' => $id,
+            ]);
+            if (!$auth->save()) {
+                throw new \Exception('Cannot authenticate user');
+            }
         } else {
             $authHelper = new \app\components\AuthHelper();
             $user = $authHelper->createNewUserAndAuthenticate(
                 $email,
                 $email,
                 $src,
-                (string)$id
+                $id
             );
-            if ($user === null) {
-                return;
-            }
-
-            Yii::$app->user->login($user);
         }
+
+        Yii::$app->user->login($user);
     }
 
     /**

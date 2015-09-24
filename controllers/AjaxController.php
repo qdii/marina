@@ -318,7 +318,9 @@ class AjaxController extends Controller
         $helper = new CompositionHelper;
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        return $helper->getCookbook($boat, $vendor, $guests);
+        $cookbook = $helper->getCookbook($boat, $vendor, $guests);
+        ArrayHelper::multisort($cookbook, 'name');
+        return $cookbook;
     }
 
     /**

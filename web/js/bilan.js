@@ -3,43 +3,46 @@ function load_bilan(where, dishId, url) {
     $.get(url, dataId, function(data) {
         $('#total').remove();
         $('.ingredient').remove();
-        nelements = data.length;
         var total_qty  = 0;
         var total_prot = 0;
         var total_cal  = 0;
-        for ( var i = 0; i < nelements; i++ ) {
+        for ( var i = 0; i < data.length; i++ ) {
+            if (data[i].total_qty != undefined)
+            {
+                total_qty  = parseFloat(data[i].total_qty);
+                total_prot = parseFloat(data[i].total_prot);
+                total_cal  = parseFloat(data[i].total_cal);
+                continue;
+            }
+
             var id   = data[i].id;
             var name = data[i].name;
-
-            var qty      = parseFloat(data[i].quantity);
-            total_qty  += qty;
+            var suff = data[i].display == null ? "g" : data[i].display;
+            var qty  = parseFloat(data[i].quantity).toFixed(1);
 
             var proteinText = "unknown";
             var proteinUnit = "";
             if (data[i].protein != undefined) {
-                var protUnit  = parseFloat(data[i].protein);
-                var prot      = protUnit / 100.0 * qty;
-                proteinUnit   = "g";
-                total_prot   += prot;
-                proteinText   = prot.toFixed(1);
+                var prot    = parseFloat(data[i].protein);
+                proteinUnit = "g";
+                proteinText = prot.toFixed(1);
             }
 
             var caloryText = "unknown";
             var caloryUnit = "";
             if (data[i].energy_kcal != undefined) {
-                var calUnit  = parseFloat(data[i].energy_kcal);
-                var cal      = calUnit / 100.0 * qty;
-                caloryUnit   = "kcal";
-                total_cal   += cal;
-                caloryText   = cal.toFixed(1);
+                var cal    = parseFloat(data[i].energy_kcal);
+                caloryUnit = "kcal";
+                caloryText = cal.toFixed(1);
             }
 
             where.prepend(
                   '<tr data-id="' + id + '" class="ingredient">'
-                +   '<td>'                + name           + '</td>'
-                +   '<td class="weight">' + qty.toFixed(1) + ' g</td>'
-                +   '<td>'                + proteinText    + ' ' + proteinUnit + '</td>'
-                +   '<td>'                + caloryText     + ' ' + caloryUnit  + '</td>'
+                +   '<td>'                + name        + '</td>'
+                +   '<td class="weight" data-suffix=' + suff + '>'
+                        + qty         + ' ' + suff + '</td>'
+                +   '<td>'                + proteinText + ' ' + proteinUnit + '</td>'
+                +   '<td>'                + caloryText  + ' ' + caloryUnit  + '</td>'
                 +   '<td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
                 + '</tr>'
             );
@@ -59,14 +62,19 @@ function load_bilan(where, dishId, url) {
 
         $('#composition-dish').val(dishId);
         handle_delete_composition($('.ingredient button'),$('#update-ingredient-form'))
+        handle_confirm_delete();
         handle_weight_update($(".weight"));
+
+        // let an user copy a dish by enabling the copy button
+        $('#copy-dish').removeClass('disabled');
+        $('#delete-dish').removeClass('disabled');
     });
 }
 
 function reload_bilan() {
     where  = $('#ingredient-table');
     dishId = $('#composition-dish').val();
-    url    = '/index.php?r=site%2Fmany-column-list-dish';
+    url    = '/index.php?r=ajax%2Fdish-info';
 
     load_bilan(where, dishId , url);
 }
@@ -89,18 +97,14 @@ function make_new_ingredient_ajax(form) {
     });
 }
 
-function update_composition(form, dishId, ingredientId, quantity, callback) {
-    $('#update-dish input').val(dishId);
-    $('#update-ingr input').val(ingredientId);
-    $('#update-quantity input').val(quantity);
-
+function update_composition(callback) {
     opts = {
         'success': callback,
         'error':   function() { },
     };
 
     // commit the result
-    form.ajaxSubmit(opts);
+    $(update_ingr_form).ajaxSubmit(opts);
 }
 
 function handle_delete_composition(target, form) {
@@ -112,8 +116,55 @@ function handle_delete_composition(target, form) {
         var ingredientId = $(this).parents('.ingredient').attr('data-id');
         var quantity     = 0;
 
-        update_composition(form, dishId, ingredientId, quantity, reload_bilan);
+        $('#update-dish input').val(dishId);
+        $('#update-ingr input').val(ingredientId);
+        $('#update-quantity input').val(quantity);
 
+        $(delete_ingr_modal).modal('show');
+
+        return false;
+    });
+}
+
+function handle_delete_dish() {
+    $('#delete-dish').click(function(){
+        var dishId       = $('#composition-dish').val();
+        var ingredientId = 0;
+        var quantity     = 0;
+
+        $('#update-dish input').val(dishId);
+        $('#update-ingr input').val(ingredientId);
+        $('#update-quantity input').val(quantity);
+
+        $(delete_dish_modal).modal('show');
+    });
+}
+
+function handle_confirm_delete_dish() {
+    $('#submit-delete-dish-compo').click(function(event) {
+        event.preventDefault();
+        var dishId = $('#composition-dish').val();
+        $('#delete-dish input').val(dishId);
+        $(delete_dish_modal).modal('hide');
+
+        $('#delete-dish-form').ajaxSubmit({
+            'success': function() {
+                window.location.href = url_recipe;
+            },
+            'error': function() {},
+        });
+
+        return false;
+    });
+}
+
+function handle_confirm_delete() {
+    $('#submit-delete-compo').click(function(event) {
+        event.preventDefault();
+        var ingredientId = $('#update-ingr input').val();
+
+        $(delete_ingr_modal).modal('hide');
+        update_composition(function(){ hide_ingredient(ingredientId); });
         return false;
     });
 }
@@ -124,17 +175,31 @@ function save_and_remove_modified_quantities() {
         return;
 
     var quantity     = modifiedElement.val();
+    var suffix       = modifiedElement.parent().attr('data-suffix');
     var ingredientId = modifiedElement.parents('.ingredient').attr('data-id');
     var dishId       = $('#composition-dish').val();
-    var form         = $('#update-ingredient-form');
 
-    update_composition(form, dishId, ingredientId, quantity, function() {});
+    $('#update-dish input').val(dishId);
+    $('#update-ingr input').val(ingredientId);
+    $('#update-quantity input').val(quantity);
+
+    update_composition(reload_bilan);
 
     // restore click handlers
     var elem = modifiedElement.parent();
     handle_weight_update(elem);
 
-    elem.html(quantity + ' g');
+    elem.html(quantity + ' ' + suffix);
+}
+
+function hide_ingredient(ingredientId) {
+    $('.ingredient').each(function() {
+        var myId = $(this).attr('data-id');
+        if (myId != ingredientId)
+            return;
+
+        $(this).hide(400, reload_bilan);
+    });
 }
 
 make_new_ingredient_ajax($('#new-ingredient-form'));
@@ -156,7 +221,8 @@ function on_weight_click(where) {
     where.unbind('click');
     where.unbind('mouseenter').unbind('mouseleave');
     remove_button(where);
-    var val = where.text().replace(" g","");
+    var suffix = where.attr('data-suffix');
+    var val    = where.text().replace(suffix,"").trim();
     where.html('<input id="modified-quantity" class="form-control" type="text" value="' + val + '">');
     where.children('input').focus();
 }
@@ -173,3 +239,17 @@ function handle_weight_update(where) {
         }
     );
 }
+
+if (current_dish != 0) {
+    // the chosen selector now reflects the right dish
+    $('#dish-name').val(current_dish);
+    $('#dish-name').trigger('chosen:updated');
+
+    // the list now reflects the right ingredients
+    $('#composition-dish').attr('value', current_dish);
+    reload_bilan();
+    $('#dish-id').attr('value', current_dish);
+}
+
+handle_delete_dish();
+handle_confirm_delete_dish();

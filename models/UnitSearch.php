@@ -18,7 +18,7 @@ class UnitSearch extends Unit
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'weight'], 'integer'],
             [['shortName', 'name'], 'safe'],
         ];
     }
@@ -57,6 +57,7 @@ class UnitSearch extends Unit
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'weight' => $this->weight,
         ]);
 
         $query->andFilterWhere(['like', 'shortName', $this->shortName])

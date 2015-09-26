@@ -40,3 +40,8 @@ web/assets/
 
 # shouldn't be in version control so that we can distinguish dev/prod
 index.php
+
+tests/_output/*
+composer.lock
+config/facebook_client_secret.php
+config/facebook_client_id.php

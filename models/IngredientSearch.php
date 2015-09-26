@@ -20,7 +20,7 @@ class IngredientSearch extends Ingredient
         return [
             [['id', 'duration', 'unit'], 'integer'],
             [['name'], 'safe'],
-            [['price', 'sucrose', 'glucose', 'fructose', 'water', 'energy_kcal', 'energy_kj', 'protein', 'lipid', 'fat', 'ash', 'carbohydrates', 'sugars', 'fiber'], 'number'],
+            [['price', 'sucrose', 'glucose', 'fructose', 'water', 'energy_kcal', 'energy_kj', 'protein', 'lipid', 'fat', 'ash', 'carbohydrates', 'sugars', 'fiber', 'weight'], 'number'],
         ];
     }
 
@@ -74,6 +74,7 @@ class IngredientSearch extends Ingredient
             'carbohydrates' => $this->carbohydrates,
             'sugars' => $this->sugars,
             'fiber' => $this->fiber,
+            'weight' => $this->weight,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

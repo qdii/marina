@@ -15,9 +15,12 @@ use \yii\helpers\ArrayHelper;
 use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\web\JsExpression;
+use \yii\web\View;
 use \yii\widgets\ActiveForm;
+use \yii\bootstrap\Modal;
 use \skeeks\widget\chosen\Chosen;
 use \app\models\Boat;
+use \app\models\Dish;
 
 $this->title = 'Recipe';
 
@@ -28,40 +31,79 @@ $bilanId = "bilan";
 
 // icons to add/remove ingredients
 $plusIcon  = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>';
-$minusIcon = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+$trashIcon = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>';
+$copyIcon = '<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>';
 
 // the URL that permits loading the list
-$loadUrl = Url::toRoute("site/many-column-list-dish");
+$loadUrl = Url::toRoute("ajax/dish-info");
 
 $ingredientsById = ArrayHelper::index($ingredients, 'id');
 
-$meals = \app\models\Dish::find()->all();
-$model = new \app\models\Dish;
-echo \skeeks\widget\chosen\Chosen::widget(
-    [
-        'model'       => $model,
+$dishChosenOpts = [
+        'model'       => new Dish,
         'attribute'   => 'name',
         'placeholder' => 'Choose a dish',
-        'items'       => ArrayHelper::map($meals, 'id', 'name'),
+        'items'       => ArrayHelper::map($dishes, 'id', 'name'),
         'clientEvents' =>
         [
             'change' => "function(ev, params) {
                 var table = $('tbody');
                 load_bilan(table, params.selected, '$loadUrl');
+                update_dish_id_in_copy_form(params.selected);
             }"
         ]
-    ]
-);
+    ];
 
-echo Html::tag("div", "", [ "id" => $bilanId ]);
+$ingredientChosenOpts = [
+        'items' => ArrayHelper::map($ingredients, 'id', 'name'),
+        'placeholder' => 'Choose an ingredient',
+    ];
 
-// RECIPE
 $formOptions = [
         'id'     => 'new-ingredient-form',
         'method' => 'POST',
-        'action' => Url::toRoute('site/insert-composition'),
+        'action' => Url::toRoute('ajax/insert-composition'),
     ];
-$form = ActiveForm::begin($formOptions);
+
+$updateFormOptions = [
+    'id'     => 'update-ingredient-form',
+    'method' => 'POST',
+    'action' => Url::toRoute('ajax/update-composition'),
+];
+
+$deleteDishFormOpts = [
+    'id'     => 'delete-dish-form',
+    'method' => 'POST',
+    'action' => Url::toRoute('ajax/delete-dish'),
+];
+
+$copyFormOptions = [
+    'id'     => 'new-dish-form',
+    'method' => 'POST',
+    'action' => Url::toRoute('ajax/copy-dish'),
+];
+
+$copyModalOpts = [
+    'header' => 'Create a dish from selection',
+    'id'     => 'create-dish-modal',
+];
+
+$confirmFormOpts = [
+    'id'     => 'delete-confirm-modal',
+    'method' => 'POST',
+    'action' => Url::toRoute('ajax/update-composition'),
+];
+
+$deleteModalOpts = [
+    'header' => 'Are you sure you want to delete this ingredient?',
+    'id'     => 'delete-confirm-modal',
+];
+
+$deleteDishModalOpts = [
+    'header' => 'Are you sure you want to delete this dish?',
+    'id'     => 'delete-dish-confirm-modal',
+];
+
 
 $tableOptions = ['id' => 'ingredient-table'];
 Html::addCssClass($tableOptions, 'table');
@@ -70,65 +112,46 @@ if ($dish === 0) {
     Html::addCssClass($tableOptions, 'hidden');
 }
 
-echo Html::beginTag("table", $tableOptions);
-echo Html::beginTag("thead");
-
-// HEADERS
-$headers = [ 'Name', 'Weight', 'Proteins', 'Energy', '' ];
-echo Html::beginTag("tr");
-foreach ($headers as $value) {
-    echo Html::tag("th", $value);
-}
-echo Html::tag("tr", "");
-echo Html::endTag("tr");
-echo Html::endTag("thead");
-
-echo Html::beginTag("tbody");
-
-// NEW INGREDIENT FORM
-$compositionModel = new \app\models\Composition;
+$compoModel = new \app\models\Composition;
+$dishModel        = new \app\models\Dish;
 $inline           = [ 'template' => '{input}{error}' ];
+$types = [
+    'firstCourse' => 'First Course',
+    'secondCourse' => 'Second Course',
+    'dessert' => 'Dessert',
+    'drink' => 'Drink',
+];
 
-echo Html::beginTag('tr', ['id' => 'new-ingredient']);
-echo Html::beginTag('td', ['data-id' => 0]);
-echo $form->field($compositionModel, 'ingredient', $inline)->widget(
-    Chosen::className(),
-    [
-        'items' => ArrayHelper::map($ingredients, 'id', 'name'),
-        'placeholder' => 'Choose an ingredient',
-    ]
-);
-echo Html::endTag('td');
-echo Html::beginTag('td');
-echo $form->field($compositionModel, 'quantity', $inline);
-echo Html::endTag('td');
-echo Html::beginTag('td');
-echo Html::endTag('td');
-echo Html::beginTag('td');
-echo Html::endTag('td');
-echo Html::activeHiddenInput($compositionModel, 'dish');
-echo Html::endTag('td');
-echo Html::beginTag('td');
-echo Html::submitButton($plusIcon, [ 'class' => 'btn btn-success' ]);
-echo Html::endTag('td');
-echo Html::endTag('tr');
+$submitNewIngredientButton
+    = Html::submitButton(
+        $plusIcon, [
+            'class' => 'btn btn-success',
+        ]
+    );
 
-// TOTAL
-echo Html::beginTag('tr', ['class' => 'list-group-item-success', 'id' => 'total']);
-echo Html::tag("td", Html::tag('strong', 'Total'));
-echo Html::tag("td", "");
-echo Html::tag("td", "");
-echo Html::tag("td", "");
-echo Html::tag("td", "");
-echo Html::endTag('tr');
+$submitCopyButton
+    = Html::submitButton(
+        'Create', [
+            'class' => 'btn btn-success',
+            'id' => 'submit-copy',
+        ]
+    );
 
+$deleteButton
+    = Html::button(
+        'Delete', [
+            'class' => 'btn btn-danger',
+            'id'    => 'submit-delete-compo',
+        ]
+    );
 
-echo Html::endtag("tbody");
-echo Html::endtag("table");
-
-ActiveForm::end();
-
-// DELETE INGREDIENT FORM
+$deleteDishButton
+    = Html::button(
+        'Delete', [
+            'class' => 'btn btn-danger',
+            'id'    => 'submit-delete-dish-compo',
+        ]
+    );
 /**
  * Generates the Yii2 ActiveField options
  *
@@ -136,7 +159,7 @@ ActiveForm::end();
  *
  * @return string The option field
  */
-function fieldOptions($fieldId)
+function fieldOpts($fieldId)
 {
     return
         [
@@ -147,15 +170,112 @@ function fieldOptions($fieldId)
             ]
         ];
 }
-echo Html::beginTag("div", ['class' => 'hidden']);
-$updateFormOptions = [
-    'id'     => 'update-ingredient-form',
-        'method' => 'POST',
-        'action' => Url::toRoute('site/update-composition'),
-    ];
-$updateForm = ActiveForm::begin($updateFormOptions);
-echo $form->field($compositionModel, 'dish', fieldOptions('update-dish'));
-echo $form->field($compositionModel, 'ingredient', fieldOptions('update-ingr'));
-echo $form->field($compositionModel, 'quantity', fieldOptions('update-quantity'));
-ActiveForm::end($updateFormOptions);
-echo Html::endTag("div");
+
+?>
+
+    <div class="page-header">
+        <h1><?php echo $this->title; ?></h1>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Search</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <?php echo Chosen::widget($dishChosenOpts); ?>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="copy-dish" class="disabled btn btn-primary">
+                        <?php echo $copyIcon ?>
+                    </button>
+                    <button type="button" id="delete-dish" class="disabled btn btn-danger">
+                        <?php echo $trashIcon ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-success hidden">
+        <div class="panel-heading">Ingredients</div>
+        <div class="panel-body">
+            <div class="row">
+                <div id="<?php echo $bilanId ?>" class="col-md-12">
+                <?php $form = ActiveForm::begin($formOptions);
+                echo Html::beginTag("table", $tableOptions);
+                ?>
+
+                <thead>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Proteins</th>
+                    <th>Energy</th>
+                    <th></th>
+                </thead>
+
+                <tbody>
+                    <tr id="new-ingredient">
+                        <td data-id="0"> <?php echo $form->field($compoModel, 'ingredient', $inline)->widget(Chosen::className(), $ingredientChosenOpts); ?> </td>
+                        <td><?php echo $form->field($compoModel, 'quantity', $inline); ?></td>
+                        <td></td>
+                        <td><?php echo Html::activeHiddenInput($compoModel, 'dish'); ?></td>
+                        <td><?php echo $submitNewIngredientButton ?></td>
+                    </tr>
+
+                    <tr class="list-group-item-success" id="total"»
+                        <td><?php echo Html::tag("td", Html::tag('strong', 'Total')); ?></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php ActiveForm::end(); ?>
+
+<div class="hidden">
+    <?php $updateForm= ActiveForm::begin($updateFormOptions);
+            echo $updateForm->field($compoModel, 'dish', fieldOpts('update-dish'));
+            echo $updateForm->field($compoModel, 'ingredient', fieldOpts('update-ingr'));
+            echo $updateForm->field($compoModel, 'quantity', fieldOpts('update-quantity'));
+        ActiveForm::end();
+    ?>
+
+    <?php $deleteDishForm = ActiveForm::begin($deleteDishFormOpts);
+            echo $deleteDishForm->field($dishModel, 'id', fieldOpts('delete-dish'));
+        ActiveForm::end();
+    ?>
+
+</div>
+
+<?php Modal::begin($copyModalOpts);
+    $form = ActiveForm::begin($copyFormOptions);
+    echo $form->field($dishModel, 'name');
+    echo $form->field($dishModel, 'type')->dropDownList($types);
+    echo Html::activeHiddenInput($dishModel, 'id');
+    echo $submitCopyButton;
+    ActiveForm::end();
+Modal::end() ?>
+
+<?php $deleteModal = Modal::begin($deleteModalOpts);
+    echo $deleteButton;
+Modal::end() ?>
+
+<?php $deleteDishModal = Modal::begin($deleteDishModalOpts);
+    echo $deleteDishButton;
+Modal::end() ?>
+
+<?php $this->registerJs(
+    'var url_recipe = "'          . Url::toRoute("site/recipe")          . '";' . "\n" .
+    'var url_get_ingredients = "' . Url::toRoute("ajax/get-ingredients") .'";' . "\n" .
+    'var delete_ingr_modal   = "#' . $deleteModal->getId() .'";' . "\n" .
+    'var delete_dish_modal   = "#' . $deleteDishModal->getId() .'";' . "\n" .
+    'var current_dish = ' . $dish . ";\n" .
+    'var update_ingr_form  = "#' . $updateForm->getId() . "\";\n",
+    View::POS_BEGIN
+); ?>
+

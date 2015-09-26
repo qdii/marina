@@ -24,13 +24,19 @@
         "skeeks/yii2-widget-chosen": "^1.0",
         "2amigos/yii2-date-time-picker-widget": "~1.0",
         "kartik-v/yii2-widgets": "^3.4",
-        "bower-asset/jquery-form": "^3.51"
+        "bower-asset/jquery-form": "^3.51",
+        "triplepoint/php-units-of-measure": "^2.0",
+        "yiisoft/yii2-authclient": "^2.0",
+        "bower-asset/bootstrap-social": "^4.10"
     },
     "require-dev": {
-        "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
+        "yiisoft/yii2-faker": "*",
+        "codeception/codeception": "2.0.*",
+        "codeception/specify": "*",
+        "codeception/verify": "*",
+        "yiisoft/yii2-codeception": "^2.0"
     },
     "config": {
         "process-timeout": 1800

@@ -14,31 +14,55 @@ use app\models\Unit;
 use app\models\Dish;
 use app\models\Boat;
 use app\models\Meal;
+use app\models\Vendor;
+use app\models\Auth;
 use app\models\Composition;
+use app\components\EventMaker;
 
 class SiteController extends Controller
 {
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
+        $behaviors = [];
+        $rules = [
+            [
+                'actions' => ['logout'],
+                'allow' => true,
+                'roles' => ['@'],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
+            [
+                'actions' => ['login', 'enter', 'auth', 'captcha', 'register'],
+                'allow' => true,
+                'roles' => ['?'],
+            ],
+            [
+                'allow' => true,
+                'roles' => ['@'],
             ],
         ];
+
+        // bypass login rule
+        if (defined(YII_ENV_TEST)) {
+            $rules[] = [
+                'actions' => ['bypass'],
+                'allow' => true,
+                'roles' => ['?'],
+            ];
+        }
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => $rules,
+        ];
+
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'logout' => ['post'],
+            ],
+        ];
+
+        return $behaviors;
     }
 
     public function actions()
@@ -51,6 +75,10 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'authSuccess'],
+            ],
         ];
     }
 
@@ -62,16 +90,20 @@ class SiteController extends Controller
     public function actionRecipe($id = 0)
     {
         $boat        = Boat::find()->one();
-        $ingredients = Ingredient::find()->all();
+        $dishes      = Dish::find()->all();
         $components = [];
+        $ingredients = [];
         if ( $id !== 0 ) {
             $components = Composition::findAll(['dish' => $id]);
+            $compoIds   = ArrayHelper::getColumn($components, 'ingredient');
+            $ingredients = Ingredient::findAll(['id' => $compoIds]);
         }
 
         $params = [
             'boat'        => $boat,
             'ingredients' => $ingredients,
             'dish'        => $id,
+            'dishes'      => $dishes,
             'components'  => $components,
         ];
 
@@ -80,230 +112,193 @@ class SiteController extends Controller
 
     public function actionCalendar($id = 1)
     {
-        $users = User::find()->all();
-        $units = Unit::find()->all();
+        $vendors = Vendor::find()->all();
+        $boats   = Boat::find()->all();
+        $dishes  = Dish::find()->all();
+        $users   = User::find()->all();
 
-        $boats    = Boat::find()->all();
-        $boatById = ArrayHelper::index($boats, 'id');
-        $boat     = null;
-        if (key_exists($id, $boatById)) {
-            $boat = $boatById[$id];
-        }
-
-        $cruises    = Cruise::find()->all();
-        $cruiseById = ArrayHelper::index($cruises, 'id');
-        $cruise     = null;
-        foreach ( $cruises as $cr ) {
-            if ($cr->boat == $id) {
-                $cruise = $cr;
-                break;
-            }
-        }
-
-        $meals        = [];
-        if ($cruise !== null) {
-            $meals = Meal::findAll(['cruise' => $cruise->id]);
-        }
-
-        $dishes       = Dish::find()->all();
-        $dishIds      = ArrayHelper::getColumn($dishes, 'id');
-        $compositions = Composition::findAll(['dish' => $dishIds]);
-        $ingrIds      = ArrayHelper::getColumn($compositions, 'ingredient');
-        $ingredients  = Ingredient::findAll(['id' => $ingrIds]);
-
-        $types  = [ 'breakfast', 'lunch', 'dinner', 'snack' ];
+        $firstCourses = array_filter($dishes, function($dish) {
+            return $dish->type === 'firstCourse';
+        });
+        $secondCourses = array_filter($dishes, function($dish) {
+            return $dish->type === 'secondCourse';
+        });
+        $desserts = array_filter($dishes, function($dish) {
+            return $dish->type === 'dessert';
+        });
+        $drinks = array_filter($dishes, function($dish) {
+            return $dish->type === 'drink';
+        });
 
         $params = [
-            'users'        => $users,
-            'units'        => $units,
-            'dishes'       => $dishes,
-            'meals'        => $meals,
-            'types'        => $types,
-            'boats'        => $boats,
-            'boat'         => $boat,
-            'cruises'      => $cruises,
-            'cruise'       => $cruise,
-            'compositions' => $compositions,
-            'ingredients'  => $ingredients,
-            ];
+            'boats'         => $boats,
+            'vendors'       => $vendors,
+            'dishes'        => $dishes,
+            'users'         => $users,
+            'firstCourses'  => ArrayHelper::map($firstCourses, 'id', 'name'),
+            'secondCourses' => ArrayHelper::map($secondCourses, 'id', 'name'),
+            'desserts'      => ArrayHelper::map($desserts, 'id', 'name'),
+            'drinks'        => ArrayHelper::map($drinks, 'id', 'name'),
+        ];
+
+
         return $this->render('calendar', $params);
     }
 
-    public function actionNewIngredient()
+    public function actionCookbook()
     {
-        $model = new \app\models\Ingredient();
-        if ($model->load(Yii::$app->request->post()))
-        {
-            assert( $model->validate() );
-            $model->save();
-        }
+        $boats   = \app\models\Boat::find()->all();
+        $vendors = \app\models\Vendor::find()->all();
+
+        $params = [
+            'boats'   => $boats,
+            'vendors' => $vendors,
+        ];
+
+        return $this->render('cookbook', $params);
+    }
+
+    public function actionLogin()
+    {
+        return $this->render('login');
+    }
+
+    public function actionLogout()
+    {
+        // logs out the user
+        Yii::$app->user->logout();
+
+        $this->redirect(['login']);
     }
 
     /**
-     * Adds a new boat to the database
+     * Checks an user's password and proceeds to login if correct
      *
      * @return void
      */
-    public function actionNewBoat()
+    public function actionEnter()
     {
-        $model = new \app\models\Boat();
-        if ($model->load(Yii::$app->request->post())) {
-            assert($model->validate());
-            $model->save();
-        }
-        $boatId = $model->id;
-
-        // hack: create a new cruise here
-        $cruise             = new \app\models\Cruise();
-
-        $cruise->boat       = $boatId;
-        $cruise->dateStart  = "2015-01-01";
-        $cruise->dateFinish = "2020-01-01";
-        $cruise->save();
-
-        $this->redirect(['site/calendar', 'id' => $boatId]);
-    }
-
-    public function actionNewMeal()
-    {
-        $model = new \app\models\Meal();
-        if ($model->load(Yii::$app->request->post()))
-        {
-            assert( $model->validate() );
-            $model->save();
+        $loginForm = new \app\models\LoginForm();
+        if (!$loginForm->load(Yii::$app->request->post())) {
+            return $this->render("invalid-password");
         }
 
-        $cruise = $model->getCruise0()->one();
-        $boat   = $cruise->getBoat0()->one();
-
-        $this->redirect(['site/calendar', 'id' => $boat->id]);
-    }
-
-    /**
-     * Deletes an existing Meal
-     *
-     * @param integer $id The id of the meal to delete
-     *
-     * @return void
-     */
-    public function actionDeleteMeal($id)
-    {
-        $boatId = 0;
-        if (($model = \app\models\Meal::findOne($id)) !== null) {
-            $cruise = $model->getCruise0()->one();
-            $boat   = $cruise->getBoat0()->one();
-            $boatId = $boat->id;
-
-            $model->delete();
+        $identity = User::findOne(['username' => $loginForm->username]);
+        if ($identity === null) {
+            return $this->render("invalid-password");
         }
 
-
-        $this->redirect(['site/calendar', 'id' => $boatId]);
-    }
-
-    /**
-     * Updates an existing Meal
-     *
-     * @param integer $id The id of the meal to update
-     *
-     * @return void
-     */
-    public function actionUpdateMeal($id)
-    {
-        $boatId = 0;
-        if (($model = \app\models\Meal::findOne($id)) !== null) {
-            $model->load(Yii::$app->request->post());
-            $cruise = $model->getCruise0()->one();
-            $boat   = $cruise->getBoat0()->one();
-            $boatId = $boat->id;
-
-            $model->save();
-        }
-
-        $this->redirect(['site/calendar', 'id' => $boatId]);
-    }
-
-    public function actionAjaxDeleteMeal($id)
-    {
-        $meal = \app\models\Meal::find()->where( [ "id" => $id ] )->one();
-        $meal->delete();
-    }
-
-    public function actionAjaxGetMeal($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $meal = \app\models\Meal::find()->where( ["id" => $id] )->one();
-        if ($meal == null)
-            return;
-
-        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date" ] );
-    }
-
-    public function actionAjaxUser($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $user = \app\models\User::find()->where( ["id" => $id] )->one();
-        return $user->getAttributes( [ "username" , "id" ] );
-    }
-
-    public function actionListIngredients()
-    {
-        return $this->render('list-ingredients');
-    }
-
-    public function actionManyColumnListDish($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $query = new \yii\db\Query;
-        $query->select(
-            [
-                'composition.quantity',
-                'ingredient.name',
-                'ingredient.id',
-                'ingredient.energy_kcal',
-                'ingredient.protein'
-            ]
-        )
-            ->from('composition')
-            ->join(
-                'left join',
-                'ingredient',
-                'composition.ingredient = ingredient.id'
-            )
-            ->where(['dish' => $id])
-            ->addOrderBy(['ingredient.name' => SORT_DESC]);
-
-        return $query->all();
-    }
-
-    /**
-     * Insert composition in the database
-     *
-     * @return void
-     */
-    public function actionInsertComposition()
-    {
-        $model = new \app\models\Composition;
-        $model->load(Yii::$app->request->post());
-        $model->save();
-    }
-
-    /**
-     * Insert composition in the database
-     *
-     * @return void
-     */
-    public function actionUpdateComposition()
-    {
-        $args = Yii::$app->request->post();
-        $composition = $args['Composition'];
-
-        $compositionHelper = new \app\components\CompositionHelper();
-        $compositionHelper->updateDelete(
-            $composition['dish'],
-            $composition['ingredient'],
-            $composition['quantity']
+        $validPassword = Yii::$app->getSecurity()->validatePassword(
+            $loginForm->password,
+            $identity->password
         );
+
+        if (!$validPassword) {
+            return $this->render("invalid-password");
+        }
+
+        // logs in the user
+        Yii::$app->user->login($identity);
+
+        // redirects him to the index
+        $this->redirect(['site/index']);
+    }
+
+    public function authSuccess($client)
+    {
+        $attributes = $client->getUserAttributes();
+        $email = $attributes['email'];
+        $id    = (string)$attributes['id'];
+        $src   = $client->getId();
+
+        $auth = Auth::find()->where([
+            'src'   => $src,
+            'srcid' => $id,
+        ])->one();
+
+        // if the user is already logged in
+        if (!Yii::$app->user->isGuest) {
+            if ($auth) {
+                return;
+            }
+
+            // create a new entry in Auth
+            $auth = new Auth([
+                'user'  => Yii::$app->user->id,
+                'src'   => $src,
+                'srcid' => $id,
+            ]);
+            $auth->save();
+            return;
+        }
+
+        // if the user is NOT logged-in but has a session
+        if ($auth) { // login
+            $user = User::findOne(['id' => $auth->user]);
+            if (!$user) {
+                throw new \Exception('Cannot log user in');
+            }
+            Yii::$app->user->login($user);
+            return;
+        }
+
+        // if the user is NOT logged-in and DOES NOT have a session
+        $user = User::findOne(['email' => $email]);
+        if ($user) {
+            $auth = new Auth([
+                'user'  => $user->id,
+                'src'   => $src,
+                'srcid' => $id,
+            ]);
+            if (!$auth->save()) {
+                throw new \Exception('Cannot authenticate user');
+            }
+        } else {
+            $authHelper = new \app\components\AuthHelper();
+            $user = $authHelper->createNewUserAndAuthenticate(
+                $email,
+                $email,
+                $src,
+                $id
+            );
+        }
+
+        Yii::$app->user->login($user);
+    }
+
+    /**
+     * Registers a new user
+     *
+     * @return void
+     */
+    public function actionRegister()
+    {
+        $signupForm = new \app\models\SignupForm();
+        if (!$signupForm->load(Yii::$app->request->post())) {
+            return;
+        }
+
+        if (!$signupForm->validate()) {
+            foreach ($signupForm->getErrors() as $attr) {
+                throw new \Exception($attr[0]);
+            }
+        }
+
+        $email = $signupForm->email;
+        $pwd   = $signupForm->password;
+        $name  = $signupForm->username;
+
+        $user = new User([
+            'username'    => $name,
+            'email'       => $email,
+            'accessToken' => \Yii::$app->security->generateRandomString(12),
+            'password'    => Yii::$app->security->generatePasswordHash($pwd)
+        ]);
+
+        if (!$user->save()) {
+            throw new \Exception('Cannot register user');
+        }
+
+        Yii::$app->user->login($user);
     }
 }

@@ -1,5 +1,4 @@
 <?php
-use \app\components\ManyColumnList;
 use \app\models\Ingredient;
 use \yii\helpers\ArrayHelper;
 use \yii\helpers\Html;
@@ -22,7 +21,7 @@ $ingredientChoser = Chosen::widget(
 $formOptions = [
         'id' => 'new-ingredient-form',
         'method' => 'POST',
-        'action' => 'site/insert-composition',
+        'action' => 'ajax/insert-composition',
     ];
 $form = ActiveForm::begin($formOptions);
 echo Html::beginTag("table", ['class' => 'table table-hover']);

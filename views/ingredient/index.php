@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'carbohydrates',
             // 'sugars',
             // 'fiber',
+            // 'weight',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

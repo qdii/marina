@@ -14,14 +14,14 @@ class AuthHelperTest extends \yii\codeception\DbTestCase
         $nuser  = User::find()->count();
         $nauth  = Auth::find()->count();
 
-        $created = $helper->createNewUserAndAuthenticate(
+        $user = $helper->createNewUserAndAuthenticate(
             "abcdefaui",
             "sth@truc.bar",
             "facebook",
             "123123123123"
         );
 
-        $this->assertTrue($created);
+        $this->assertNotNull($user);
         $this->assertEquals($nuser+1, User::find()->count());
         $this->assertEquals($nauth+1, Auth::find()->count());
     }

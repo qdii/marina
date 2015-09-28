@@ -402,20 +402,20 @@ class AjaxController extends Controller
      * Creates a new cruise with the same dates, name, boat and meals as
      * another cruise.
      *
-     * @param int $cruiseId The cruise to copy from
-     *
      * @return void
      */
-    public function actionDuplicateCruise($cruiseId)
+    public function actionDuplicateCruise()
     {
-        $fromCruise = Cruise::findOne(['id' => $cruiseId]);
-        if (!$fromCruise) {
-            throw new \Exception("Cruise with id: $cruiseId does not exist");
+        $model = new \app\models\Cruise();
+        if (!$model->load(Yii::$app->request->post())) {
+            throw new \Exception("Invalid cruise");
         }
+        assert($model->id);
 
         $siteHelper = new \app\components\SiteHelper();
 
         $newCruise = $siteHelper->duplicateCruise($fromCruise);
+
         return $newCruise->id;
     }
 }

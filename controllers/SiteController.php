@@ -301,4 +301,11 @@ class SiteController extends Controller
 
         Yii::$app->user->login($user);
     }
+
+    public function actionDuplicateCruise()
+    {
+        $cruises = Cruise::find()->all();
+        $params  = [ 'cruises' => $cruises ];
+        return $this->render('duplicate-cruise', $params);
+    }
 }

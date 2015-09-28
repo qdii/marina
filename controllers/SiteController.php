@@ -113,7 +113,7 @@ class SiteController extends Controller
     public function actionCalendar($id = 1)
     {
         $vendors = Vendor::find()->all();
-        $boats   = Boat::find()->all();
+        $cruises = Cruise::find()->all();
         $dishes  = Dish::find()->all();
         $users   = User::find()->all();
 
@@ -131,7 +131,7 @@ class SiteController extends Controller
         });
 
         $params = [
-            'boats'         => $boats,
+            'cruises'       => $cruises,
             'vendors'       => $vendors,
             'dishes'        => $dishes,
             'users'         => $users,
@@ -147,11 +147,11 @@ class SiteController extends Controller
 
     public function actionCookbook()
     {
-        $boats   = \app\models\Boat::find()->all();
+        $cruises = \app\models\Cruise::find()->all();
         $vendors = \app\models\Vendor::find()->all();
 
         $params = [
-            'boats'   => $boats,
+            'cruises' => $cruises,
             'vendors' => $vendors,
         ];
 

@@ -1,6 +1,6 @@
 <?php
 
-use \app\models\Boat;
+use \app\models\Cruise;
 use \app\models\Vendor;
 use \app\models\Dish;
 use \app\models\Meal;
@@ -29,12 +29,12 @@ $mealPanel = [
     Button::widget(['label' => 'Delete', 'options' => ['class' => 'btn-danger', 'type' => 'button'],'id' => 'btn-delete-meal'])
 ];
 
-$boatSelector = [
-  'model'       => new Boat,
+$cruiseSelector = [
+  'model'       => new Cruise,
   'attribute'   => 'name',
-  'placeholder' => 'Choose a boat',
-  'items'       => ArrayHelper::map($boats, 'id', 'name'),
-  'clientEvents' => [ 'change' => 'function(ev, p) { window.cal.on_boat_change(p); }' ]
+  'placeholder' => 'Choose a cruise',
+  'items'       => ArrayHelper::map($cruises, 'id', 'name'),
+  'clientEvents' => [ 'change' => 'function(ev, p) { window.cal.on_cruise_change(p); }' ]
 ];
 
 $vendorSelector = [
@@ -69,8 +69,8 @@ $calendarOptions = [ 'header' =>
         'eventAfterRender'  => new JsExpression( "function(event,el) { el.html(event.title); }" ),
         'events'            =>
         [
-            'url'  => Url::toRoute(['ajax/get-meals-from-boat']),
-            'data' => new JsExpression( "function() { return { id: window.cal.get_boat_id() }; }" )
+            'url'  => Url::toRoute(['ajax/get-meals']),
+            'data' => new JsExpression( "function() { return { id: window.cal.get_cruise_id() }; }" )
         ],
         'dayClick'   => new JsExpression("function(when) { return window.cal.new_event(when); }"),
         'eventClick' => new JsExpression("function(ev) { return window.cal.modify_event(ev.id); }")
@@ -160,7 +160,7 @@ Modal::end(); ?>
     Search
   </div>
   <div class="panel-body">
-    <?php echo Chosen::widget($boatSelector) ?>
+    <?php echo Chosen::widget($cruiseSelector) ?>
   </div>
 </div>
 
@@ -190,12 +190,12 @@ Modal::end(); ?>
 
 <?php
 $this->registerJs(
-    "var fetch_ingredient_list_url = '" . Url::toRoute("ajax/get-ingredient-list-from-boat") . "';\n" .
+    "var fetch_ingredient_list_url = '" . Url::toRoute("ajax/get-ingredient-list") . "';\n" .
     "var get_meal_url = '" . Url::toRoute("ajax/get-meal") . "';\n" .
     "var update_meal_url = '" . Url::toRoute("ajax/update-meal") . "';\n" .
     "var new_meal_url = '" . Url::toRoute("ajax/new-meal") . "';\n" .
     "var delete_meal_url = '" . Url::toRoute("ajax/delete-meal") . "';\n" .
-    "var get_cruise_url = '" . Url::toRoute("ajax/get-cruise-from-boat") . "';\n" .
+    "var get_cruise_url = '" . Url::toRoute("ajax/get-cruise") . "';\n" .
     "var meal_dialog_id = '#$modalId';\n" .
     "var meal_form_id = '#$formId';\n",
     View::POS_BEGIN

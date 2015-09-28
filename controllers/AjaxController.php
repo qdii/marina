@@ -297,16 +297,16 @@ class AjaxController extends Controller
     /**
      * Returns the data for a cookbook
      *
-     * @param int $boatId   The id of the boat the cookbook is for
+     * @param int $cruiseId The id of the cruise the cookbook is for
      * @param int $vendorId The shop the products are to be bought in
      * @param int $guests   The number of guests
      *
      * @return string A json array with information for the cookbook
      */
-    public function actionGetCookbook($boatId, $vendorId, $guests)
+    public function actionGetCookbook($cruiseId, $vendorId, $guests)
     {
-        $boat   = \app\models\Boat::findOne(['id' => $boatId]);
-        if ($boat === null) {
+        $cruise = \app\models\Cruise::findOne(['id' => $cruiseId]);
+        if ($cruise === null) {
             return "";
         }
 
@@ -318,7 +318,7 @@ class AjaxController extends Controller
         $helper = new CompositionHelper;
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        $cookbook = $helper->getCookbook($boat, $vendor, $guests);
+        $cookbook = $helper->getCookbook($cruise, $vendor, $guests);
         ArrayHelper::multisort($cookbook, 'name');
         return $cookbook;
     }
@@ -369,7 +369,7 @@ class AjaxController extends Controller
             ];
         }
         $productList = $productPicker->getShoppingListFromIngredientList(
-            $ingredientList, $vendorId
+            $ingredientList, intval($vendorId)
         );
 
         $result = [];

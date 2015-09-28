@@ -17,22 +17,23 @@ use \yii\helpers\ArrayHelper;
 use \kartik\widgets\TouchSpin;
 use \yii\helpers\Url;
 use \yii\web\View;
+use \app\models\Cruise;
 
 \app\assets\CookbookAsset::register($this);
 
-$boatSelectorId = 'boat-name';
-$boatSelector = [
-  'model'       => new \app\models\Boat,
+$cruiseSelectorId = 'cruise-name';
+$cruiseSelector = [
+  'model'       => new \app\models\Cruise,
   'attribute'   => 'name',
-  'placeholder' => 'Choose a boat',
-  'items'       => ArrayHelper::map($boats, 'id', 'name'),
+  'placeholder' => 'Choose a cruise',
+  'items'       => ArrayHelper::map($cruises, 'id', 'name'),
   'clientEvents' =>
   [
       'change' => 'function(ev, params) {
           if (params === undefined) {
-             window.ckbook.boat_id = 0;
+             window.ckbook.cruise_id = 0;
           } else {
-             window.ckbook.boat_id = params.selected;
+             window.ckbook.cruise_id = params.selected;
           }
           window.ckbook.refresh_list();
         }'
@@ -60,7 +61,7 @@ $vendorSelector = [
 
 $this->registerJs(
     "var cookbook_url = '" . Url::toRoute("ajax/get-cookbook") . "';\n"  .
-    "var boat_selector = '$boatSelectorId';\n",
+    "var cruise_selector = '$cruiseSelectorId';\n",
     View::POS_BEGIN
 );
 
@@ -95,7 +96,7 @@ $this->title = 'Cookbook';
       </div>
       <div class="panel-body">
         <div class="row">
-          <div class='col-lg-5'><?php echo Chosen::widget($boatSelector) ?></div>
+          <div class='col-lg-5'><?php echo Chosen::widget($cruiseSelector) ?></div>
           <div class='col-lg-5'><?php echo Chosen::widget($vendorSelector) ?></div>
           <div class='col-lg-2'><?php echo Touchspin::widget($touchSpin) ?></div>
         </div>

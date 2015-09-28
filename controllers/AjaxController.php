@@ -369,7 +369,7 @@ class AjaxController extends Controller
             ];
         }
         $productList = $productPicker->getShoppingListFromIngredientList(
-            $ingredientList, $vendorId
+            $ingredientList, intval($vendorId)
         );
 
         $result = [];

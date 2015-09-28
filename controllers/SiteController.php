@@ -147,11 +147,11 @@ class SiteController extends Controller
 
     public function actionCookbook()
     {
-        $boats   = \app\models\Boat::find()->all();
+        $cruises = \app\models\Cruise::find()->all();
         $vendors = \app\models\Vendor::find()->all();
 
         $params = [
-            'boats'   => $boats,
+            'cruises' => $cruises,
             'vendors' => $vendors,
         ];
 

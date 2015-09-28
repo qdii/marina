@@ -14,6 +14,9 @@ var cookbook = {
     },
 
     write_list: function(data) {
+        // remove nav
+        $('#recipe-nav').empty();
+
         $.each(data, function(i, val) {
             // discard recipe with no ingredients
             if (val.items.length === 0) {

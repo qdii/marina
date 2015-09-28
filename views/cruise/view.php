@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cruise */
 
-$this->title = $model->id;
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cruises'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dateStart',
             'dateFinish',
             'boat',
+            'name',
         ],
     ]) ?>
 

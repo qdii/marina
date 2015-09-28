@@ -406,11 +406,13 @@ class AjaxController extends Controller
      */
     public function actionDuplicateCruise()
     {
+        $post  = Yii::$app->request->post();
         $model = new \app\models\Cruise();
-        if (!$model->load(Yii::$app->request->post())) {
+        if (!$model->load($post)) {
             throw new \Exception("Invalid cruise");
         }
-        assert($model->id);
+
+        $fromCruise = \app\models\Cruise::findOne(['id' => $post['Cruise']['id']]);
 
         $siteHelper = new \app\components\SiteHelper();
 

@@ -11,6 +11,7 @@ use Yii;
  * @property string $dateStart
  * @property string $dateFinish
  * @property integer $boat
+ * @property string $name
  *
  * @property Boat $boat0
  * @property Meal[] $meals
@@ -33,7 +34,8 @@ class Cruise extends \yii\db\ActiveRecord
         return [
             [['dateStart', 'dateFinish', 'boat'], 'required'],
             [['dateStart', 'dateFinish'], 'safe'],
-            [['boat'], 'integer']
+            [['boat'], 'integer'],
+            [['name'], 'string', 'max' => 255]
         ];
     }
 
@@ -47,6 +49,7 @@ class Cruise extends \yii\db\ActiveRecord
             'dateStart' => Yii::t('app', 'Date Start'),
             'dateFinish' => Yii::t('app', 'Date Finish'),
             'boat' => Yii::t('app', 'Boat'),
+            'name' => Yii::t('app', 'Name'),
         ];
     }
 

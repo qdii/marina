@@ -47,7 +47,15 @@ $config = [
                     'clientSecret' => require __DIR__ . '/facebook_client_secret.php',
                 ],
             ],
-        ]
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName'  => false,
+            'rules' => [
+                ''         => 'site/index',
+                '<action>' => 'site/<action>',
+            ]
+        ],
     ],
     'params' => $params,
 ];

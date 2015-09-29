@@ -65,13 +65,13 @@ $captchaOpts = [
         <div class="well">
             <?php $form = ActiveForm::begin($loginForm);
             echo $form->field($loginMdl, 'username');
-            echo $form->field($loginMdl, 'password');
+            echo $form->field($loginMdl, 'password')->passwordInput();
             echo Button::widget(['label' => 'Login', 'options' => ['class' => 'btn-success']]);
             ActiveForm::end(); ?>
 
             <?php $form = ActiveForm::begin($signupForm);
             echo $form->field($signupMdl, 'username');
-            echo $form->field($signupMdl, 'password');
+            echo $form->field($signupMdl, 'password')->passwordInput();
             echo $form->field($signupMdl, 'email');
             echo $form->field($signupMdl, 'captcha')->widget(Captcha::className(), $captchaOpts);
             echo Button::widget(['label' => 'Sign up', 'options' => ['class' => 'btn-success']]);

@@ -19,7 +19,7 @@ class CruiseSearch extends Cruise
     {
         return [
             [['id', 'boat'], 'integer'],
-            [['dateStart', 'dateFinish'], 'safe'],
+            [['dateStart', 'dateFinish', 'name'], 'safe'],
         ];
     }
 
@@ -61,6 +61,8 @@ class CruiseSearch extends Cruise
             'dateFinish' => $this->dateFinish,
             'boat' => $this->boat,
         ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

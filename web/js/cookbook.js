@@ -1,7 +1,7 @@
 /*jslint browser: true*/ /*global  $*/
 var cookbook = {
     url:       "",
-    boat_id:   0,
+    cruise_id: 0,
     vendor_id: 0,
     guests:    0,
 
@@ -57,7 +57,7 @@ var cookbook = {
             return;
         }
 
-        if (this.boat_id === undefined || this.boat_id === 0) {
+        if (this.cruise_id === undefined || this.cruise_id === 0) {
             return;
         }
 
@@ -66,9 +66,9 @@ var cookbook = {
         }
 
         var data = {
-            vendorId : this.vendor_id,
-            boatId   : this.boat_id,
-            guests   : this.guests,
+            vendorId: this.vendor_id,
+            cruiseId: this.cruise_id,
+            guests:   this.guests,
         };
 
         $.getJSON(this.url, data, function(data) { window.ckbook.write_list(data); } );
@@ -101,5 +101,5 @@ $('#nb-guests-touchspin').val(0);
 $('#vendor-name').val(0);
 $('#vendor-name').trigger('chosen:updated');
 
-$('#boat-name').val(0);
-$('#boat-name').trigger('chosen:updated');
+$('#cruise-name').val(0);
+$('#cruise-name').trigger('chosen:updated');

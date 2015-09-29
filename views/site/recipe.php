@@ -19,7 +19,6 @@ use \yii\web\View;
 use \yii\widgets\ActiveForm;
 use \yii\bootstrap\Modal;
 use \skeeks\widget\chosen\Chosen;
-use \app\models\Boat;
 use \app\models\Dish;
 
 $this->title = 'Recipe';

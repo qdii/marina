@@ -1,9 +1,7 @@
 /*jslint browser: true*/ /*global $*/ /*global moment*/
 var calendarProto = {
-    cruise: 0,
-
-    get_boat_id: function() {
-        var id = $('#boat-name').val();
+    get_cruise_id: function() {
+        var id = $('#cruise-name').val();
         if ( id === "" ) {
             return 0;
         }
@@ -11,9 +9,9 @@ var calendarProto = {
         return id;
     },
 
-    set_boat_id: function(id) {
-        $('#boat-name').val(id);
-        $('#boat-name').trigger('chosen:updated');
+    set_cruise_id: function(id) {
+        $('#cruise-name').val(id);
+        $('#cruise-name').trigger('chosen:updated');
     },
 
     get_vendor_id: function() {
@@ -34,8 +32,7 @@ var calendarProto = {
         $('.fullcalendar').fullCalendar('refetchEvents');
     },
 
-    on_boat_change: function() {
-        this.update_cruise();
+    on_cruise_change: function() {
         this.refresh_calendar();
         this.refresh_shopping_list();
     },
@@ -46,12 +43,12 @@ var calendarProto = {
     },
 
     refresh_shopping_list: function() {
-        var boat_id   = this.get_boat_id();
+        var cruise_id = this.get_cruise_id();
         var vendor_id = this.get_vendor_id();
         $('#shopping-list tbody').empty();
 
         var params = {
-            boatId:   boat_id,
+            cruiseId: cruise_id,
             vendorId: vendor_id
         };
 
@@ -216,20 +213,16 @@ var calendarProto = {
 
     update_cruise: function() {
         var params = {
-            boatId: this.get_boat_id()
+            cruiseId: this.get_cruise_id()
         };
         $.getJSON(window.get_cruise_url, params, function(data) {
             window.cal.cruise = data;
         });
     },
-
-    get_cruise: function() {
-        return this.cruise;
-    }
 };
 
 var cal = Object.create(calendarProto);
-cal.set_boat_id(0);
+cal.set_cruise_id(0);
 cal.set_vendor_id(0);
 cal.hide_shopping_list();
 

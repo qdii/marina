@@ -50,7 +50,7 @@ function install_click_handlers() {
 }
 
 function update_dish_id_in_copy_form(dishId) {
-    $('#dish-id').attr('value', dishId);
+    $('#copydish-id').attr('value', dishId);
 }
 
 populate_ingredients();

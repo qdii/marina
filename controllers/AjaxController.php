@@ -289,20 +289,31 @@ class AjaxController extends Controller
     {
         $post = Yii::$app->request->post();
 
-        $dish = new Dish;
-        $dish->load($post);
-        $id = $post['Dish']['id'];
+        $copyDish = new \app\models\CopyDish;
+        if (!$copyDish->load($post) && !$copyDish->validate()) {
+            \Yii::$app->response->setStatusCode(500);
+        }
+
+        $id = $post['CopyDish']['id'];
 
         if (($source = Dish::findOne($id)) === null) {
             \Yii::$app->response->setStatusCode(400);
             return;
         }
 
-        $dish->save();
+        $dish = new \app\models\Dish;
+        $transaction = $dish->getDb()->beginTransaction();
+        $dish->name = $copyDish->name;
+        $dish->type = $copyDish->type;
+        if (!$dish->save()) {
+            \Yii::$app->response->setStatusCode(500);
+        }
 
         if (!CompositionHelper::cloneDish($id, $dish->id)) {
             \Yii::$app->response->setStatusCode(500);
         }
+
+        $transaction->commit();
 
         return $dish->id;
     }

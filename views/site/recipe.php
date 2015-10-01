@@ -252,10 +252,11 @@ function fieldOpts($fieldId)
 </div>
 
 <?php Modal::begin($copyModalOpts);
+    $mdl  = new \app\models\CopyDish;
     $form = ActiveForm::begin($copyFormOptions);
-    echo $form->field($dishModel, 'name');
-    echo $form->field($dishModel, 'type')->dropDownList($types);
-    echo Html::activeHiddenInput($dishModel, 'id');
+    echo $form->field($mdl, 'name');
+    echo $form->field($mdl, 'type')->dropDownList($types);
+    echo Html::activeHiddenInput($mdl, 'id');
     echo $submitCopyButton;
     ActiveForm::end();
 Modal::end() ?>

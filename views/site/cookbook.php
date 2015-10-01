@@ -97,8 +97,8 @@ $this->title = 'Cookbook';
       <div class="panel-body">
         <div class="row">
           <div class='col-lg-5'><?php echo Chosen::widget($cruiseSelector) ?></div>
-          <div class='col-lg-5'><?php echo Chosen::widget($vendorSelector) ?></div>
-          <div class='col-lg-2'><?php echo Touchspin::widget($touchSpin) ?></div>
+          <div class='col-lg-4'><?php echo Chosen::widget($vendorSelector) ?></div>
+          <div class='col-lg-3'><?php echo Touchspin::widget($touchSpin) ?></div>
         </div>
       </div>
     </div>

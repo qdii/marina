@@ -66,7 +66,7 @@ $captchaOpts = [
             <?php $form = ActiveForm::begin($loginForm);
             echo $form->field($loginMdl, 'username');
             echo $form->field($loginMdl, 'password')->passwordInput();
-            echo Button::widget(['label' => 'Login', 'options' => ['class' => 'btn-success']]);
+            echo Button::widget(['label' => 'Login', 'id' => 'login-button', 'options' => ['class' => 'btn-success']]);
             ActiveForm::end(); ?>
 
             <?php $form = ActiveForm::begin($signupForm);

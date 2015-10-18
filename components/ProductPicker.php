@@ -258,10 +258,41 @@ class ProductPicker
     }
 
     /**
+     * Returns a squeezed version of the dictionary
+     * It cumulates the values of the different 'names'
+     *
+     * @param array $dict A list of ['id' => id => 'qty' => value] entries
+     *
+     * @return array A list of ['name' => value] where there can be at most
+     * one instance of 'name'
+     */
+    private function _squeezeDictionary($dict)
+    {
+        $squeezedDict = [];
+        foreach ($dict as $couple) {
+            $id  = $couple['id'];
+            $qty = $couple['qty'];
+
+            if (!array_key_exists($id, $dict)) {
+                $squeezedDict[$id] = 0;
+            }
+
+            $squeezedDict[$id] += $qty;
+        }
+
+        $res = [];
+        foreach ($squeezedDict as $id => $qty) {
+            $res[] = [ 'id' => $id, 'qty' => $qty ];
+        }
+
+        return $res;
+    }
+
+    /**
      * Computes a shopping list from an ingredient list based on the
      * products offered by a given vendor
      *
-     * @param array $ingrList A [ingredient, quantity] list
+     * @param array $ingrList A ['id' => ingredient, 'qty' => quantity] list
      * @param int   $vendor   A vendor id
      *
      * @return array An array [ product_id => foo ], where foo is an
@@ -271,6 +302,10 @@ class ProductPicker
     public function getShoppingListFromIngredientList($ingrList, $vendor)
     {
         $productList = [];
+
+        // sums duplicate ingredients quantity
+        $ingrList = $this->_squeezeDictionary($ingrList);
+
         $ingredientList = [];
         foreach ( $ingrList as $item ) {
             $ingrId  = $item['id'];

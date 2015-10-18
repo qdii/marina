@@ -135,6 +135,54 @@ class ProductPickerTest extends \yii\codeception\DbTestCase
 
         $products = $picker->getShoppingListFromIngredientList($ingreds, $tesco);
         $this->assertNotEmpty($products);
-        $this->assertCount(1, $products);
+        $this->assertCount(1, $products['products']);
+        $this->assertCount(0, $products['ingredients']);
+    }
+
+    /**
+     * In this test we take twice the same ingredients, and we see
+     * if it cumulates to only one product
+     *
+     * @return void
+     */
+    public function testCumul()
+    {
+        $picker = new ProductPicker;
+
+        // vendor
+        $tesco = 1;
+
+        // ingredient
+        $carrots = 11124;
+
+        // product
+        $tescoCarrot = 16;
+
+        $ingreds = [
+            [ 'id' => $carrots, 'qty' => 50 ],
+            [ 'id' => $carrots, 'qty' => 70 ]
+        ];
+
+        $products = $picker->getShoppingListFromIngredientList($ingreds, $tesco);
+
+        // there should be no unmatched ingredients
+        $this->assertEmpty($products['ingredients']);
+
+        // there should be only one select product
+        $this->assertCount(1, $products['products']);
+
+        // this product should be carrots from Tesco
+        $this->assertArrayHasKey($tescoCarrot, $products['products']);
+
+        // the API call should give us how much of this product we need
+        $this->assertArrayHasKey('qty', $products['products'][$tescoCarrot]);
+
+        $qtyProduct = $products['products'][$tescoCarrot]['qty'];
+
+        // 1 bag of carrots contains 1kg of carrots, which should be largely
+        // enough to cover the 50 + 70 = 120g of carrots we need
+        // but just in case the API calls round up, we will check that it
+        // does not suggest more than 1bag
+        $this->assertLessThanOrEqual(1, $qtyProduct);
     }
 }

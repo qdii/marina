@@ -381,7 +381,8 @@ class AjaxController extends Controller
             $meals,
             $dishes,
             Proportion::find()->all(),
-            Fraction::find()->all()
+            Fraction::find()->all(),
+            $ingredients
         );
 
         $ingredientList = [];
@@ -392,15 +393,26 @@ class AjaxController extends Controller
                 'qty' => $item['quantity']
             ];
         }
-        $productList = $productPicker->getShoppingListFromIngredientList(
+        $lists = $productPicker->getShoppingListFromIngredientList(
             $ingredientList, intval($vendorId)
         );
 
         $result = [];
-        foreach ( $productList as $id => $product ) {
+        foreach ( $lists['products'] as $id => $product ) {
             $result[$id] = [
+                'id'       => $id,
                 'quantity' => $product['qty'],
-                'name'     => $product['name']
+                'name'     => $product['name'],
+                'type'     => 'product'
+            ];
+        }
+
+        foreach ( $lists['ingredients'] as $id => $ingredient ) {
+            $result[$id] = [
+                'id'       => $id,
+                'quantity' => $ingredient['qty'],
+                'name'     => $ingredient['name'],
+                'type'     => 'ingredient'
             ];
         }
         ArrayHelper::multisort($result, 'name');

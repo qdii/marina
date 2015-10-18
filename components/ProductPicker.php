@@ -44,6 +44,7 @@ class ProductPicker
     private $_dishesById;
     private $_proportions;
     private $_fractions;
+    private $_ingredientsById;
 
     public function __construct(
         $products    = [],
@@ -51,7 +52,8 @@ class ProductPicker
         $meals       = [],
         $dishes      = [],
         $proportions = [],
-        $fractions   = []
+        $fractions   = [],
+        $ingredients = []
     ) {
 
         if (empty($products))    { $products    = Product::find()->all(); }
@@ -60,13 +62,15 @@ class ProductPicker
         if (empty($dishes))      { $dishes      = Dish::find()->all();    }
         if (empty($proportions)) { $proportions = Proportion::find()->all(); }
         if (empty($fractions))   { $fractions   = Fraction::find()->all(); }
+        if (empty($ingredients)) { $ingredients = Ingredient::find()->all(); }
 
-        $this->_productsById = ArrayHelper::index($products, 'id');
-        $this->_cruisesById  = ArrayHelper::index($cruises, 'id');
-        $this->_mealsById    = ArrayHelper::index($meals, 'id');
-        $this->_dishesById   = ArrayHelper::index($dishes, 'id');
-        $this->_proportions  = $proportions;
-        $this->_fractions    = $fractions;
+        $this->_productsById    = ArrayHelper::index($products, 'id');
+        $this->_cruisesById     = ArrayHelper::index($cruises, 'id');
+        $this->_mealsById       = ArrayHelper::index($meals, 'id');
+        $this->_dishesById      = ArrayHelper::index($dishes, 'id');
+        $this->_ingredientsById = ArrayHelper::index($ingredients, 'id');
+        $this->_proportions     = $proportions;
+        $this->_fractions       = $fractions;
     }
 
     /**
@@ -254,10 +258,41 @@ class ProductPicker
     }
 
     /**
+     * Returns a squeezed version of the dictionary
+     * It cumulates the values of the different 'names'
+     *
+     * @param array $dict A list of ['id' => id => 'qty' => value] entries
+     *
+     * @return array A list of ['name' => value] where there can be at most
+     * one instance of 'name'
+     */
+    private function _squeezeDictionary($dict)
+    {
+        $squeezedDict = [];
+        foreach ($dict as $couple) {
+            $id  = $couple['id'];
+            $qty = $couple['qty'];
+
+            if (!array_key_exists($id, $dict)) {
+                $squeezedDict[$id] = 0;
+            }
+
+            $squeezedDict[$id] += $qty;
+        }
+
+        $res = [];
+        foreach ($squeezedDict as $id => $qty) {
+            $res[] = [ 'id' => $id, 'qty' => $qty ];
+        }
+
+        return $res;
+    }
+
+    /**
      * Computes a shopping list from an ingredient list based on the
      * products offered by a given vendor
      *
-     * @param array $ingrList A [ingredient, quantity] list
+     * @param array $ingrList A ['id' => ingredient, 'qty' => quantity] list
      * @param int   $vendor   A vendor id
      *
      * @return array An array [ product_id => foo ], where foo is an
@@ -267,16 +302,27 @@ class ProductPicker
     public function getShoppingListFromIngredientList($ingrList, $vendor)
     {
         $productList = [];
+
+        // sums duplicate ingredients quantity
+        $ingrList = $this->_squeezeDictionary($ingrList);
+
+        $ingredientList = [];
         foreach ( $ingrList as $item ) {
             $ingrId  = $item['id'];
             $ingrQty = $item['qty'];
 
             $products = $this->pickProduct($ingrId, $vendor);
+            if (empty($products)) {
+                $ingredientList[$ingrId]['qty']  = $ingrQty;
+                $ingredientList[$ingrId]['name'] = $this->_ingredientsById[$ingrId]->name;
+                continue;
+            }
+
             foreach ( $products as $product ) {
                 $prodId  = $product->id;
                 if (!isset($productList[$prodId])) {
                     $productList[$prodId]['name'] = $product->name;
-                    $productList[$prodId]['qty']    = 0;
+                    $productList[$prodId]['qty']  = 0;
                 }
                 $prodQty = $this->getAmountOfProduct(
                     $ingrId,
@@ -288,7 +334,7 @@ class ProductPicker
             }
         }
 
-        return $productList;
+        return ['products' => $productList, 'ingredients' => $ingredientList];
     }
 
     /**

@@ -44,6 +44,7 @@ class ProductPicker
     private $_dishesById;
     private $_proportions;
     private $_fractions;
+    private $_ingredientsById;
 
     public function __construct(
         $products    = [],
@@ -51,7 +52,8 @@ class ProductPicker
         $meals       = [],
         $dishes      = [],
         $proportions = [],
-        $fractions   = []
+        $fractions   = [],
+        $ingredients = []
     ) {
 
         if (empty($products))    { $products    = Product::find()->all(); }
@@ -60,13 +62,15 @@ class ProductPicker
         if (empty($dishes))      { $dishes      = Dish::find()->all();    }
         if (empty($proportions)) { $proportions = Proportion::find()->all(); }
         if (empty($fractions))   { $fractions   = Fraction::find()->all(); }
+        if (empty($ingredients)) { $ingredients = Ingredient::find()->all(); }
 
-        $this->_productsById = ArrayHelper::index($products, 'id');
-        $this->_cruisesById  = ArrayHelper::index($cruises, 'id');
-        $this->_mealsById    = ArrayHelper::index($meals, 'id');
-        $this->_dishesById   = ArrayHelper::index($dishes, 'id');
-        $this->_proportions  = $proportions;
-        $this->_fractions    = $fractions;
+        $this->_productsById    = ArrayHelper::index($products, 'id');
+        $this->_cruisesById     = ArrayHelper::index($cruises, 'id');
+        $this->_mealsById       = ArrayHelper::index($meals, 'id');
+        $this->_dishesById      = ArrayHelper::index($dishes, 'id');
+        $this->_ingredientsById = ArrayHelper::index($ingredients, 'id');
+        $this->_proportions     = $proportions;
+        $this->_fractions       = $fractions;
     }
 
     /**
@@ -267,16 +271,23 @@ class ProductPicker
     public function getShoppingListFromIngredientList($ingrList, $vendor)
     {
         $productList = [];
+        $ingredientList = [];
         foreach ( $ingrList as $item ) {
             $ingrId  = $item['id'];
             $ingrQty = $item['qty'];
 
             $products = $this->pickProduct($ingrId, $vendor);
+            if (empty($products)) {
+                $ingredientList[$ingrId]['qty']  = $ingrQty;
+                $ingredientList[$ingrId]['name'] = $this->_ingredientsById[$ingrId]->name;
+                continue;
+            }
+
             foreach ( $products as $product ) {
                 $prodId  = $product->id;
                 if (!isset($productList[$prodId])) {
                     $productList[$prodId]['name'] = $product->name;
-                    $productList[$prodId]['qty']    = 0;
+                    $productList[$prodId]['qty']  = 0;
                 }
                 $prodQty = $this->getAmountOfProduct(
                     $ingrId,
@@ -288,7 +299,7 @@ class ProductPicker
             }
         }
 
-        return $productList;
+        return ['products' => $productList, 'ingredients' => $ingredientList];
     }
 
     /**

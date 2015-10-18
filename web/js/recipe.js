@@ -26,7 +26,7 @@ function handle_click_copy_submit(event) {
 
     var opts = {
         'success': function(id) {
-            window.location.href = url_recipe + "&id=" + id;
+            window.location.href = url_recipe + "?id=" + id;
         },
         'error':   function() { console.log('failed to copy dish'); },
     };

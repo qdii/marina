@@ -88,7 +88,7 @@ var calendarProto = {
         this.set_second_course(0);
         this.set_dessert(0);
         this.set_drink(0);
-        this.set_cruise(this.get_cruise());
+        this.set_cruise(this.get_cruise_id());
 
         $(window.meal_dialog_id).modal('show');
     },

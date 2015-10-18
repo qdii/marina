@@ -17,6 +17,6 @@ $I->waitForText('Energy');
 
 $I->click('#copy-dish');
 $I->waitForText('Create a dish from selection');
-$I->fillField('input[name="Dish[name]"]', 'Test Dish');
+$I->fillField('input[name="CopyDish[name]"]', 'Test Dish');
 $I->click('#submit-copy');
 $I->dontSee('Create a dish from selection');

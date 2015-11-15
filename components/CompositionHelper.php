@@ -190,11 +190,8 @@ class CompositionHelper
         return array_merge($query->all(), $totals->all());
     }
 
-    public function getCookbook($cruise, $vendor, $nbGuests)
+    private function _getDishesFromCruise($cruiseId)
     {
-        $cruises = [ $cruise ];
-        $cruiseIds = ArrayHelper::getColumn($cruises, 'id');
-
         $meals = [];
         foreach ( array_values($this->_mealsById) as $meal ) {
             if (in_array($meal->cruise, $cruiseIds)) {
@@ -210,8 +207,13 @@ class CompositionHelper
             $dishes[] = $this->_dishesById[$meal->drink];
         }
 
+        return $dishes;
+    }
+
+    public function getCookbook($cruise, $vendor, $nbGuests)
+    {
         $cookbook = [];
-        foreach ( $dishes as $dish ) {
+        foreach ( $this->_getDishesFromCruise($cruise->id) as $dish ) {
             $found = false;
             foreach ( $cookbook as &$recipe ) {
                 if ($recipe['name'] == $dish->name) {

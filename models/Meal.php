@@ -18,6 +18,7 @@ use Yii;
  * @property integer $cruise
  * @property string $backgroundColor
  *
+ * @property Course[] $courses
  * @property Dish $firstCourse0
  * @property Dish $secondCourse0
  * @property Dish $dessert0
@@ -65,6 +66,14 @@ class Meal extends \yii\db\ActiveRecord
             'cruise' => Yii::t('app', 'Cruise'),
             'backgroundColor' => Yii::t('app', 'Background Color'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourses()
+    {
+        return $this->hasMany(Course::className(), ['meal' => 'id']);
     }
 
     /**

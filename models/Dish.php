@@ -13,6 +13,7 @@ use Yii;
  *
  * @property Composition[] $compositions
  * @property Ingredient[] $ingredients
+ * @property Course[] $courses
  * @property Meal[] $meals
  * @property Meal[] $meals0
  * @property Meal[] $meals1
@@ -66,6 +67,14 @@ class Dish extends \yii\db\ActiveRecord
     public function getIngredients()
     {
         return $this->hasMany(Ingredient::className(), ['id' => 'ingredient'])->viaTable('composition', ['dish' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourses()
+    {
+        return $this->hasMany(Course::className(), ['dish' => 'id']);
     }
 
     /**

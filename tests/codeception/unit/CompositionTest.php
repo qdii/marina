@@ -176,9 +176,9 @@ class SiteControllerTest extends \yii\codeception\DbTestCase
      */
     public function testGetCookbook()
     {
-        $helper   = new CompositionHelper();
+        $helper   = new CompositionHelper;
 
-        $cruise   = \app\models\Cruise::findOne(['id' => 1004]);
+        $cruise   = \app\models\Cruise::find(['id' => 100000])->one();
         $this->assertNotNull($cruise);
         $vendor   = 1;
         $nbGuests = 1;

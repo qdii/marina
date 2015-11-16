@@ -23,7 +23,7 @@ use \app\models\Boat;
 use \app\models\Proportion;
 use \app\models\Fraction;
 use \yii\helpers\ArrayHelper;
-
+use \app\components\CruiseHelper;
 /**
  * Provides new functions around Composition
  *
@@ -190,30 +190,12 @@ class CompositionHelper
         return array_merge($query->all(), $totals->all());
     }
 
-    private function _getDishesFromCruise($cruiseId)
-    {
-        $meals = [];
-        foreach ( array_values($this->_mealsById) as $meal ) {
-            if (in_array($meal->cruise, $cruiseIds)) {
-                $meals[] = $meal;
-            }
-        }
-
-        $dishes = [];
-        foreach ( $meals as $meal ) {
-            $dishes[] = $this->_dishesById[$meal->firstCourse];
-            $dishes[] = $this->_dishesById[$meal->secondCourse];
-            $dishes[] = $this->_dishesById[$meal->dessert];
-            $dishes[] = $this->_dishesById[$meal->drink];
-        }
-
-        return $dishes;
-    }
-
-    public function getCookbook($cruise, $vendor, $nbGuests)
+    public function getCookbook(\app\models\Cruise $cruise, $vendor, $nbGuests)
     {
         $cookbook = [];
-        foreach ( $this->_getDishesFromCruise($cruise->id) as $dish ) {
+        $cruiseHelper = new CruiseHelper;
+        $cruiseId = $cruise->id;
+        foreach ($cruiseHelper->getDishesFromCruise($cruiseId) as $dish) {
             $found = false;
             foreach ( $cookbook as &$recipe ) {
                 if ($recipe['name'] == $dish->name) {

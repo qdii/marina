@@ -168,4 +168,25 @@ class SiteControllerTest extends \yii\codeception\DbTestCase
             Composition::find()->count()
         );
     }
+
+    /**
+     * Checks that the cloning function of the composition helper works
+     *
+     * @return void
+     */
+    public function testGetCookbook()
+    {
+        $helper   = new CompositionHelper();
+
+        $cruise   = \app\models\Cruise::findOne(['id' => 1004]);
+        $this->assertNotNull($cruise);
+        $vendor   = 1;
+        $nbGuests = 1;
+
+        $cookbook = $helper->getCookbook($cruise, $vendor, $nbGuests);
+
+        $this->assertNotEmpty($cookbook);
+    }
+
+
 }

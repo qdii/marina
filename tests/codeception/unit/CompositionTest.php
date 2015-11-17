@@ -1,4 +1,15 @@
 <?php
+/**
+ * Test the Composition object.
+ *
+ * PHP version 5.4
+ *
+ * @category Tests
+ * @package  Tests
+ * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+ * @link     https://github.com/marina
+ */
 
 use \app\SiteController;
 use \app\components\CompositionHelper;
@@ -7,9 +18,14 @@ use \app\models\Dish;
 use \app\tests\codeception\fixtures\CompositionFixture;
 
 /**
- * Unit test for the class Price Compute
+ * TestCase for CompositionHelper
+ *
+ * @category Tests
+ * @package  Tests
+ * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+ * @link     https://github.com/marina
  */
-
 class SiteControllerTest extends \yii\codeception\DbTestCase
 {
     public function fixtures()

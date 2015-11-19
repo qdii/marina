@@ -9,12 +9,13 @@
  * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
  * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://github.com/marina
- *
  */
 namespace app\components;
 use \yii\helpers\ArrayHelper;
 use \app\models\Composition;
+use \app\models\Course;
 use \app\models\Ingredient;
+use \app\models\Meal;
 use \app\models\Unit;
 
 /**
@@ -27,44 +28,10 @@ use \app\models\Unit;
  * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
  * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://github.com/marina
- *
  */
 class PriceComputer
 {
-    public $items     = [];
-
-    private $_unitsNameById = [];
-    private $_unitsById = [];
-
-    private $_ingredients;
-    private $_compositions;
-    private $_dishes;
-    private $_meals;
-
-    private $_dishesById;
-    private $_ingredientsById;
-
-    /**
-     * Constructs a PriceComputer
-     *
-     * @param array $ingredients  An array of \app\models\Ingredient to compute from
-     * @param array $compositions An array of \app\models\Composition to compute from
-     * @param array $units        An array of \app\models\Unit to compute from
-     * @param array $dishes       An array of \app\models\Dish to compute from
-     * @param array $meals        An array of \app\models\Meal to compute from
-     */
-    public function __construct($ingredients, $compositions, $units, $dishes, $meals)
-    {
-        $this->_unitsNameById = ArrayHelper::map($units, 'id', 'shortName');
-        $this->_ingredients   = $ingredients;
-        $this->_compositions  = $compositions;
-        $this->_dishes        = $dishes;
-        $this->_meals         = $meals;
-
-        $this->_dishesById      = ArrayHelper::index($dishes, 'id');
-        $this->_ingredientsById = ArrayHelper::index($ingredients, 'id');
-        $this->_unitsById       = ArrayHelper::index($units, 'id');
-    }
+    public $items = [];
 
     /**
      * Return the dishes contained in this meal
@@ -73,7 +40,7 @@ class PriceComputer
      *
      * @return array The dishes associated to this meal
      */
-    private function _getDishesFromMeal(\app\models\Meal $meal)
+    private function _getDishesFromMeal(Meal $meal)
     {
         return $this->getDishesFromMeals([ $meal ]);
     }
@@ -88,15 +55,16 @@ class PriceComputer
     public function getDishesFromMeals($meals)
     {
         $dishes = [];
-        $courses = $meals->getCourses()->all();
+        $mealIds = ArrayHelper::getColumn($meals, 'id');
+        $courses = Course::findAll(['meal' => $mealIds]);
         foreach ($courses as $course) {
-            $dishes[] = $course->getDish()->one();
+            $dishes[] = $course->getDish0()->one();
         }
 
         return $dishes;
     }
 
-    public function addMeal(\app\models\Meal $meal)
+    public function addMeal(Meal $meal)
     {
         $nbGuests = $meal['nbGuests'];
 
@@ -157,15 +125,12 @@ class PriceComputer
     private function _addDishes($dishes, $nbGuests)
     {
         $dishIds = ArrayHelper::getColumn($dishes, 'id');
+        $compositions = Composition::find()->where(['dish' => $dishIds])->all();
 
-        foreach ( $this->_compositions as $item ) {
-            if (!in_array($item['dish'], $dishIds)) {
-                continue;
-            }
-
-            $ingredient = $this->_ingredientsById[$item['ingredient']];
+        foreach ($compositions as $item) {
+            $ingredient = $item->getIngredient0()->one();
             $unitId     = $ingredient['unit'];
-            $unit       = $unitId != null ?  $this->_unitsById[$ingredient['unit']] : null;
+            $unit       = $unitId != null ? Unit::findOne(['id' => $unitId]) : null;
             $quantity   = $item['quantity'] * $nbGuests;
 
             $this->_initItem($item['ingredient']);
@@ -202,14 +167,11 @@ class PriceComputer
     {
         $intakes       = [];
         $dishIds       = ArrayHelper::getColumn($dishes, 'id');
+        $compositions = Composition::find()->where(['dish' => $dishIds])->all();
 
-        foreach ( $this->_compositions as $item ) {
-            if (!in_array($item->dish, $dishIds)) {
-                continue;
-            }
-
+        foreach ( $compositions as $item ) {
             $quantity   = $item->quantity; // in grams
-            $ingredient = $this->_ingredientsById[$item->ingredient];
+            $ingredient = $item->getIngredient0()->one();
 
             foreach ( $props as $property ) {
                 // number of calories (or whatever) per 100g

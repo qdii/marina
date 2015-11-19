@@ -13,8 +13,9 @@
  */
 namespace app\components;
 
-use \app\models\Meal;
 use \app\models\Dish;
+use \app\models\Meal;
+use \app\models\User;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
@@ -56,59 +57,8 @@ function getDishName(Dish $dish)
  */
 class EventMaker
 {
-    private $_dessertById;
-    private $_firstById;
-    private $_secondById;
-    private $_drinkById;
-    private $_userById;
-
-    private $_ingredients;
-    private $_compositions;
-    private $_dishes;
-    private $_meals;
-
     private $_defaultColorMeal  = '#2a4f6e';
     private $_defaultColorBilan = '#267257';
-
-    /**
-     * Constructs an EventMaker
-     *
-     * @param array $dessertById  An array of desserts indexed by their id
-     * @param array $firstById    An array of firsts indexed by their id
-     * @param array $secondById   An array of seconds indexed by their id
-     * @param array $drinkById    An array of drinks indexed by their id
-     * @param array $userById     An array of users indexed by their id
-     * @param array $ingredients  An array of \app\models\Ingredient to compute from
-     * @param array $compositions An array of \app\models\Composition to compute from
-     * @param array $units        An array of \app\models\Unit to compute from
-     * @param array $dishes       An array of \app\models\Dish to compute from
-     * @param array $meals        An array of \app\models\Meal to compute from
-     *
-     * @return EventMaker A new EventMaker object
-     */
-    public function __construct(
-        $dessertById,
-        $firstById,
-        $secondById,
-        $drinkById,
-        $userById,
-        $ingredients,
-        $compositions,
-        $units,
-        $dishes,
-        $meals
-    ) {
-        $this->_dessertById  = $dessertById;
-        $this->_firstById    = $firstById;
-        $this->_secondById   = $secondById;
-        $this->_drinkById    = $drinkById;
-        $this->_userById     = $userById;
-        $this->_ingredients  = $ingredients;
-        $this->_compositions = $compositions;
-        $this->_units        = $units;
-        $this->_dishes       = $dishes;
-        $this->_meals        = $meals;
-    }
 
     /**
      * Creates the text of a fullcalendar event
@@ -119,7 +69,7 @@ class EventMaker
      */
     public function getTitleFromMeal(\app\models\Meal $meal)
     {
-        $user         = $this->_userById[ $meal->cook ];
+        $user         = User::findOne([$meal->cook]);
         $firstCourse  = $meal->getFirstCourse0()->one();
         $secondCourse = $meal->getSecondCourse0()->one();
         $dessert      = $meal->getDessert0()->one();
@@ -171,13 +121,7 @@ class EventMaker
      */
     public function getIntakeBilan($meals)
     {
-        $computer = new PriceComputer(
-            $this->_ingredients,
-            $this->_compositions,
-            $this->_units,
-            $this->_dishes,
-            $this->_meals
-        );
+        $computer = new PriceComputer;
         $properties
             = [
                 'energy_kcal',

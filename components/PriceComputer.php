@@ -88,11 +88,9 @@ class PriceComputer
     public function getDishesFromMeals($meals)
     {
         $dishes = [];
-        foreach ( $meals as $meal ) {
-            $dishes[] = $this->_dishesById[ $meal['firstCourse']  ];
-            $dishes[] = $this->_dishesById[ $meal['secondCourse'] ];
-            $dishes[] = $this->_dishesById[ $meal['dessert']      ];
-            $dishes[] = $this->_dishesById[ $meal['drink']        ];
+        $courses = $meals->getCourses()->all();
+        foreach ($courses as $course) {
+            $dishes[] = $course->getDish()->one();
         }
 
         return $dishes;

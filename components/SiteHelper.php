@@ -2,7 +2,9 @@
 
 namespace app\components;
 
+use \app\models\Course;
 use \app\models\Cruise;
+use \app\models\Meal;
 
 class SiteHelper
 {
@@ -29,13 +31,9 @@ class SiteHelper
 
         $meals = $cruise->getMeals()->all();
         foreach ( $meals as $meal ) {
-            $newMeal = new \app\models\Meal;
+            $newMeal = new Meal;
 
             $newMeal->nbGuests        = $meal->nbGuests;
-            $newMeal->firstCourse     = $meal->firstCourse;
-            $newMeal->secondCourse    = $meal->secondCourse;
-            $newMeal->dessert         = $meal->dessert;
-            $newMeal->drink           = $meal->drink;
             $newMeal->cook            = $meal->cook;
             $newMeal->date            = $meal->date;
             $newMeal->backgroundColor = $meal->backgroundColor;
@@ -43,6 +41,18 @@ class SiteHelper
 
             if (!$newMeal->save()) {
                 throw new \Exception("Cannot create new meal");
+            }
+
+            foreach ($meal->getCourses() as $course) {
+                $newCourse = new Course;
+
+                $newCourse->meal = $newMeal->id;
+                $newCourse->type = $course->type;
+                $newCourse->dish = $course->dish;
+
+                if (!$newMeal->save()) {
+                    throw new \Exception("Cannot create course");
+                }
             }
         }
         $transaction->commit();

@@ -119,11 +119,11 @@ class EventMaker
      */
     public function getTitleFromMeal(\app\models\Meal $meal)
     {
-        $user         = $this->_userById   [ $meal->cook ];
-        $firstCourse  = $this->_firstById  [ $meal->firstCourse ];
-        $secondCourse = $this->_secondById [ $meal->secondCourse ];
-        $dessert      = $this->_dessertById[ $meal->dessert ];
-        $drink        = $this->_drinkById  [ $meal->drink ];
+        $user         = $this->_userById[ $meal->cook ];
+        $firstCourse  = $meal->getFirstCourse0()->one();
+        $secondCourse = $meal->getSecondCourse0()->one();
+        $dessert      = $meal->getDessert0()->one();
+        $drink        = $meal->getDrink0()->one();
 
         $dishes = [ $firstCourse, $secondCourse, $dessert, $drink ];
         $validDishes = array_filter($dishes, '\app\components\isDishValid');

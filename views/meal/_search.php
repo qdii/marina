@@ -19,19 +19,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nbGuests') ?>
 
-    <?= $form->field($model, 'firstCourse') ?>
+    <?= $form->field($model, 'cook') ?>
 
-    <?= $form->field($model, 'secondCourse') ?>
+    <?= $form->field($model, 'date') ?>
 
-    <?= $form->field($model, 'dessert') ?>
-
-    <?php // echo $form->field($model, 'drink') ?>
-
-    <?php // echo $form->field($model, 'cook') ?>
-
-    <?php // echo $form->field($model, 'date') ?>
-
-    <?php // echo $form->field($model, 'cruise') ?>
+    <?= $form->field($model, 'cruise') ?>
 
     <?php // echo $form->field($model, 'backgroundColor') ?>
 

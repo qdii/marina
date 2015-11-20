@@ -14,14 +14,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nbGuests')->textInput() ?>
 
-    <?= $form->field($model, 'firstCourse')->textInput() ?>
-
-    <?= $form->field($model, 'secondCourse')->textInput() ?>
-
-    <?= $form->field($model, 'dessert')->textInput() ?>
-
-    <?= $form->field($model, 'drink')->textInput() ?>
-
     <?= $form->field($model, 'cook')->textInput() ?>
 
     <?= $form->field($model, 'date')->textInput() ?>

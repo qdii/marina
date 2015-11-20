@@ -18,7 +18,7 @@ class MealSearch extends Meal
     public function rules()
     {
         return [
-            [['id', 'nbGuests', 'firstCourse', 'secondCourse', 'dessert', 'drink', 'cook', 'cruise'], 'integer'],
+            [['id', 'nbGuests', 'cook', 'cruise'], 'integer'],
             [['date', 'backgroundColor'], 'safe'],
         ];
     }
@@ -58,10 +58,6 @@ class MealSearch extends Meal
         $query->andFilterWhere([
             'id' => $this->id,
             'nbGuests' => $this->nbGuests,
-            'firstCourse' => $this->firstCourse,
-            'secondCourse' => $this->secondCourse,
-            'dessert' => $this->dessert,
-            'drink' => $this->drink,
             'cook' => $this->cook,
             'date' => $this->date,
             'cruise' => $this->cruise,

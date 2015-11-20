@@ -27,13 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'nbGuests',
-            'firstCourse',
-            'secondCourse',
-            'dessert',
-            // 'drink',
-            // 'cook',
-            // 'date',
-            // 'cruise',
+            'cook',
+            'date',
+            'cruise',
             // 'backgroundColor',
 
             ['class' => 'yii\grid\ActionColumn'],

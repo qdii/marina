@@ -81,7 +81,7 @@ class Meal extends \yii\db\ActiveRecord
      */
     public function getFirstCourse0()
     {
-        return $this->hasOne(Dish::className(), ['id' => 'firstCourse']);
+        return $this->getCourses()->where(['type' => 0])->one()->getDish0();
     }
 
     /**
@@ -89,7 +89,7 @@ class Meal extends \yii\db\ActiveRecord
      */
     public function getSecondCourse0()
     {
-        return $this->hasOne(Dish::className(), ['id' => 'secondCourse']);
+        return $this->getCourses()->where(['type' => 1])->one()->getDish0();
     }
 
     /**
@@ -97,7 +97,7 @@ class Meal extends \yii\db\ActiveRecord
      */
     public function getDessert0()
     {
-        return $this->hasOne(Dish::className(), ['id' => 'dessert']);
+        return $this->getCourses()->where(['type' => 2])->one()->getDish0();
     }
 
     /**
@@ -105,7 +105,7 @@ class Meal extends \yii\db\ActiveRecord
      */
     public function getDrink0()
     {
-        return $this->hasOne(Dish::className(), ['id' => 'drink']);
+        return $this->getCourses()->where(['type' => 3])->one()->getDish0();
     }
 
     /**

@@ -1,11 +1,28 @@
 <?php
 /**
- * Unit test for the class AuthHelper
+ * Test around authentication.
+ *
+ * PHP version 5.4
+ *
+ * @category Tests
+ * @package  Tests
+ * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+ * @link     https://github.com/marina
  */
 
 use \app\models\User;
 use \app\models\Auth;
 
+/**
+ * TestCase for AuthHelper
+ *
+ * @category Tests
+ * @package  Tests
+ * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+ * @link     https://github.com/marina
+ */
 class AuthHelperTest extends \yii\codeception\DbTestCase
 {
     public function testCreateNewUserAndAuthenticate()

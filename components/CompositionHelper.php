@@ -13,15 +13,15 @@
  */
 namespace app\components;
 
-use \app\models\Composition;
-use \app\models\Ingredient;
-use \app\models\Product;
-use \app\models\Dish;
-use \app\models\Cruise;
-use \app\models\Meal;
 use \app\models\Boat;
-use \app\models\Proportion;
+use \app\models\Composition;
+use \app\models\Cruise;
+use \app\models\Dish;
 use \app\models\Fraction;
+use \app\models\Ingredient;
+use \app\models\Meal;
+use \app\models\Product;
+use \app\models\Proportion;
 use \yii\helpers\ArrayHelper;
 use \app\components\CruiseHelper;
 /**
@@ -229,14 +229,7 @@ class CompositionHelper
 
     private function _getRecipeItemsForDish($dish, $vendor, $nbGuests)
     {
-        $helper = new ProductPicker(
-            array_values($this->_productsById),
-            array_values($this->_cruisesById),
-            array_values($this->_mealsById),
-            array_values($this->_dishesById),
-            $this->_proportions,
-            $this->_fractions
-        );
+        $helper = new ProductPicker;
 
         $compos = $this->_getCompositionFromDish($dish->id);
 

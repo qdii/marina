@@ -134,8 +134,9 @@ class AjaxController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $meal = \app\models\Meal::find()->where( ["id" => $id] )->one();
-        if ($meal == null)
+        if ($meal == null) {
             return;
+        }
 
         return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date", "backgroundColor", "cruise" ] );
     }
@@ -188,35 +189,9 @@ class AjaxController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        $units        = Unit::find()->all();
-        $users        = User::find()->all();
-        $dishes       = Dish::find()->all();
-        $compositions = Composition::find()->all();
-        $compoIds     = ArrayHelper::getColumn($compositions, 'ingredient');
-        $ingredients  = Ingredient::findAll(['id' => array_unique($compoIds)]);
-
-        $meals    = Meal::findAll(['cruise' => $id]);
-        $mealIds  = ArrayHelper::getColumn($meals, 'id');
-
-        $drinks   = Dish::findAll(['type' => 'drink']);
-        $desserts = Dish::findAll(['type' => 'dessert']);
-        $firsts   = Dish::findAll(['type' => 'firstCourse']);
-        $seconds  = Dish::findAll(['type' => 'secondCourse']);
-
-        $eventMaker = new EventMaker(
-            ArrayHelper::index($desserts, 'id'),
-            ArrayHelper::index($firsts, 'id'),
-            ArrayHelper::index($seconds, 'id'),
-            ArrayHelper::index($drinks, 'id'),
-            ArrayHelper::index($users, 'id'),
-            $ingredients,
-            $compositions,
-            $units,
-            $dishes,
-            $meals
-        );
-        $events = $eventMaker->getEventsAndBilanFromMeals($meals);
-        return $events;
+        $meals = Meal::findAll(['cruise' => $id]);
+        $eventMaker = new EventMaker;
+        return $eventMaker->getEventsAndBilanFromMeals($meals);
     }
 
     /**

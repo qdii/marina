@@ -33,46 +33,9 @@ use yii\helpers\ArrayHelper;
  * @author   Victor Lavaud (qdii) <victor.lavaud@gmail.com>
  * @license  GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
  * @link     https://github.com/marina
- *
  */
 class ProductPicker
 {
-    // cache ['id' => 'products'];
-    private $_productsById;
-    private $_cruisesById;
-    private $_mealsById;
-    private $_dishesById;
-    private $_proportions;
-    private $_fractions;
-    private $_ingredientsById;
-
-    public function __construct(
-        $products    = [],
-        $cruises     = [],
-        $meals       = [],
-        $dishes      = [],
-        $proportions = [],
-        $fractions   = [],
-        $ingredients = []
-    ) {
-
-        if (empty($products))    { $products    = Product::find()->all(); }
-        if (empty($cruises))     { $cruises     = Cruise::find()->all();  }
-        if (empty($meals))       { $meals       = Meal::find()->all();    }
-        if (empty($dishes))      { $dishes      = Dish::find()->all();    }
-        if (empty($proportions)) { $proportions = Proportion::find()->all(); }
-        if (empty($fractions))   { $fractions   = Fraction::find()->all(); }
-        if (empty($ingredients)) { $ingredients = Ingredient::find()->all(); }
-
-        $this->_productsById    = ArrayHelper::index($products, 'id');
-        $this->_cruisesById     = ArrayHelper::index($cruises, 'id');
-        $this->_mealsById       = ArrayHelper::index($meals, 'id');
-        $this->_dishesById      = ArrayHelper::index($dishes, 'id');
-        $this->_ingredientsById = ArrayHelper::index($ingredients, 'id');
-        $this->_proportions     = $proportions;
-        $this->_fractions       = $fractions;
-    }
-
     /**
      * Selects the best product for a given ingredient at the given vendor
      *
@@ -86,16 +49,12 @@ class ProductPicker
         assert(is_int($ingred));
         assert(is_int($vendor));
         $products = [];
-        foreach ($this->_fractions as $fraction) {
-            if ($fraction->ingredient != $ingred) {
-                continue;
-            }
-
-            $product = $this->_productsById[$fraction->product];
-            if ($product->vendor != $vendor) {
-                continue;
-            }
-
+        $fractions = Fraction::findAll([ 'ingredient' => $ingred ]);
+        foreach ($fractions as $fraction) {
+            $product = Product::findOne([
+                'id'     => $fraction->product,
+                'vendor' => $vendor,
+            ]);
             $products[] = $product;
         }
         return $products;
@@ -180,37 +139,14 @@ class ProductPicker
         assert(is_int($ingred));
         assert(is_array($products));
         $portions = [];
-        foreach( $products as $prod ) {
+        foreach ($products as $prod) {
+            $cond = [
+                'ingredient' => $ingred,
+                'product'    => $prod
+            ];
 
-            // FRACTION
-            $fraction = null;
-            foreach ( $this->_fractions as $frac ) {
-                if ($frac->ingredient != $ingred) {
-                    continue;
-                }
-
-                if ($frac->product != $prod) {
-                    continue;
-                }
-
-                $fraction = $frac->fraction;
-                break;
-            }
-
-            // PROPORTION
-            $proportion = null;
-            foreach ( $this->_proportions as $prop ) {
-                if ($prop->ingredient != $ingred) {
-                    continue;
-                }
-
-                if ($prop->product != $prod) {
-                    continue;
-                }
-
-                $proportion = $prop->weight;
-                break;
-            }
+            $fraction   = Fraction::findOne($cond)->fraction;
+            $proportion = Proportion::findOne($cond)->weight;
 
             $portions[] = [
                 'ingredient' => $ingred,

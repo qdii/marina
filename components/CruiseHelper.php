@@ -36,4 +36,26 @@ class CruiseHelper
 
         return $dishes;
     }
+
+    /**
+     * Retrieves all the dishes of a certain type associated with a cruise
+     *
+     * @param int $cruiseId an Id of an existing cruise
+     * @param int $type     The type of dish to retrieve
+     *
+     * @return array an Array of \app\models\Dish
+     */
+    public function getDishesFromCruiseOfType($cruiseId, $type)
+    {
+        $dishes = [];
+        $meals = Meal::findAll(['cruise' => $cruiseId]);
+        foreach ($meals as $meal) {
+            $courses = $meal->getCourses()->where(['type' => $type])->all();
+            foreach ($courses as $course) {
+                $dishes[] = $course->getDish0()->one();
+            }
+        }
+
+        return $dishes;
+    }
 }

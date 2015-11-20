@@ -11,12 +11,21 @@
  * @link     https://github.com/marina
  */
 
+use \app\components\CruiseHelper;
+
 class CruiseHelperTest extends \yii\codeception\DbTestCase
 {
     public function testGetDishesFromCruise()
     {
         $cruiseId = 99998;
-        $dishes = \app\components\CruiseHelper::getDishesFromCruise($cruiseId);
+        $dishes = CruiseHelper::getDishesFromCruise($cruiseId);
+        $this->assertNotEmpty($dishes);
+    }
+
+    public function testGetDishesFromCruiseOfType()
+    {
+        $cruiseId = 99998;
+        $dishes = CruiseHelper::getDishesFromCruiseOfType($cruiseId, 1);
         $this->assertNotEmpty($dishes);
     }
 }

@@ -100,19 +100,19 @@ $userOpts = [
     'placeholder' => 'Pick a cook'
 ];
 $firstCourseOpts = [
-    'items'       => $firstCourses,
+    'items'       => $dishes,
     'placeholder' => 'Pick a dish'
 ];
 $secondCourseOpts = [
-    'items'       => $secondCourses,
+    'items'       => $dishes,
     'placeholder' => 'Pick a dish'
 ];
 $dessertOpts = [
-    'items' => $desserts,
+    'items'       => $dishes,
     'placeholder' => 'Pick a dessert',
 ];
 $drinkOpts = [
-    'items' => $drinks,
+    'items'       => $dishes,
     'placeholder' => 'Pick a drink',
 ];
 

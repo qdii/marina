@@ -14,10 +14,6 @@ use Yii;
  * @property Composition[] $compositions
  * @property Ingredient[] $ingredients
  * @property Course[] $courses
- * @property Meal[] $meals
- * @property Meal[] $meals0
- * @property Meal[] $meals1
- * @property Meal[] $meals2
  */
 class Dish extends \yii\db\ActiveRecord
 {
@@ -75,37 +71,5 @@ class Dish extends \yii\db\ActiveRecord
     public function getCourses()
     {
         return $this->hasMany(Course::className(), ['dish' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMeals()
-    {
-        return $this->hasMany(Meal::className(), ['firstCourse' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMeals0()
-    {
-        return $this->hasMany(Meal::className(), ['secondCourse' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMeals1()
-    {
-        return $this->hasMany(Meal::className(), ['dessert' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMeals2()
-    {
-        return $this->hasMany(Meal::className(), ['drink' => 'id']);
     }
 }

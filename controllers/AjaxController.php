@@ -138,7 +138,8 @@ class AjaxController extends Controller
             return;
         }
 
-        return $meal->getAttributes( [ "id", "nbGuests", "firstCourse", "secondCourse", "dessert", "drink", "cook", "date", "backgroundColor", "cruise" ] );
+        return $meal->getAttributes([
+            "id", "nbGuests", "cook", "date", "backgroundColor", "cruise" ]);
     }
 
     public function actionUser($id)

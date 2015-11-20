@@ -108,30 +108,12 @@ class SiteController extends Controller
         $dishes  = Dish::find()->all();
         $users   = User::find()->all();
 
-        $firstCourses = array_filter($dishes, function($dish) {
-            return $dish->type === 'firstCourse';
-        });
-        $secondCourses = array_filter($dishes, function($dish) {
-            return $dish->type === 'secondCourse';
-        });
-        $desserts = array_filter($dishes, function($dish) {
-            return $dish->type === 'dessert';
-        });
-        $drinks = array_filter($dishes, function($dish) {
-            return $dish->type === 'drink';
-        });
-
         $params = [
-            'cruises'       => $cruises,
-            'vendors'       => $vendors,
-            'dishes'        => $dishes,
-            'users'         => $users,
-            'firstCourses'  => ArrayHelper::map($firstCourses, 'id', 'name'),
-            'secondCourses' => ArrayHelper::map($secondCourses, 'id', 'name'),
-            'desserts'      => ArrayHelper::map($desserts, 'id', 'name'),
-            'drinks'        => ArrayHelper::map($drinks, 'id', 'name'),
+            'cruises' => $cruises,
+            'vendors' => $vendors,
+            'dishes'  => $dishes,
+            'users'   => $users,
         ];
-
 
         return $this->render('calendar', $params);
     }

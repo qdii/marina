@@ -129,39 +129,39 @@ var calendarProto = {
     },
 
     set_cook: function(id) {
-        $('#meal-cook').val(id);
-        $('#meal-cook').trigger('chosen:updated');
+        $('#newmeal-cook').val(id);
+        $('#newmeal-cook').trigger('chosen:updated');
     },
 
     set_cruise: function(id) {
-        $('#meal-cruise').val(id);
-        $('#meal-cruise').trigger('chosen:updated');
+        $('#newmeal-cruise').val(id);
+        $('#newmeal-cruise').trigger('chosen:updated');
     },
 
     set_first_course: function(id) {
-        $('#meal-firstcourse').val(id);
-        $('#meal-firstcourse').trigger('chosen:updated');
+        $('#newmeal-firstcourse').val(id);
+        $('#newmeal-firstcourse').trigger('chosen:updated');
     },
 
     set_second_course: function(id) {
-        $('#meal-secondcourse').val(id);
-        $('#meal-secondcourse').trigger('chosen:updated');
+        $('#newmeal-secondcourse').val(id);
+        $('#newmeal-secondcourse').trigger('chosen:updated');
     },
 
     set_dessert: function(id) {
-        $('#meal-dessert').val(id);
-        $('#meal-dessert').trigger('chosen:updated');
+        $('#newmeal-dessert').val(id);
+        $('#newmeal-dessert').trigger('chosen:updated');
     },
 
     set_drink: function(id) {
-        $('#meal-drink').val(id);
-        $('#meal-drink').trigger('chosen:updated');
+        $('#newmeal-drink').val(id);
+        $('#newmeal-drink').trigger('chosen:updated');
     },
 
     set_date: function(date) {
         var fulldate=moment(date,'YYYY-MM-DD HH-mm');
         var day=fulldate.format('YYYY-MM-DD HH:mm');
-        $('#meal-date').val(day);
+        $('#newmeal-date').val(day);
     },
 
     disable_save_button: function() {

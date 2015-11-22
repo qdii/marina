@@ -133,13 +133,20 @@ class AjaxController extends Controller
     public function actionGetMeal($id)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $meal = \app\models\Meal::find()->where( ["id" => $id] )->one();
+        $meal = Meal::findOne(["id" => $id]);
         if ($meal == null) {
             return;
         }
 
-        return $meal->getAttributes([
+        $attr = $meal->getAttributes([
             "id", "nbGuests", "cook", "date", "backgroundColor", "cruise" ]);
+
+        $attr['firstCourse'] = $meal->getFirstCourse0()->one()->id;
+        $attr['secondCourse'] = $meal->getSecondCourse0()->one()->id;
+        $attr['dessert'] = $meal->getDessert0()->one()->id;
+        $attr['drink'] = $meal->getDrink0()->one()->id;
+
+        return $attr;
     }
 
     public function actionUser($id)

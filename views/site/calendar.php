@@ -4,6 +4,7 @@ use \app\models\Cruise;
 use \app\models\Vendor;
 use \app\models\Dish;
 use \app\models\Meal;
+use \app\models\NewMeal;
 use \yii\helpers\ArrayHelper;
 use \yii\helpers\Url;
 use \yii\helpers\Html;
@@ -100,19 +101,19 @@ $userOpts = [
     'placeholder' => 'Pick a cook'
 ];
 $firstCourseOpts = [
-    'items'       => $dishes,
+    'items'       => ArrayHelper::map($dishes, 'id', 'name'),
     'placeholder' => 'Pick a dish'
 ];
 $secondCourseOpts = [
-    'items'       => $dishes,
+    'items'       => ArrayHelper::map($dishes, 'id', 'name'),
     'placeholder' => 'Pick a dish'
 ];
 $dessertOpts = [
-    'items'       => $dishes,
+    'items'       => ArrayHelper::map($dishes, 'id', 'name'),
     'placeholder' => 'Pick a dessert',
 ];
 $drinkOpts = [
-    'items'       => $dishes,
+    'items'       => ArrayHelper::map($dishes, 'id', 'name'),
     'placeholder' => 'Pick a drink',
 ];
 
@@ -123,7 +124,7 @@ $drinkOpts = [
 </div>
 
 <?php $modal = Modal::begin($mealPanel); $modalId = $modal->id;
-  $mdl = new Meal;
+  $mdl = new NewMeal;
   $form = ActiveForm::begin($mealForm); $formId = $form->id?>
     <div class="row">
       <div class="col-lg-6">

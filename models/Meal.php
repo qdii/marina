@@ -80,23 +80,33 @@ class Meal extends \yii\db\ActiveRecord
         return $this->hasOne(Cruise::className(), ['id' => 'cruise']);
     }
 
+    public function getCourseByType($type)
+    {
+        $course = $this->getCourses()->where(['type' => $type])->one();
+        if (!$course) {
+            return null;
+        }
+
+        return $course->getDish0();
+    }
+
     public function getFirstCourse0()
     {
-        return $this->getCourses()->where(['type' => 0])->one()->getDish0();
+        return $this->getCourseByType(0);
     }
 
     public function getSecondCourse0()
     {
-        return $this->getCourses()->where(['type' => 1])->one()->getDish0();
+        return $this->getCourseByType(1);
     }
 
     public function getDessert0()
     {
-        return $this->getCourses()->where(['type' => 2])->one()->getDish0();
+        return $this->getCourseByType(2);
     }
 
     public function getDrink0()
     {
-        return $this->getCourses()->where(['type' => 3])->one()->getDish0();
+        return $this->getCourseByType(3);
     }
 }

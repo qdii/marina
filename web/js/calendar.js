@@ -183,10 +183,6 @@ var calendarProto = {
             this.set_form_url(window.update_meal_url);
         }
 
-        if ($(window.meal_form_id).yiiActiveForm('submitForm') !== true) {
-            return;
-        }
-
         $(window.meal_form_id).ajaxSubmit({
             type: 'post',
             success: function() {

@@ -74,9 +74,9 @@ function load_bilan(where, dishId, url) {
 function reload_bilan() {
     where  = $('#ingredient-table');
     dishId = $('#composition-dish').val();
-    url    = '/index.php?r=ajax%2Fdish-info';
+    url    = url_dish_info;
 
-    load_bilan(where, dishId , url);
+    load_bilan(where, dishId, url);
 }
 
 function make_new_ingredient_ajax(form) {

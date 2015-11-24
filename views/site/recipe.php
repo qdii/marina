@@ -272,6 +272,7 @@ Modal::end() ?>
 <?php $this->registerJs(
     'var url_recipe = "'          . Url::toRoute("site/recipe")          . '";' . "\n" .
     'var url_get_ingredients = "' . Url::toRoute("ajax/get-ingredients") .'";' . "\n" .
+    'var url_dish_info = "'       . Url::toRoute("ajax/dish-info") .'";' . "\n" .
     'var delete_ingr_modal   = "#' . $deleteModal->getId() .'";' . "\n" .
     'var delete_dish_modal   = "#' . $deleteDishModal->getId() .'";' . "\n" .
     'var current_dish = ' . $dish . ";\n" .

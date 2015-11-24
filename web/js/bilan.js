@@ -83,10 +83,6 @@ function make_new_ingredient_ajax(form) {
     form.submit(function(event) {
         event.preventDefault();
 
-        // TODO: make this work
-        jQuery.data(form, 'yiiActiveForm', {'submitting':false});
-        form.yiiActiveForm('validate');
-
         opts = {
             'success' : reload_bilan,
             'error' : function() { },

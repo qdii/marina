@@ -183,10 +183,6 @@ var calendarProto = {
             this.set_form_url(window.update_meal_url);
         }
 
-        if ($(window.meal_form_id).yiiActiveForm('submitForm') !== true) {
-            return;
-        }
-
         $(window.meal_form_id).ajaxSubmit({
             type: 'post',
             success: function() {
@@ -198,7 +194,7 @@ var calendarProto = {
     },
 
     on_click_delete: function() {
-        this.set_form_url(window.delete_meal_url + '&mealId=' + this.get_meal_id());
+        this.set_form_url(window.delete_meal_url + '?mealId=' + this.get_meal_id());
         $(window.meal_form_id).ajaxSubmit({
             type: 'post',
             success: function() {

@@ -60,11 +60,9 @@ class AjaxController extends Controller
     /**
      * Updates an existing Meal
      *
-     * @param integer $id The id of the meal to update
-     *
      * @return void
      */
-    public function actionUpdateMeal($mealId)
+    public function actionUpdateMeal()
     {
         $model = new \app\models\NewMeal();
         if (!$model->load(Yii::$app->request->post())) {

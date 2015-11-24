@@ -81,7 +81,7 @@ var calendarProto = {
     new_event: function(date) {
         this.hide_delete_button();
         this.enable_save_button();
-        $('#meal-id').val(0);
+        $('#newmeal-mealid').val(0);
         this.set_cook(0);
         this.set_date(date);
         this.set_first_course(0);
@@ -94,11 +94,11 @@ var calendarProto = {
     },
 
     get_meal_id: function() {
-        return $('#meal-id').val();
+        return $('#newmeal-mealid').val();
     },
 
     modify_event: function(meal_id) {
-        $('#meal-id').val(meal_id);
+        $('#newmeal-mealid').val(meal_id);
         this.disable_save_button();
         this.show_delete_button();
 
@@ -177,12 +177,10 @@ var calendarProto = {
     },
 
     on_click_save: function() {
-        if (this.get_meal_id() === 0) {
+        if (this.get_meal_id() == 0) {
             this.set_form_url(window.new_meal_url);
         } else {
-            this.set_form_url(
-                window.update_meal_url + '&mealId=' + this.get_meal_id()
-            );
+            this.set_form_url(window.update_meal_url);
         }
 
         if ($(window.meal_form_id).yiiActiveForm('submitForm') !== true) {

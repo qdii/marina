@@ -152,7 +152,7 @@ $drinkOpts = [
       </div>
     </div>
     <?php echo $form->field($mdl, 'cruise', [ 'options' => [ 'class' => 'hidden' ]]); ?>
-    <?php echo Html::hiddenInput('mealId', '0', [ 'id' => 'meal-id' ]);
+    <?php echo $form->field($mdl, 'mealId', [ 'options' => [ 'class' => 'hidden' ]]);
   ActiveForm::end();
 Modal::end(); ?>
 

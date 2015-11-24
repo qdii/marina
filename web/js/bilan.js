@@ -1,3 +1,4 @@
+/*jslint browser: true*/ /*global  $*/
 function load_bilan(where, dishId, url) {
     var dataId = { 'id': dishId };
     $.get(url, dataId, function(data) {

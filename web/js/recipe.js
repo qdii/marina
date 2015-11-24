@@ -1,3 +1,4 @@
+/*jslint browser: true*/ /*global  $*/
 function populate_ingredients() {
     var ids = {};
     var list = $('#composition-ingredient');

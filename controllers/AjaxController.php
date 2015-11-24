@@ -7,17 +7,18 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use app\models\Ingredient;
-use app\models\User;
-use app\models\Cruise;
-use app\models\Unit;
-use app\models\Dish;
 use app\models\Boat;
-use app\models\Meal;
 use app\models\Composition;
+use app\models\Course;
+use app\models\Cruise;
+use app\models\Dish;
+use app\models\Fraction;
+use app\models\Ingredient;
+use app\models\Meal;
 use app\models\Product;
 use app\models\Proportion;
-use app\models\Fraction;
+use app\models\Unit;
+use app\models\User;
 use app\components\EventMaker;
 use app\components\CompositionHelper;
 use app\components\PriceComputer;
@@ -65,10 +66,44 @@ class AjaxController extends Controller
      */
     public function actionUpdateMeal($mealId)
     {
-        if (($model = \app\models\Meal::findOne($mealId)) !== null) {
-            $model->load(Yii::$app->request->post());
-            $model->save();
+        $model = new \app\models\NewMeal();
+        if (!$model->load(Yii::$app->request->post())) {
+            return;
         }
+
+        // TODO: Make sure firstCourse, secondCourse, etc. exist
+
+        $transaction = Yii::$app->getDb()->beginTransaction();
+
+        $meal = Meal::findOne(['id' => $model->mealId]);
+        if (!$meal) {
+            return;
+        }
+        $mealId = $meal->id;
+
+        $meal->nbGuests = $model->nbGuests;
+        $meal->date     = $model->date;
+        $meal->cook     = $model->cook;
+        $meal->cruise   = $model->cruise;
+        $meal->save();
+
+        $firstCourse       = Course::findOne(['meal' => $mealId, 'type' => 0]);
+        $firstCourse->dish = $model->firstCourse;
+        $firstCourse->save();
+
+        $secondCourse       = Course::findOne(['meal' => $mealId, 'type' => 1]);
+        $secondCourse->dish = $model->secondCourse;
+        $secondCourse->save();
+
+        $dessert       = Course::findOne(['meal' => $mealId, 'type' => 2]);
+        $dessert->dish = $model->dessert;
+        $dessert->save();
+
+        $drink = Course::findOne(['meal' => $mealId, 'type' => 3]);
+        $drink->dish = $model->drink;
+        $drink->save();
+
+        $transaction->commit();
     }
 
     /**
@@ -91,11 +126,47 @@ class AjaxController extends Controller
      */
     public function actionNewMeal()
     {
-        $model = new \app\models\Meal();
-        if ($model->load(Yii::$app->request->post())) {
-            assert($model->validate());
-            $model->save();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $model = new \app\models\NewMeal();
+        if (!$model->load(Yii::$app->request->post())) {
+            return;
         }
+        $transaction = Yii::$app->getDb()->beginTransaction();
+
+        $meal = new Meal;
+        $meal->nbGuests = $model->nbGuests;
+        $meal->date     = $model->date;
+        $meal->cook     = $model->cook;
+        $meal->cruise   = $model->cruise;
+        $meal->save();
+        $mealId = $meal->id;
+        assert($mealId);
+
+        $firstCourse       = new Course;
+        $firstCourse->dish = $model->firstCourse;
+        $firstCourse->meal = $mealId;
+        $firstCourse->type = 0;
+        $firstCourse->save();
+
+        $secondCourse       = new Course;
+        $secondCourse->dish = $model->secondCourse;
+        $secondCourse->meal = $mealId;
+        $secondCourse->type = 1;
+        $secondCourse->save();
+
+        $dessert       = new Course;
+        $dessert->dish = $model->dessert;
+        $dessert->meal = $mealId;
+        $dessert->type = 2;
+        $dessert->save();
+
+        $drink = new Course;
+        $drink->dish = $model->drink;
+        $drink->meal = $mealId;
+        $drink->type = 3;
+        $drink->save();
+
+        $transaction->commit();
     }
 
     /**

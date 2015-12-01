@@ -37,7 +37,7 @@ class SiteHelper
                 throw new \Exception("Cannot create new meal");
             }
 
-            foreach ($meal->getCourses() as $course) {
+            foreach ($meal->getCourses()->all() as $course) {
                 $newCourse = new Course;
 
                 $newCourse->meal = $newMeal->id;

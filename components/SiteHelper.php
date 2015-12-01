@@ -31,14 +31,8 @@ class SiteHelper
 
         $meals = $cruise->getMeals()->all();
         foreach ( $meals as $meal ) {
-            $newMeal = new Meal;
-
-            $newMeal->nbGuests        = $meal->nbGuests;
-            $newMeal->cook            = $meal->cook;
-            $newMeal->date            = $meal->date;
-            $newMeal->backgroundColor = $meal->backgroundColor;
-            $newMeal->cruise          = $newCruise->id;
-
+            $newMeal = MealHelper::duplicate(
+                $meal, ['cruise' => $newCruise->id]);
             if (!$newMeal->save()) {
                 throw new \Exception("Cannot create new meal");
             }

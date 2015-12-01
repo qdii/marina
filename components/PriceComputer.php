@@ -168,6 +168,10 @@ class PriceComputer
         $intakes       = [];
         $dishIds       = ArrayHelper::getColumn($dishes, 'id');
         $compositions = Composition::find()->where(['dish' => $dishIds])->all();
+        foreach ( $props as $property ) {
+            $result[$property] = 0;
+            $intakes[$property] = [];
+        }
 
         foreach ( $compositions as $item ) {
             $quantity   = $item->quantity; // in grams

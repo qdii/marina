@@ -69,13 +69,25 @@ class EventMaker
      */
     public function getTitleFromMeal(\app\models\Meal $meal)
     {
-        $user         = User::findOne([$meal->cook]);
-        $firstCourse  = $meal->getFirstCourse0()->one();
-        $secondCourse = $meal->getSecondCourse0()->one();
-        $dessert      = $meal->getDessert0()->one();
-        $drink        = $meal->getDrink0()->one();
+        $user = User::findOne([$meal->cook]);
+        $dishes = [];
 
-        $dishes = [ $firstCourse, $secondCourse, $dessert, $drink ];
+        if ($meal->getFirstCourse0()) {
+            $dishes[] = $meal->getFirstCourse0()->one();
+        }
+
+        if ($meal->getSecondCourse0()) {
+            $dishes[] = $meal->getSecondCourse0()->one();
+        }
+
+        if ($meal->getDessert0()) {
+            $dishes[] = $meal->getDessert0()->one();
+        }
+
+        if ($meal->getDrink0()) {
+            $dishes[] = $meal->getDrink0()->one();
+        }
+
         $validDishes = array_filter($dishes, '\app\components\isDishValid');
         $options = [];
         Html::addCssClass($options, 'h5');

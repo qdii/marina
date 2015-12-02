@@ -31,12 +31,10 @@ class DishHelper
      */
     public function getDishesOfType($type)
     {
-        $dishes  = [];
-        $courses = Course::findAll(['type' => $type]);
-        foreach ($courses as $course) {
-            $dishes[] = $course->getDish0()->one();
-        }
-        return $dishes;
+        return Dish::find()
+            ->joinWith('courses')
+            ->where(['course.type' => $type])
+            ->all();
     }
 
 }

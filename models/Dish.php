@@ -14,6 +14,7 @@ use Yii;
  * @property Composition[] $compositions
  * @property Ingredient[] $ingredients
  * @property Course[] $courses
+ * @property DishType[] $dishTypes
  */
 class Dish extends \yii\db\ActiveRecord
 {
@@ -71,5 +72,13 @@ class Dish extends \yii\db\ActiveRecord
     public function getCourses()
     {
         return $this->hasMany(Course::className(), ['dish' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDishTypes()
+    {
+        return $this->hasMany(DishType::className(), ['dish' => 'id']);
     }
 }

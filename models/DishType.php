@@ -28,7 +28,7 @@ class DishType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dish'], 'required'],
+            [['dish', 'type'], 'required'],
             [['dish', 'type'], 'integer']
         ];
     }

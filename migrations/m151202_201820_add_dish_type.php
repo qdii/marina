@@ -10,8 +10,9 @@ class m151202_201820_add_dish_type extends Migration
         $this->createTable('dish_type', [
             'dish' => $this->integer()->notNull(),
             'type' => $this->integer()
-        ]);
-        $this->addForeignKey([
+        ], 'ENGINE=InnoDB DEFAULT CHARSET=utf8');
+        $this->addPrimaryKey('dish_primary_key', 'dish_type', ['dish', 'type']);
+        $this->addForeignKey(
             'dish_type_fk_dish',
             'dish_type',
             'dish',
@@ -19,28 +20,19 @@ class m151202_201820_add_dish_type extends Migration
             'id',
             'RESTRICT',
             'CASCADE'
-        ]);
+        );
     }
 
     public function down()
     {
         $this->dropForeignKey(
+            'dish_primary_key',
             'dish_type_fk_dish',
             'dish'
         );
+        $this->dropPrimaryKey('dish_primary_key', 'dish_type');
 
         $this->dropTable('dish_type');
         return true;
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

@@ -5,3 +5,7 @@ do
     echo Creating CRUD for: $i
     ${base_dir}/yii gii/crud --controllerClass="app\\controllers\\${capitalized_name}Controller" --enableI18N=1 --overwrite=1 --searchModelClass="app\\models\\${capitalized_name}Search" --modelClass="app\\models\\${capitalized_name}" --interactive=0 --viewPath="@app/views/$i"
 done
+
+# dish type
+${base_dir}/yii gii/crud --controllerClass="app\\controllers\\DishTypeController" --enableI18N=1 --overwrite=1 --searchModelClass="app\\models\\DishTypeSearch" --modelClass="app\\models\\DishType" --interactive=0 --viewPath="@app/views/dish_type"
+

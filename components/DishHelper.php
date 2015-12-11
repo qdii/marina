@@ -32,8 +32,8 @@ class DishHelper
     public function getDishesOfType($type)
     {
         return Dish::find()
-            ->joinWith('courses')
-            ->where(['course.type' => $type])
+            ->joinWith('dishTypes')
+            ->where(['dish_type.type' => $type])
             ->all();
     }
 

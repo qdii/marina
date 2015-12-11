@@ -9,7 +9,6 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property string $type
  *
  * @property Composition[] $compositions
  * @property Ingredient[] $ingredients
@@ -33,7 +32,6 @@ class Dish extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['type'], 'string'],
             [['name'], 'string', 'max' => 256]
         ];
     }
@@ -46,7 +44,6 @@ class Dish extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
-            'type' => Yii::t('app', 'Type'),
         ];
     }
 

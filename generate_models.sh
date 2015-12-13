@@ -5,3 +5,6 @@ do
     echo Creating model for: $i
     ${base_dir}/yii gii/model --generateLabelsFromComments=1 --overwrite=1 --tableName="$i" --interactive=0 --generateRelations=1 --enableI18N=1 --modelClass="$capitalized_name"
 done
+
+# dish type
+    ${base_dir}/yii gii/model --generateLabelsFromComments=1 --overwrite=1 --tableName="dish_type" --interactive=0 --generateRelations=1 --enableI18N=1 --modelClass="DishType"

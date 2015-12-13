@@ -17,6 +17,7 @@ use \app\models\Boat;
 use \app\models\Composition;
 use \app\models\Cruise;
 use \app\models\Dish;
+use \app\models\DishType;
 use \app\models\Fraction;
 use \app\models\Ingredient;
 use \app\models\Meal;
@@ -124,7 +125,11 @@ class CompositionHelper
      */
     function cloneDish($oldDishId, $newDishId)
     {
+
+        $transaction = \Yii::$app->db->beginTransaction();
+
         $srcCompos = Composition::findAll(['dish' => $oldDishId]);
+
         foreach ($srcCompos as $compo) {
             $compo->dish = $newDishId;
             assert($compo->validate());
@@ -138,6 +143,16 @@ class CompositionHelper
             ->createCommand()
             ->batchInsert(Composition::tableName(), $compoModel->attributes(), $rows)
             ->execute();
+
+        $dishTypes = DishType::findAll(['dish' => $oldDishId]);
+        foreach ($dishTypes as $dishType) {
+            $newDishType = new DishType;
+            $newDishType->type = $dishType->type;
+            $newDishType->dish = $newDishId;
+            $newDishType->save();
+        }
+
+        $transaction->commit();
 
         return $nrows == count($srcCompos);
     }

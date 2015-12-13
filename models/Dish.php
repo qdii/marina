@@ -9,11 +9,11 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property string $type
  *
  * @property Composition[] $compositions
  * @property Ingredient[] $ingredients
  * @property Course[] $courses
+ * @property DishType[] $dishTypes
  */
 class Dish extends \yii\db\ActiveRecord
 {
@@ -32,7 +32,6 @@ class Dish extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['type'], 'string'],
             [['name'], 'string', 'max' => 256]
         ];
     }
@@ -45,7 +44,6 @@ class Dish extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
-            'type' => Yii::t('app', 'Type'),
         ];
     }
 
@@ -71,5 +69,13 @@ class Dish extends \yii\db\ActiveRecord
     public function getCourses()
     {
         return $this->hasMany(Course::className(), ['dish' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDishTypes()
+    {
+        return $this->hasMany(DishType::className(), ['dish' => 'id']);
     }
 }

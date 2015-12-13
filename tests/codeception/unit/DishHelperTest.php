@@ -13,6 +13,7 @@
 
 use \app\components\DishHelper;
 use \app\models\Dish;
+use \app\models\DishType;
 use \app\models\Course;
 
 class DishHelperTest extends \yii\codeception\DbTestCase
@@ -24,10 +25,13 @@ class DishHelperTest extends \yii\codeception\DbTestCase
         $dishes = $dishHelper->getDishesOfType($type);
         $this->assertNotEmpty($dishes);
         foreach ($dishes as $dish) {
-            $courses = Course::findAll(['dish' => $dish->id]);
-            foreach ($courses as $course) {
-                $this->assertEquals($type, $course->type);
+            $dishId = $dish->id;
+            $dishTypes = DishType::findAll(['dish' => $dishId]);
+            $hasRightType = false;
+            foreach ($dishTypes as $dishType) {
+                $hasRightType |= ($dishType->type == $type);
             }
+            $this->assertEquals(1, $hasRightType);
         }
     }
 }

@@ -15,7 +15,9 @@ use \app\SiteController;
 use \app\components\CompositionHelper;
 use \app\models\Composition;
 use \app\models\Dish;
+use \app\models\DishType;
 use \app\tests\codeception\fixtures\CompositionFixture;
+use \yii\helpers\ArrayHelper;
 
 /**
  * TestCase for CompositionHelper
@@ -169,11 +171,10 @@ class SiteControllerTest extends \yii\codeception\DbTestCase
 
         $dish = new \app\models\Dish;
         $dish->name = "whatever";
-        $dish->type = "firstCourse";
         $dish->insert();
-
         $this->assertEquals($ndish + 1, Dish::find()->count());
 
+        // Cloning dish of id "9", i.e. all composition will be reproduced.
         $cloned = $helper->cloneDish(9, $dish->id);
         $this->assertTrue($cloned);
 
@@ -183,6 +184,14 @@ class SiteControllerTest extends \yii\codeception\DbTestCase
             $ncompositions + 5,
             Composition::find()->count()
         );
+
+        $oldDishTypes = DishType::findAll(['dish' => 9]);
+        $newDishTypes = DishType::findAll(['dish' => $dish->id]);
+
+        $types    = ArrayHelper::getColumn($oldDishTypes, 'type');
+        $newTypes = ArrayHelper::getColumn($newDishTypes, 'type');
+
+        $this->assertEquals($newTypes, $types);
     }
 
     /**

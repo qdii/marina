@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 
 /**
- * LoginForm is the model behind the login form.
+ * CopyDish is a custom model to permit copying dish.
  */
 class CopyDish extends Model
 {

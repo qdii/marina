@@ -19,6 +19,7 @@ use app\models\Product;
 use app\models\Proportion;
 use app\models\Unit;
 use app\models\User;
+use app\components\DishHelper;
 use app\components\EventMaker;
 use app\components\CompositionHelper;
 use app\components\PriceComputer;
@@ -346,28 +347,17 @@ class AjaxController extends Controller
             \Yii::$app->response->setStatusCode(500);
         }
 
-        $id = $post['CopyDish']['id'];
+        $id = $copyDish->id;
+        $name = $copyDish->name;
 
         if (($source = Dish::findOne($id)) === null) {
             \Yii::$app->response->setStatusCode(400);
             return;
         }
 
-        $dish = new \app\models\Dish;
-        $transaction = $dish->getDb()->beginTransaction();
-        $dish->name = $copyDish->name;
-        $dish->type = $copyDish->type;
-        if (!$dish->save()) {
-            \Yii::$app->response->setStatusCode(500);
-        }
-
-        if (!CompositionHelper::cloneDish($id, $dish->id)) {
-            \Yii::$app->response->setStatusCode(500);
-        }
-
-        $transaction->commit();
-
-        return $dish->id;
+        $dishHelper = new DishHelper;
+        $newDish = $dishHelper->cloneDish($id, $name);
+        return $newDish->id;
     }
 
     /**

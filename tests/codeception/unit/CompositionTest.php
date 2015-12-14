@@ -162,43 +162,6 @@ class SiteControllerTest extends \yii\codeception\DbTestCase
      *
      * @return void
      */
-    public function testCloneDish()
-    {
-        $helper = new CompositionHelper;
-
-        $ncompositions = Composition::find()->count();
-        $ndish         = Dish::find()->count();
-
-        $dish = new \app\models\Dish;
-        $dish->name = "whatever";
-        $dish->insert();
-        $this->assertEquals($ndish + 1, Dish::find()->count());
-
-        // Cloning dish of id "9", i.e. all composition will be reproduced.
-        $cloned = $helper->cloneDish(9, $dish->id);
-        $this->assertTrue($cloned);
-
-        // 5 lines should be inserted (because there were 5 entries corresponding
-        // to dish 9 in the table "composition"
-        $this->assertEquals(
-            $ncompositions + 5,
-            Composition::find()->count()
-        );
-
-        $oldDishTypes = DishType::findAll(['dish' => 9]);
-        $newDishTypes = DishType::findAll(['dish' => $dish->id]);
-
-        $types    = ArrayHelper::getColumn($oldDishTypes, 'type');
-        $newTypes = ArrayHelper::getColumn($newDishTypes, 'type');
-
-        $this->assertEquals($newTypes, $types);
-    }
-
-    /**
-     * Checks that the cloning function of the composition helper works
-     *
-     * @return void
-     */
     public function testGetCookbook()
     {
         $helper   = new CompositionHelper;

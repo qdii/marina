@@ -116,48 +116,6 @@ class CompositionHelper
     }
 
     /**
-     * Inserts in the database a copy of all the composition of a given dish
-     *
-     * @param integer $oldDishId The dish to clone
-     * @param integer $newDishId The lines to insert
-     *
-     * @return true if the compositions were successfully inserted
-     */
-    function cloneDish($oldDishId, $newDishId)
-    {
-
-        $transaction = \Yii::$app->db->beginTransaction();
-
-        $srcCompos = Composition::findAll(['dish' => $oldDishId]);
-
-        foreach ($srcCompos as $compo) {
-            $compo->dish = $newDishId;
-            assert($compo->validate());
-        }
-
-        $rows = ArrayHelper::getColumn($srcCompos, 'attributes');
-
-        $compoModel = new Composition;
-
-        $nrows = \Yii::$app->db
-            ->createCommand()
-            ->batchInsert(Composition::tableName(), $compoModel->attributes(), $rows)
-            ->execute();
-
-        $dishTypes = DishType::findAll(['dish' => $oldDishId]);
-        foreach ($dishTypes as $dishType) {
-            $newDishType = new DishType;
-            $newDishType->type = $dishType->type;
-            $newDishType->dish = $newDishId;
-            $newDishType->save();
-        }
-
-        $transaction->commit();
-
-        return $nrows == count($srcCompos);
-    }
-
-    /**
      * Returns informations about a certain dish
      *
      * @param integer $dishId The id of an existing dish

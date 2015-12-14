@@ -12,8 +12,11 @@
  */
 namespace app\components;
 
-use \app\models\Dish;
+use \app\models\Composition;
 use \app\models\Course;
+use \app\models\Dish;
+use \app\models\DishType;
+use \yii\helpers\ArrayHelper;
 
 class DishHelper
 {
@@ -35,6 +38,64 @@ class DishHelper
             ->joinWith('dishTypes')
             ->where(['dish_type.type' => $type])
             ->all();
+    }
+
+    /**
+     * Duplicates a dish.
+     *
+     * @param int The id of the dish to clone.
+     *
+     * @return \app\models\Dish The newly created dish, or null if the id is invalid.
+     */
+    public function cloneDish($dishId)
+    {
+        $transaction = \Yii::$app->db->beginTransaction();
+        $compositionAttributes = (new Composition)->attributes();
+
+        $oldDish = Dish::findOne(['id' => $dishId]);
+        if (!$oldDish) {
+            return null;
+        }
+
+        // Create a new Dish object.
+        $newDish       = new Dish;
+        $newDish->name = $oldDish->name;
+        $newDish->save();
+
+        $newDishId = $newDish->id;
+
+        // Copy all the ingredients of the first dish.
+        $srcCompos = Composition::findAll(['dish' => $dishId]);
+
+        // For each composition, modify the dish id and ...
+        foreach ($srcCompos as $compo) {
+            $compo->dish = $newDishId;
+            assert($compo->validate());
+        }
+
+        // ... copy all other attributes
+        $rows = ArrayHelper::getColumn($srcCompos, 'attributes');
+
+        \Yii::$app->db
+            ->createCommand()
+            ->batchInsert(
+                Composition::tableName(),
+                $compositionAttributes,
+                $rows)
+            ->execute();
+
+        // Copy all types from the dish.
+        $dishTypes = DishType::findAll(['dish' => $dishId]);
+        foreach ($dishTypes as $dishType) {
+            $newDishType = new DishType;
+            $newDishType->type = $dishType->type;
+            $newDishType->dish = $newDishId;
+            $newDishType->save();
+        }
+
+        $transaction->commit();
+
+        return $newDish;
     }
 
 }

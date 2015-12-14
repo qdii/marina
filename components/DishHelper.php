@@ -43,11 +43,12 @@ class DishHelper
     /**
      * Duplicates a dish.
      *
-     * @param int The id of the dish to clone.
+     * @param int    dishId The id of the dish to clone.
+     * @param string name   The name of the copy of the dish.
      *
      * @return \app\models\Dish The newly created dish, or null if the id is invalid.
      */
-    public function cloneDish($dishId)
+    public function cloneDish($dishId, $name)
     {
         $transaction = \Yii::$app->db->beginTransaction();
         $compositionAttributes = (new Composition)->attributes();
@@ -59,7 +60,7 @@ class DishHelper
 
         // Create a new Dish object.
         $newDish       = new Dish;
-        $newDish->name = $oldDish->name;
+        $newDish->name = $name;
         $newDish->save();
 
         $newDishId = $newDish->id;

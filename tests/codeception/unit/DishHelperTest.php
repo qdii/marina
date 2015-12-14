@@ -50,10 +50,11 @@ class DishHelperTest extends \yii\codeception\DbTestCase
         $ndish         = Dish::find()->count();
 
         // Cloning dish of id "9", i.e. all composition will be reproduced.
-        $dish = $helper->cloneDish(9);
+        $dish = $helper->cloneDish(9, "testDish");
 
         $this->assertNotNull($dish);
         $this->assertEquals($ndish + 1, Dish::find()->count());
+        $this->assertEquals("testDish", $dish->name);
 
         // 5 lines should be inserted (because there were 5 entries corresponding
         // to dish 9 in the table "composition"

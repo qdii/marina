@@ -347,7 +347,8 @@ class AjaxController extends Controller
             \Yii::$app->response->setStatusCode(500);
         }
 
-        $id = $post['CopyDish']['id'];
+        $id = $copyDish->id;
+        $name = $copyDish->name;
 
         if (($source = Dish::findOne($id)) === null) {
             \Yii::$app->response->setStatusCode(400);
@@ -355,7 +356,7 @@ class AjaxController extends Controller
         }
 
         $dishHelper = new DishHelper;
-        $newDish = $dishHelper->cloneDish($id);
+        $newDish = $dishHelper->cloneDish($id, $name);
         return $newDish->id;
     }
 

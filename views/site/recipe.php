@@ -20,6 +20,7 @@ use \yii\widgets\ActiveForm;
 use \yii\bootstrap\Modal;
 use \skeeks\widget\chosen\Chosen;
 use \app\models\Dish;
+use \app\components\DishHelper;
 
 $this->title = 'Recipe';
 
@@ -115,10 +116,10 @@ $compoModel = new \app\models\Composition;
 $dishModel        = new \app\models\Dish;
 $inline           = [ 'template' => '{input}{error}' ];
 $types = [
-    'firstCourse' => 'First Course',
-    'secondCourse' => 'Second Course',
-    'dessert' => 'Dessert',
-    'drink' => 'Drink',
+    DishHelper::TYPE_FIRST_COURSE  => 'First Course',
+    DishHelper::TYPE_SECOND_COURSE => 'Second Course',
+    DishHelper::TYPE_DESSERT       => 'Dessert',
+    DishHelper::TYPE_DRINK         => 'Drink',
 ];
 
 $submitNewIngredientButton

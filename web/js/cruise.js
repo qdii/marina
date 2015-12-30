@@ -1,0 +1,17 @@
+/*jslint browser: true*/ /*global  $*/
+var cruiseProto = {
+    add_cruise: function(cruise) {
+        var cruise_node = '<tr data-id=' + cruise.id + '><td> ' + cruise.name
+                      + '</td></tr>';
+        $('#cruise_list').append(cruise_node);
+    },
+    update_cruise_list: function() {
+        $.getJSON(window.get_cruises_url, {}, function(data) {
+            var cr = window.cr;
+            cr.add_cruise(data);
+        });
+    },
+};
+
+var cr = Object.create(cruiseProto);
+cr.update_cruise_list();

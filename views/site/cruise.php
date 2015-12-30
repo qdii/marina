@@ -12,7 +12,13 @@
  *
  */
 
+use \yii\helpers\Url;
+use \yii\web\View;
+
 $this->title = 'Cruises';
+
+\app\assets\CruiseAsset::register($this);
+
 ?>
 
 <div class="page-header">
@@ -21,3 +27,10 @@ $this->title = 'Cruises';
 
 <div id="cruise_list">
 </div>
+
+<?php
+$this->registerJs(
+    "var get_cruises_url = '" . Url::toRoute("ajax/get-cruises") . "';\n",
+    View::POS_BEGIN
+);
+?>

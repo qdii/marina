@@ -8,7 +8,9 @@ var cruiseProto = {
     update_cruise_list: function() {
         $.getJSON(window.get_cruises_url, {}, function(data) {
             var cr = window.cr;
-            cr.add_cruise(data);
+            $.each(data, function(id, val) {
+                cr.add_cruise(val);
+            });
         });
     },
 };

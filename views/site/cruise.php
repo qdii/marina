@@ -25,8 +25,16 @@ $this->title = 'Cruises';
 <h1><?php echo $this->title ?></h1>
 </div>
 
-<div id="cruise_list">
-</div>
+<table class="table" id="cruise_list">
+  <thead>
+    <th>
+      <td>Name</td>
+      <td>Actions</td>
+    </th>
+  </thead>
+  <tbody id="cruise_list">
+  </tbody>
+</table>
 
 <?php
 $this->registerJs(

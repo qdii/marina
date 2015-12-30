@@ -1,8 +1,10 @@
 /*jslint browser: true*/ /*global  $*/
 var cruiseProto = {
     add_cruise: function(cruise) {
-        var cruise_node = '<tr data-id=' + cruise.id + '><td> ' + cruise.name
-                      + '</td></tr>';
+        var cruise_node = '<tr data-id=' + cruise.id + '>'
+          + '<td>' + cruise.name    + '</td>'
+          + '<td>' + window.btn_txt + '</td>'
+          + '</tr>';
         $('#cruise_list').append(cruise_node);
     },
     update_cruise_list: function() {

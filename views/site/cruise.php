@@ -13,11 +13,17 @@
  */
 
 use \yii\helpers\Url;
+use \yii\bootstrap\Html;
 use \yii\web\View;
 
 $this->title = 'Cruises';
 
 \app\assets\CruiseAsset::register($this);
+
+$deleteBtn = Html::button(
+    '<span class="glyphicon glyphicon-trash"></span>',
+    [ 'class' => 'btn btn-danger' ]
+);
 
 ?>
 
@@ -27,10 +33,10 @@ $this->title = 'Cruises';
 
 <table class="table" id="cruise_list">
   <thead>
-    <th>
-      <td>Name</td>
-      <td>Actions</td>
-    </th>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
   </thead>
   <tbody id="cruise_list">
   </tbody>
@@ -38,7 +44,8 @@ $this->title = 'Cruises';
 
 <?php
 $this->registerJs(
-    "var get_cruises_url = '" . Url::toRoute("ajax/get-cruises") . "';\n",
+    "var get_cruises_url = '" . Url::toRoute("ajax/get-cruises") . "';\n" .
+    "var btn_txt = '$deleteBtn';\n",
     View::POS_BEGIN
 );
 ?>

@@ -14,7 +14,9 @@
 
 use \yii\helpers\Url;
 use \yii\bootstrap\Html;
+use \yii\bootstrap\Modal;
 use \yii\web\View;
+use \yii\widgets\ActiveForm;
 
 $this->title = 'Cruises';
 
@@ -22,7 +24,7 @@ $this->title = 'Cruises';
 
 $deleteBtn = Html::button(
     '<span class="glyphicon glyphicon-trash"></span>',
-    [ 'class' => 'btn btn-danger' ]
+    [ 'class' => 'btn btn-danger cruise-delete-btn' ]
 );
 
 ?>
@@ -42,9 +44,38 @@ $deleteBtn = Html::button(
   </tbody>
 </table>
 
+<div class="hidden">
+<?php
+  // Form to delete a cruise
+  ActiveForm::begin([
+      'id' => 'delete-cruise-form',
+      'method' => 'POST',
+      'action' => Url::toRoute('ajax/delete-cruise'),
+  ]);
+  echo Html::input('text', 'cruiseId', null, ['id' => 'delete-cruise-id']);
+  ActiveForm::end();
+?>
+</div>
+
+<?php
+  // Modal to confirm deletion
+  $deleteCruiseModal = Modal::begin([
+    'header' => 'Are you sure you want to delete this cruise?',
+    'id'     => 'delete-cruise-confirm-modal',
+  ]);
+  echo Html::button(
+      'Delete', [
+          'class' => 'btn btn-danger',
+          'id'    => 'submit-delete-cruise',
+      ]
+  );
+  Modal::end();
+?>
+
 <?php
 $this->registerJs(
     "var get_cruises_url = '" . Url::toRoute("ajax/get-cruises") . "';\n" .
+    'var delete_cruise_modal = "#' . $deleteCruiseModal->getId() .'";' . "\n" .
     "var btn_txt = '$deleteBtn';\n",
     View::POS_BEGIN
 );

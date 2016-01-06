@@ -508,4 +508,15 @@ class AjaxController extends Controller
         // TODO: purify field "name"
         return Cruise::find()->all();
     }
+
+    public function actionDeleteCruise()
+    {
+        $post  = Yii::$app->request->post();
+        if (!$post['cruiseId'])
+        {
+            \Yii::$app->response->setStatusCode(400);
+            return;
+        }
+        Cruise::findOne(['id' => $post['cruiseId']])->delete();
+    }
 }

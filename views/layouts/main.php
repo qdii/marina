@@ -40,8 +40,9 @@ $loginIcon = '<span class="glyphicon glyphicon-log-in" ria-hidden="true"></span>
                 'encodeLabels' => false,
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
+                    ['label' => 'Cruise',   'url' => ['/site/cruise']],
                     ['label' => 'Cookbook', 'url' => ['/site/cookbook']],
-                    ['label' => 'Recipe', 'url' => ['/site/recipe']],
+                    ['label' => 'Recipe',   'url' => ['/site/recipe']],
                     ['label' => 'Calendar', 'url' => ['/site/calendar']],
                     Yii::$app->user->isGuest ?
                         ['label' => $loginIcon, 'url' => ['/site/login']] :

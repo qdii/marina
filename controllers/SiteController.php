@@ -281,4 +281,14 @@ class SiteController extends Controller
         $params  = [ 'cruises' => $cruises ];
         return $this->render('duplicate-cruise', $params);
     }
+
+    /**
+     * Renders the Cruise manager page.
+     *
+     * @return void
+     */
+    public function actionCruise()
+    {
+        return $this->render('cruise');
+    }
 }

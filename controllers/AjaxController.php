@@ -498,4 +498,25 @@ class AjaxController extends Controller
 
         return $newCruise->id;
     }
+
+    /**
+     * Returns a JSON list of cruises
+     */
+    public function actionGetCruises()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        // TODO: purify field "name"
+        return Cruise::find()->all();
+    }
+
+    public function actionDeleteCruise()
+    {
+        $post  = Yii::$app->request->post();
+        if (!$post['cruiseId'])
+        {
+            \Yii::$app->response->setStatusCode(400);
+            return;
+        }
+        Cruise::findOne(['id' => $post['cruiseId']])->delete();
+    }
 }

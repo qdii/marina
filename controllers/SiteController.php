@@ -289,6 +289,7 @@ class SiteController extends Controller
      */
     public function actionCruise()
     {
-        return $this->render('cruise');
+        $boats = Boat::find()->all();
+        return $this->render('cruise', ['boats' => $boats]);
     }
 }

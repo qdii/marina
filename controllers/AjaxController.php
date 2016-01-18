@@ -490,7 +490,8 @@ class AjaxController extends Controller
             throw new \Exception("Invalid cruise");
         }
 
-        $fromCruise = \app\models\Cruise::findOne(['id' => $post['Cruise']['id']]);
+        $id = $post['Cruise']['id'];
+        $fromCruise = \app\models\Cruise::findOne(['id' => $id]);
 
         $siteHelper = new \app\components\SiteHelper();
 
@@ -518,5 +519,26 @@ class AjaxController extends Controller
             return;
         }
         Cruise::findOne(['id' => $post['cruiseId']])->delete();
+    }
+
+    public function actionNewCruise()
+    {
+        $post  = Yii::$app->request->post();
+        $model = new \app\models\Cruise();
+        if (!$model->load($post)) {
+            \Yii::$app->response->setStatusCode(300);
+            return;
+        }
+        $dateStartString  = $model->dateStart;
+        $dateFinishString = $model->dateFinish;
+        $dateStart  = (new \DateTime($dateStartString))->format('Y-m-d');
+        $dateFinish = (new \DateTime($dateFinishString))->format('Y-m-d');
+        $model->dateStart  = $dateStart;
+        $model->dateFinish = $dateFinish;
+        if (!$model->save()) {
+            \Yii::$app->response->setStatusCode(500);
+            return;
+        }
+        return;
     }
 }

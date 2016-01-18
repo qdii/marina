@@ -44,7 +44,7 @@ function load_bilan(where, dishId, url) {
                         + qty         + ' ' + suff + '</td>'
                 +   '<td>'                + proteinText + ' ' + proteinUnit + '</td>'
                 +   '<td>'                + caloryText  + ' ' + caloryUnit  + '</td>'
-                +   '<td><button type="button" class="btn btn-danger"> aria-hidden="true"></span></button>'
+                +   '<td><button type="button" class="btn btn-danger"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'
                 + '</tr>'
             );
         }

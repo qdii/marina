@@ -100,7 +100,10 @@ $chosenOpts = [
   ]);
   $newCruiseModal = Modal::begin([
       'header' => 'Create a new cruise',
-      'footer' => Html::submitButton('OK', ['class' => 'btn btn-success']),
+      'footer' => Html::submitButton('OK', [
+          'class' => 'btn btn-success',
+          'id'    => 'submit-cruise-btn',
+      ]),
       'id' => 'new-cruise-modal',
   ]);
   $model = new Cruise;

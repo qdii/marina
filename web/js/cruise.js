@@ -59,20 +59,20 @@ var cruiseProto = {
             window.cr.on_cruise_new_confirmed();
         });
     },
+    hide_modal_and_update_list: function() {
+        $(window.new_cruise_modal).modal('hide');
+        window.cr.update_cruise_list();
+    },
     install_ajaxsubmit_new_cruise: function() {
-        var form = $('#new-cruise-form');
-        form.submit(function(event) {
+        $('#submit-cruise-btn').click(function(event) {
             event.preventDefault();
 
             var opts = {
-                'success' : function() {
-                    $(window.new_cruise_modal).modal('hide');
-                    window.cr.update_cruise_list();
-                },
+                'success' : window.cr.hide_modal_and_update_list,
                 'error' : null,
             };
 
-            form.ajaxSubmit(opts);
+            $('#new-cruise-form').ajaxSubmit(opts);
             return false;
         });
     },

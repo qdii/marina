@@ -57,6 +57,7 @@ $chosenOpts = [
   <thead>
     <tr>
       <th>Name</th>
+      <th>Boat</th>
       <th>Actions</th>
     </tr>
   </thead>

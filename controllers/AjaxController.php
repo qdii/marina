@@ -506,8 +506,18 @@ class AjaxController extends Controller
     public function actionGetCruises()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $query = new \yii\db\Query;
+        $query->select([
+            'cruise.id',
+            'cruise.name as cruise_name',
+            'boat.name as boat_name'
+        ])
+            ->from('cruise')
+            ->leftJoin('boat', 'cruise.boat = boat.id')
+            ->addOrderBy(['cruise_name' => SORT_DESC]);
+
         // TODO: purify field "name"
-        return Cruise::find()->all();
+        return $query->all();
     }
 
     public function actionDeleteCruise()

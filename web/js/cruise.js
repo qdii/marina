@@ -2,7 +2,8 @@
 var cruiseProto = {
     add_cruise: function(cruise) {
         var cruise_node = '<tr data-id=' + cruise.id + '>'
-          + '<td>' + cruise.name    + '</td>'
+          + '<td>' + cruise.cruise_name + '</td>'
+          + '<td>' + cruise.boat_name   + '</td>'
           + '<td>' + window.btn_txt + '</td>'
           + '</tr>';
         $('#cruise_list').append(cruise_node);

@@ -528,7 +528,12 @@ class AjaxController extends Controller
             \Yii::$app->response->setStatusCode(400);
             return;
         }
-        Cruise::findOne(['id' => $post['cruiseId']])->delete();
+        $cruise = Cruise::findOne(['id' => $post['cruiseId']]);
+        if (!$cruise) {
+            \Yii::$app->response->setStatusCode(400);
+            return;
+        }
+        $cruise->delete();
     }
 
     public function actionNewCruise()

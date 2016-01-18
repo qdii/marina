@@ -514,7 +514,7 @@ class AjaxController extends Controller
         ])
             ->from('cruise')
             ->leftJoin('boat', 'cruise.boat = boat.id')
-            ->addOrderBy(['cruise_name' => SORT_DESC]);
+            ->addOrderBy(['cruise_name' => SORT_ASC]);
 
         // TODO: purify field "name"
         return $query->all();

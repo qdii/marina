@@ -38,15 +38,14 @@ var cruiseProto = {
             $(window.new_cruise_modal).modal('show');
         });
     },
-    hide_modal_and_update_list: function() {
-        $(window.new_cruise_modal).modal('hide');
-        $(window.delete_cruise_modal).modal('hide');
-        window.cr.update_cruise_list(window.cr.install_handlers);
-    },
     install_ajaxsubmit: function() {
         $('#submit-cruise-btn').click(function(event) {
             var opts = {
-                'success' : window.cr.hide_modal_and_update_list,
+                'success' : function() {
+                    $(window.new_cruise_modal).modal('hide');
+                    window.cr.update_cruise_list(
+                        window.cr.install_delete_button_handlers);
+                },
                 'error' : null,
             };
             event.preventDefault();
@@ -55,7 +54,11 @@ var cruiseProto = {
         });
         $('#submit-delete-cruise').click(function(event) {
             var opts = {
-                'success' : window.cr.hide_modal_and_update_list,
+                'success' : function() {
+                    $(window.delete_cruise_modal).modal('hide');
+                    window.cr.update_cruise_list(
+                        window.cr.install_delete_button_handlers);
+                },
                 'error' : null,
             };
             event.preventDefault();

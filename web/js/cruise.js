@@ -8,19 +8,20 @@ var cruiseProto = {
           + '</tr>';
         $('#cruise_list').append(cruise_node);
     },
-    update_cruise_list: function() {
+    update_cruise_list: function(then) {
         $.getJSON(window.get_cruises_url, {}, function(data) {
-            var cr = window.cr;
+            $('#cruise_list').empty();
             $.each(data, function(id, val) {
-                cr.add_cruise(val);
+                window.cr.add_cruise(val);
             });
-        }).done(window.cr.install_handlers);
+        }).done(then);
     },
     install_handlers: function() {
         window.cr.install_delete_button_handlers();
         window.cr.install_new_button_handler();
         window.cr.install_confirmation_delete();
         window.cr.install_confirmation_new();
+        window.cr.install_ajaxsubmit_new_cruise();
     },
     on_cruise_delete_click: function() {
         var id = $(this).parents('tr').attr('data-id');
@@ -58,7 +59,24 @@ var cruiseProto = {
             window.cr.on_cruise_new_confirmed();
         });
     },
+    install_ajaxsubmit_new_cruise: function() {
+        var form = $('#new-cruise-form');
+        form.submit(function(event) {
+            event.preventDefault();
+
+            var opts = {
+                'success' : function() {
+                    $(window.new_cruise_modal).modal('hide');
+                    window.cr.update_cruise_list();
+                },
+                'error' : null,
+            };
+
+            form.ajaxSubmit(opts);
+            return false;
+        });
+    },
 };
 
 var cr = Object.create(cruiseProto);
-cr.update_cruise_list();
+cr.update_cruise_list(cr.install_handlers);

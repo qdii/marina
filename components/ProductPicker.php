@@ -197,7 +197,7 @@ class ProductPicker
      * Returns a squeezed version of the dictionary
      * It cumulates the values of the different 'names'
      *
-     * @param array $dict A list of ['id' => id => 'qty' => value] entries
+     * @param array $dict A list of ['id' => id, 'qty' => value, 'name' => name]
      *
      * @return array A list of ['name' => value] where there can be at most
      * one instance of 'name'
@@ -206,19 +206,27 @@ class ProductPicker
     {
         $squeezedDict = [];
         foreach ($dict as $couple) {
-            $id  = $couple['id'];
-            $qty = $couple['qty'];
+            $id   = $couple['id'];
+            $qty  = $couple['qty'];
+            $name = $couple['name'];
 
             if (!array_key_exists($id, $dict)) {
-                $squeezedDict[$id] = 0;
+                $squeezedDict[$id] = [
+                    'qty' => 0,
+                    'name' => $name
+                ];
             }
 
-            $squeezedDict[$id] += $qty;
+            $squeezedDict[$id]['qty'] += $qty;
         }
 
         $res = [];
-        foreach ($squeezedDict as $id => $qty) {
-            $res[] = [ 'id' => $id, 'qty' => $qty ];
+        foreach ($squeezedDict as $id => $entry) {
+            $res[] = [
+                'id'   => $id,
+                'qty'  => $entry['qty'],
+                'name' => $entry['name']
+            ];
         }
 
         return $res;
@@ -244,13 +252,14 @@ class ProductPicker
 
         $ingredientList = [];
         foreach ( $ingrList as $item ) {
-            $ingrId  = $item['id'];
-            $ingrQty = $item['qty'];
+            $ingrId   = $item['id'];
+            $ingrQty  = $item['qty'];
+            $ingrName = $item['name'];
 
             $products = $this->pickProduct($ingrId, $vendor);
             if (empty($products)) {
                 $ingredientList[$ingrId]['qty']  = $ingrQty;
-                $ingredientList[$ingrId]['name'] = $this->_ingredientsById[$ingrId]->name;
+                $ingredientList[$ingrId]['name'] = $ingrName;
                 continue;
             }
 

@@ -75,9 +75,7 @@ var cookbook = {
     },
 
     remove_list: function() {
-        $('#recipe-container').children().hide('slow', function(){
-            $('#recipe-container').empty();
-        });
+        $('#recipe-container').children().hide('slow');
     },
 
     clean_nav: function() {

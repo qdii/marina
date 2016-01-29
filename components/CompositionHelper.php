@@ -168,7 +168,9 @@ class CompositionHelper
         $cookbook = [];
         $cruiseHelper = new CruiseHelper;
         $cruiseId = $cruise->id;
+
         foreach ($cruiseHelper->getDishesFromCruise($cruiseId) as $dish) {
+            // Is the dish already present in the cookbook?
             $found = false;
             foreach ( $cookbook as &$recipe ) {
                 if ($recipe['name'] == $dish->name) {
@@ -176,13 +178,17 @@ class CompositionHelper
                     $recipe['count']++;
                 }
             }
-            if (!$found) {
-                $cookbook[] = [
-                    'name'  => $dish->name,
-                    'items' => $this->_getRecipeItemsForDish($dish, $vendor, $nbGuests),
-                    'count' => 1
-                ];
-            }
+
+            if ($found)
+                continue;
+
+            $items = $this->_getRecipeItemsForDish($dish, $vendor, $nbGuests);
+
+            $cookbook[] = [
+                'name'  => $dish->name,
+                'items' => $items,
+                'count' => 1
+            ];
         }
 
         return $cookbook;
@@ -216,8 +222,10 @@ class CompositionHelper
             foreach ($products as $id => $qty) {
                 $product = $this->_getProduct($id);
                 $list[] = [
-                    'qty' => $qty,
-                    'name' => $product->name
+                    'id'       => $id,
+                    'exactQty' => $qty,
+                    'qty'      => ceil($qty),
+                    'name'     => $product->name
                 ];
             }
         }

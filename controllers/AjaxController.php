@@ -396,11 +396,17 @@ class AjaxController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
+        $cruise = Cruise::findOne(['id' => $cruiseId]);
+        // If no cruise, or an invalid cruise, was selected, return nothing.
+        if (!$cruise) {
+            return "";
+        }
+
         $ingredients  = Ingredient::find()->all();
         $compositions = Composition::find()->all();
         $units        = Unit::find()->all();
         $dishes       = Dish::find()->all();
-        $cruise = Cruise::findOne(['id' => $cruiseId]);
+
         $meals = $cruise->getMeals()->where(['cruise' => $cruiseId])->all();
         $priceComputer = new PriceComputer(
             $ingredients,

@@ -12,6 +12,7 @@ use app\models\Composition;
 use app\models\Course;
 use app\models\Cruise;
 use app\models\Dish;
+use app\models\DishType;
 use app\models\Fraction;
 use app\models\Ingredient;
 use app\models\Meal;
@@ -186,11 +187,18 @@ class AjaxController extends Controller
             return;
         }
 
+        $transaction = Yii::$app->getDb()->beginTransaction();
+
         // remove all compositions first
         Composition::deleteAll(['dish' => $dish->id]);
 
+        // remove the types of dish it is.
+        DishType::deleteAll(['dish' => $dish->id]);
+
         // then remove the dish
         $dish->delete();
+
+        $transaction->commit();
     }
 
     /**

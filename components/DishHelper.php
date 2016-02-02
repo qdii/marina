@@ -68,22 +68,24 @@ class DishHelper
         // Copy all the ingredients of the first dish.
         $srcCompos = Composition::findAll(['dish' => $dishId]);
 
-        // For each composition, modify the dish id and ...
-        foreach ($srcCompos as $compo) {
-            $compo->dish = $newDishId;
-            assert($compo->validate());
+        if ($srcCompos) {
+            // For each composition, modify the dish id and ...
+            foreach ($srcCompos as $compo) {
+                $compo->dish = $newDishId;
+                assert($compo->validate());
+            }
+
+            // ... copy all other attributes
+            $rows = ArrayHelper::getColumn($srcCompos, 'attributes');
+
+            \Yii::$app->db
+                ->createCommand()
+                ->batchInsert(
+                    Composition::tableName(),
+                    $compositionAttributes,
+                    $rows)
+                ->execute();
         }
-
-        // ... copy all other attributes
-        $rows = ArrayHelper::getColumn($srcCompos, 'attributes');
-
-        \Yii::$app->db
-            ->createCommand()
-            ->batchInsert(
-                Composition::tableName(),
-                $compositionAttributes,
-                $rows)
-            ->execute();
 
         // Copy all types from the dish.
         $dishTypes = DishType::findAll(['dish' => $dishId]);

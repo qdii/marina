@@ -292,4 +292,14 @@ class SiteController extends Controller
         $boats = Boat::find()->all();
         return $this->render('cruise', ['boats' => $boats]);
     }
+
+    /**
+     * Renders the Cruise manager page.
+     *
+     * @return void
+     */
+    public function actionBoat()
+    {
+        return $this->render('boat');
+    }
 }

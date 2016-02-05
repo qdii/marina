@@ -40,6 +40,7 @@ $loginIcon = '<span class="glyphicon glyphicon-log-in" ria-hidden="true"></span>
                 'encodeLabels' => false,
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
+                    ['label' => 'Boat',     'url' => ['/site/boat']],
                     ['label' => 'Cruise',   'url' => ['/site/cruise']],
                     ['label' => 'Cookbook', 'url' => ['/site/cookbook']],
                     ['label' => 'Recipe',   'url' => ['/site/recipe']],

@@ -570,4 +570,46 @@ class AjaxController extends Controller
         }
         return;
     }
+
+    /**
+     * Returns a JSON list of cruises
+     */
+    public function actionGetBoats()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return Boat::find()->all();
+    }
+
+    /**
+     * Inserts a new boat in the database with the data passed in POST.
+     */
+    public function actionNewBoat()
+    {
+        $post  = Yii::$app->request->post();
+        $model = new \app\models\Boat();
+        if (!$model->load($post)) {
+            \Yii::$app->response->setStatusCode(300);
+            return;
+        }
+        $model->save();
+    }
+
+    /**
+     * Deletes a boat from the database.
+     */
+    public function actionDeleteBoat()
+    {
+        $post  = Yii::$app->request->post();
+        if (!$post['boatId'])
+        {
+            \Yii::$app->response->setStatusCode(400);
+            return;
+        }
+        $boat = Boat::findOne(['id' => $post['boatId']]);
+        if (!$boat) {
+            \Yii::$app->response->setStatusCode(400);
+            return;
+        }
+        $boat->delete();
+    }
 }

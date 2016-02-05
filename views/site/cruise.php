@@ -53,7 +53,7 @@ $chosenOpts = [
 
 <? echo $newCruiseBtn; ?>
 
-<table class="table" id="cruise_list">
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
